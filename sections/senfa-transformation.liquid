@@ -16,19 +16,22 @@
   assign heading_color = section.settings.heading_color | default: '#1A1228'
   assign body_color = section.settings.body_color | default: '#4A4A4A'
   
-  assign gold_color = section.settings.accent_gold
+  assign gold_color = section.settings.accent_gold | strip
   if gold_color == blank or gold_color == 'rgba(0,0,0,0)' or gold_color == 'transparent'
     assign gold_color = '#C9922A'
   endif
 -%}
 
-<section class="sft" id="sft-{{ section.id }}" style="
-  --sft-bg:      {{ bg_color }};
-  --sft-heading: {{ heading_color }};
-  --sft-gold:    {{ gold_color }};
-  --sft-body:    {{ body_color }};
-  --sft-line:    color-mix(in srgb, {{ gold_color }} 22%, transparent);
-">
+<style>
+  #sft-{{ section.id }} {
+    --sft-bg: {{ bg_color }};
+    --sft-heading: {{ heading_color }};
+    --sft-gold: {{ gold_color }};
+    --sft-body: {{ body_color }};
+  }
+</style>
+
+<section class="sft" id="sft-{{ section.id }}">
 
   <!-- ── HEADER ── -->
   <div class="sft__header">
@@ -57,8 +60,8 @@
       <!-- Day 1 -->
       <div class="sft__step is-active" data-index="0" role="tab" tabindex="0" aria-selected="true" aria-controls="sft-panel-0-{{ section.id }}">
         <div class="sft__step-marker">
-          <div class="sft__step-dot"></div>
-          <div class="sft__step-line"></div>
+          <div class="sft__step-dot">&#8203;</div>
+          <div class="sft__step-line">&#8203;</div>
         </div>
         <div class="sft__step-body">
           <span class="sft__step-label">{{ section.settings.day1_label }}</span>
@@ -74,8 +77,8 @@
       <!-- Day 15 -->
       <div class="sft__step" data-index="1" role="tab" tabindex="0" aria-selected="false" aria-controls="sft-panel-1-{{ section.id }}">
         <div class="sft__step-marker">
-          <div class="sft__step-dot"></div>
-          <div class="sft__step-line"></div>
+          <div class="sft__step-dot">&#8203;</div>
+          <div class="sft__step-line">&#8203;</div>
         </div>
         <div class="sft__step-body">
           <span class="sft__step-label">{{ section.settings.day2_label }}</span>
@@ -91,7 +94,7 @@
       <!-- Day 30 -->
       <div class="sft__step" data-index="2" role="tab" tabindex="0" aria-selected="false" aria-controls="sft-panel-2-{{ section.id }}">
         <div class="sft__step-marker">
-          <div class="sft__step-dot"></div>
+          <div class="sft__step-dot">&#8203;</div>
           <!-- No line after last step -->
         </div>
         <div class="sft__step-body">
@@ -301,16 +304,17 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 1.5px solid var(--sft-line, rgba(201,146,42,0.22));
+  border: 1.5px solid var(--sft-gold, #C9922A);
   background: transparent;
   flex-shrink: 0;
   margin-top: 5px;
-  transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
+  opacity: 0.22;
+  transition: opacity 0.4s ease, border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
 }
 
 /* Active dot — gold filled, pulsing ring */
 .sft__step.is-active .sft__step-dot {
-  border-color: var(--sft-gold, #C9922A);
+  opacity: 1;
   background: var(--sft-gold, #C9922A);
   transform: scale(1.45);
   box-shadow: 0 0 0 5px rgba(201,146,42,0.18);
@@ -318,7 +322,7 @@
 
 /* Past dot — gold filled, no glow, slightly smaller */
 .sft__step.is-past .sft__step-dot {
-  border-color: var(--sft-gold, #C9922A);
+  opacity: 1;
   background: var(--sft-gold, #C9922A);
   transform: scale(1);
   box-shadow: none;
@@ -328,15 +332,16 @@
   width: 2px;
   flex: 1;
   min-height: 52px;
-  background: var(--sft-line, rgba(201,146,42,0.22));
+  background: var(--sft-gold, #C9922A);
   margin: 7px 0;
   border-radius: 2px;
-  transition: background 0.5s cubic-bezier(0.25,1,0.5,1);
+  opacity: 0.22;
+  transition: opacity 0.5s cubic-bezier(0.25,1,0.5,1);
 }
 
 /* Line turns gold once the step above it is past */
 .sft__step.is-past .sft__step-line {
-  background: var(--sft-gold, #C9922A);
+  opacity: 1;
 }
 
 /* Step text */

@@ -14,11 +14,11 @@
 -%}
 
 <section class="sft" id="sft-{{ section.id }}" style="
-  --sft-bg:      {{ section.settings.bg_color }};
-  --sft-heading: {{ section.settings.heading_color }};
-  --sft-gold:    {{ section.settings.accent_gold }};
-  --sft-body:    {{ section.settings.body_color }};
-  --sft-line:    {{ section.settings.accent_gold | color_modify: 'alpha', 0.22 }};
+  --sft-bg:      {{ section.settings.bg_color | default: '#F5F3EE' }};
+  --sft-heading: {{ section.settings.heading_color | default: '#1A1228' }};
+  --sft-gold:    {{ section.settings.accent_gold | default: '#C9922A' }};
+  --sft-body:    {{ section.settings.body_color | default: '#4A4A4A' }};
+  --sft-line:    color-mix(in srgb, var(--sft-gold) 22%, transparent);
 ">
 
   <!-- ── HEADER ── -->
@@ -46,7 +46,7 @@
     <div class="sft__timeline" role="tablist" aria-label="Transformation timeline">
 
       <!-- Day 1 -->
-      <button class="sft__step is-active" data-index="0" role="tab" aria-selected="true" aria-controls="sft-panel-0-{{ section.id }}">
+      <div class="sft__step is-active" data-index="0" role="tab" tabindex="0" aria-selected="true" aria-controls="sft-panel-0-{{ section.id }}">
         <div class="sft__step-marker">
           <div class="sft__step-dot"></div>
           <div class="sft__step-line"></div>
@@ -60,10 +60,10 @@
             <span class="sft__step-detail">{{ section.settings.day1_detail }}</span>
           {%- endif -%}
         </div>
-      </button>
+      </div>
 
       <!-- Day 15 -->
-      <button class="sft__step" data-index="1" role="tab" aria-selected="false" aria-controls="sft-panel-1-{{ section.id }}">
+      <div class="sft__step" data-index="1" role="tab" tabindex="0" aria-selected="false" aria-controls="sft-panel-1-{{ section.id }}">
         <div class="sft__step-marker">
           <div class="sft__step-dot"></div>
           <div class="sft__step-line"></div>
@@ -77,10 +77,10 @@
             <span class="sft__step-detail">{{ section.settings.day2_detail }}</span>
           {%- endif -%}
         </div>
-      </button>
+      </div>
 
       <!-- Day 30 -->
-      <button class="sft__step" data-index="2" role="tab" aria-selected="false" aria-controls="sft-panel-2-{{ section.id }}">
+      <div class="sft__step" data-index="2" role="tab" tabindex="0" aria-selected="false" aria-controls="sft-panel-2-{{ section.id }}">
         <div class="sft__step-marker">
           <div class="sft__step-dot"></div>
           <!-- No line after last step -->
@@ -94,7 +94,7 @@
             <span class="sft__step-detail">{{ section.settings.day3_detail }}</span>
           {%- endif -%}
         </div>
-      </button>
+      </div>
 
       <!-- Mobile dots (shown only ≤768px) -->
       <div class="sft__mobile-dots" aria-hidden="true">

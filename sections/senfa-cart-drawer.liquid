@@ -17,7 +17,7 @@
       </button>
     </div>
 
-    {% if cart.empty? %}
+    {% if cart == empty %}
       <div class="scd-empty">
         <p class="scd-empty-text">{{ section.settings.empty_text }}</p>
         <button class="scd-continue-btn scd-close-empty">Continue Shopping</button>
@@ -850,11 +850,14 @@ class SenfaCartDrawer {
     });
 
     document.addEventListener('submit', (e) => {
-      if (e.target.matches('form[action$="/cart/add"], form[action$="/cart/add.js"]')) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        this.addFormToCart(e.target);
-      }
+      // Only intercept product add-to-cart forms, not other cart forms
+      const form = e.target;
+      if (!form.matches('form[action$="/cart/add"], form[action$="/cart/add.js"]')) return;
+      // Skip if it's inside the cart drawer itself
+      if (form.closest('#senfa-cart-drawer')) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      this.addFormToCart(form);
     }, true);
 
     this.bindEvents();
@@ -959,7 +962,6 @@ class SenfaCartDrawer {
         const fill = this.drawer.querySelector('.scd-progress-fill');
         if (fill && track) {
           const targetWidth = fill.style.width;
-          console.log('[SenfaCart] Progress bar targetWidth:', targetWidth);
 
           /* Reset to 0 */
           fill.style.transition = 'none';
@@ -975,7 +977,6 @@ class SenfaCartDrawer {
           });
         } else if (fill) {
           const targetWidth = fill.style.width;
-          console.log('[SenfaCart] Progress bar targetWidth (no track):', targetWidth);
           fill.style.transition = 'none';
           fill.style.width = '0%';
           requestAnimationFrame(() => {
@@ -1016,12 +1017,9 @@ class SenfaCartDrawer {
     if (this._lastAppliedDiscount === code) return;
     this._lastAppliedDiscount = code;
 
-    console.log('[SenfaCart] Auto-applying discount code:', code);
+
     fetch('/discount/' + encodeURIComponent(code), { method: 'GET' })
-      .then(() => {
-        console.log('[SenfaCart] Discount applied:', code);
-      })
-      .catch(err => console.error('[SenfaCart] Discount apply failed:', err));
+      .catch(() => { /* Discount apply failed silently */ });
   }
 }
 

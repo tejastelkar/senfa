@@ -306,9 +306,7 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- if settings.cart_type == 'drawer' -%}
-      {%- render 'cart-drawer' -%}
-    {%- endif -%}
+    {%- comment -%} Dawn cart drawer removed — senfa-cart-drawer handles all cart UI {%- endcomment -%}
 
     {% sections 'header-group' %}
 
@@ -372,9 +370,7 @@
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {%- if settings.cart_type == 'drawer' -%}
-      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
+    {%- comment -%} Dawn cart-drawer.js removed — senfa-cart-drawer.liquid has its own JS {%- endcomment -%}
     {% render 'senfa-account-modal' %}
     {% section 'senfa-cart-drawer' %}
   </body>

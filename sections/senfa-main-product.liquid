@@ -4,8 +4,7 @@
   Kimirica-style layout: Customizable Backgrounds to match Header.
 {% endcomment %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 
 <style>
   .smp-section {
@@ -408,15 +407,15 @@
   ════════════════════════ */
   .smp-sticky-bar {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: var(--header-height, 60px); left: 0; right: 0;
     background: {{ section.settings.bg_color }};
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding: 12px 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 999;
-    transform: translateY(-100%);
+    z-index: 998; /* intentionally below header z-index: 1000 */
+    transform: translateY(-200%);
     transition: transform 0.3s ease;
     box-shadow: 0 4px 16px rgba(0,0,0,0.05);
   }
@@ -491,6 +490,8 @@
     .smp-qty { width: 100%; }
     .smp-inner-tabs-nav { gap: 12px; overflow-x: auto; white-space: nowrap; }
     .smp-inner-tab-btn { font-size: 11px; padding: 0 0 8px 0; }
+    /* Bug #15: Hide sticky bar on mobile to avoid doubling up on ATC */
+    .smp-sticky-bar { display: none !important; }
   }
 </style>
 
@@ -500,15 +501,15 @@
     <div class="smp-media-gallery">
       <div class="smp-thumbnails" id="smp-thumbnails-{{ section.id }}">
         {% for media in product.media %}
-          <div class="smp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="smpChangeMedia(this, '{{ media | img_url: 'master' }}')">
-            <img src="{{ media | img_url: '200x' }}" alt="{{ media.alt | escape }}" loading="lazy">
+          <div class="smp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="smpChangeMedia_{{ section.id }}(this, '{{ media | image_url: width: 1200 }}')">
+            <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" loading="lazy">
           </div>
         {% endfor %}
       </div>
 
       <div class="smp-main-image-wrapper">
         {% assign first_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
-        <img id="smp-main-img-{{ section.id }}" class="smp-main-image" src="{{ first_media | img_url: 'master' }}" alt="{{ first_media.alt | escape }}">
+        <img id="smp-main-img-{{ section.id }}" class="smp-main-image" src="{{ first_media | image_url: width: 1200 }}" alt="{{ first_media.alt | escape }}">
       </div>
     </div>
 
@@ -582,9 +583,9 @@
             {% when 'buy_buttons' %}
               <div class="smp-action-row" id="smp-add-to-cart-wrapper" {{ block.shopify_attributes }}>
                 <div class="smp-qty">
-                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty(-1)">−</button>
-                  <input type="number" id="smp-qty-input" name="quantity" class="smp-qty-input" value="1" min="1">
-                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty(1)">+</button>
+                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id }}(-1)">−</button>
+                  <input type="number" id="smp-qty-input-{{ section.id }}" name="quantity" value="1" min="1" class="smp-qty-input">
+                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id }}(1)">+</button>
                 </div>
                 <button type="submit" class="smp-add-btn">
                   {% if product.selected_or_first_available_variant.available %}
@@ -607,7 +608,7 @@
 
             {% when 'promo_image' %}
               {% if block.settings.image != blank %}
-                <img src="{{ block.settings.image | img_url: '800x' }}" class="smp-promo-img" alt="Promo" loading="lazy" {{ block.shopify_attributes }}>
+                <img src="{{ block.settings.image | image_url: width: 800 }}" class="smp-promo-img" alt="Promo" loading="lazy" {{ block.shopify_attributes }}>
               {% endif %}
 
           {% endcase %}
@@ -693,18 +694,19 @@
   </div>
 </section>
 
-<div class="smp-sticky-bar" id="smp-sticky-bar">
+{%- assign sticky_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+<div class="smp-sticky-bar" id="smp-sticky-bar-{{ section.id }}">
   <div class="smp-sticky-left">
-    <img src="{{ first_media | img_url: '100x' }}" class="smp-sticky-img" alt="Thumb">
+    <img src="{{ sticky_media | image_url: width: 100 }}" class="smp-sticky-img" alt="Thumb">
     <div class="smp-sticky-title">{{ product.title | truncate: 35 }}</div>
     <div class="smp-sticky-price">{{ product.selected_or_first_available_variant.price | money }}</div>
   </div>
-  <button type="button" class="smp-sticky-btn" onclick="document.querySelector('.smp-form').submit();">Add to Cart</button>
+  <button type="button" class="smp-sticky-btn" onclick="document.getElementById('smp-product-form').submit();">Add to Cart</button>
 </div>
 
 <script>
-  // Gallery Logic
-  function smpChangeMedia(element, imageUrl) {
+  // Gallery Logic — namespaced per section to avoid conflicts
+  function smpChangeMedia_{{ section.id }}(element, imageUrl) {
     var mainImage = document.getElementById('smp-main-img-{{ section.id }}');
     mainImage.style.opacity = 0;
     setTimeout(function() {
@@ -717,13 +719,11 @@
     element.classList.add('is-active');
   }
 
-  // Quantity Logic
-  function smpUpdateQty(change) {
-    var input = document.getElementById('smp-qty-input');
+  // Quantity Logic — scoped to this section
+  function smpUpdateQty_{{ section.id }}(change) {
+    var input = document.getElementById('smp-qty-input-{{ section.id }}');
     var newVal = parseInt(input.value) + change;
-    if(newVal >= 1) {
-      input.value = newVal;
-    }
+    if(newVal >= 1) input.value = newVal;
   }
 
   // Smooth Accordion Logic
@@ -753,11 +753,6 @@
           acc.classList.add('is-open');
           content.style.maxHeight = content.scrollHeight + 'px';
           content.style.opacity = '1';
-          setTimeout(() => {
-            if(acc.classList.contains('is-open')){
-               content.style.maxHeight = '2000px'; 
-            }
-          }, 400);
         }
       });
     });
@@ -786,7 +781,7 @@
 
   // Sticky Cart Logic
   document.addEventListener("DOMContentLoaded", function() {
-    var stickyBar = document.getElementById('smp-sticky-bar');
+    var stickyBar = document.getElementById('smp-sticky-bar-{{ section.id }}');
     var triggerEl = document.getElementById('smp-add-to-cart-wrapper');
     
     if(stickyBar && triggerEl) {

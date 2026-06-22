@@ -446,7 +446,8 @@
     }
 
     onScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.scrollY;
+
 
       if (this.predictiveSearch && this.predictiveSearch.isOpen) return;
 

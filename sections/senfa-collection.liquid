@@ -100,7 +100,8 @@
                               width="600"
                               height="600">
                             <img
-                              src="{{ second_image | image_url: width: 600 }}"
+                              src=""
+                              data-src="{{ second_image | image_url: width: 600 }}"
                               alt="{{ second_image.alt | default: product.title }}"
                               class="sbc__card-img sbc__card-img--hover"
                               loading="lazy"
@@ -123,9 +124,9 @@
                           {%- endif -%}
 
                           <div class="sbc__card-pricing">
-                            <span class="sbc__card-price">₹{{ product.price | money_without_currency | remove: '.00' }}</span>
+                            <span class="sbc__card-price">{{ product.price | money }}</span>
                             {%- if product.compare_at_price > product.price -%}
-                              <span class="sbc__card-compare">₹{{ product.compare_at_price | money_without_currency | remove: '.00' }}</span>
+                              <span class="sbc__card-compare">{{ product.compare_at_price | money }}</span>
                               {%- assign savings = product.compare_at_price | minus: product.price -%}
                               {%- assign pct = savings | times: 100 | divided_by: product.compare_at_price -%}
                               <span class="sbc__card-badge">{{ pct }}% off</span>
@@ -693,7 +694,21 @@
       next.disabled = current >= (max - 2);
     }
 
-    var resizeTimer;
+    /* ── Bug #8: Lazy-load hover images on first hover ── */
+    section.querySelectorAll('.sbc__card-img-wrap').forEach(function(wrap) {
+      var hoverImg = wrap.querySelector('.sbc__card-img--hover');
+      if (!hoverImg || !hoverImg.dataset.src) return;
+      var loaded = false;
+      function loadHover() {
+        if (loaded) return;
+        loaded = true;
+        hoverImg.src = hoverImg.dataset.src;
+        hoverImg.removeAttribute('data-src');
+      }
+      wrap.addEventListener('mouseenter', loadHover, { once: true });
+      wrap.addEventListener('touchstart', loadHover, { once: true, passive: true });
+    });
+
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {

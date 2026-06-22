@@ -24,22 +24,24 @@
 ══════════════════════════════════════════════ */
 .senfa-sb-wrapper {
   width: 100%;
+  height: {{ section.settings.desktop_height }}vh;
+  min-height: 600px;
   display: block;
   background-color: #FAFAFA;
-  /* Ensures no weird gaps at the bottom of the image */
-  line-height: 0; 
+  line-height: 0;
+  overflow: hidden;
 }
 
 .senfa-sb-img {
   width: 100%;
-  height: auto; /* This is the magic rule that prevents your text from being cropped */
+  height: 100%;
   display: block;
   object-fit: contain; 
 }
 
 .senfa-sb-placeholder {
   width: 100%;
-  height: 60vh;
+  height: 100%;
   background: #EBEBEB;
 }
 
@@ -47,6 +49,14 @@
   width: 100%;
   height: 100%;
   fill: #999;
+}
+
+/* Mobile — matches hero slideshow mobile height */
+@media screen and (max-width: 768px) {
+  .senfa-sb-wrapper {
+    height: {{ section.settings.mobile_height }}vh;
+    min-height: 500px;
+  }
 }
 </style>
 
@@ -58,6 +68,24 @@
     {
       "type": "paragraph",
       "content": "This banner is designed for images with baked-in text. It scales proportionally to prevent cropping on all devices."
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop Height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 80
     },
     {
       "type": "image_picker",

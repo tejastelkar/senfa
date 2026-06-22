@@ -1,0 +1,900 @@
+{% comment %}
+  SENFA — Skin Transformation Timeline
+  File: sections/senfa-transformation.liquid
+  Day 1 → Day 15 → Day 30 crossfade with gold timeline
+  Images are in SECTION SETTINGS (not blocks) — visible immediately in theme editor
+{% endcomment %}
+
+{%- liquid
+  assign days = 3
+  assign labels  = section.settings.day1_label  | append: '|' | append: section.settings.day2_label  | append: '|' | append: section.settings.day3_label  | split: '|'
+  assign results = section.settings.day1_result | append: '|' | append: section.settings.day2_result | append: '|' | append: section.settings.day3_result | split: '|'
+  assign details = section.settings.day1_detail | append: '|' | append: section.settings.day2_detail | append: '|' | append: section.settings.day3_detail | split: '|'
+  assign images  = section.settings.day1_image  | append: ',' | append: section.settings.day2_image  | append: ',' | append: section.settings.day3_image
+-%}
+
+<section class="sft" id="sft-{{ section.id }}" style="
+  --sft-bg:      {{ section.settings.bg_color }};
+  --sft-heading: {{ section.settings.heading_color }};
+  --sft-gold:    {{ section.settings.accent_gold }};
+  --sft-body:    {{ section.settings.body_color }};
+  --sft-line:    {{ section.settings.accent_gold | color_modify: 'alpha', 0.22 }};
+">
+
+  <!-- ── HEADER ── -->
+  <div class="sft__header">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="sft__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sft__heading">
+        {{ section.settings.heading }}
+        {%- if section.settings.heading_italic != blank -%}
+          <em>{{ section.settings.heading_italic }}</em>
+        {%- endif -%}
+      </h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="sft__subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <!-- ── TWO-COLUMN BODY ── -->
+  <div class="sft__body">
+
+    <!-- LEFT: Vertical Timeline -->
+    <div class="sft__timeline" role="tablist" aria-label="Transformation timeline">
+
+      <!-- Day 1 -->
+      <button class="sft__step is-active" data-index="0" role="tab" aria-selected="true" aria-controls="sft-panel-0-{{ section.id }}">
+        <div class="sft__step-marker">
+          <div class="sft__step-dot"></div>
+          <div class="sft__step-line"></div>
+        </div>
+        <div class="sft__step-body">
+          <span class="sft__step-label">{{ section.settings.day1_label }}</span>
+          {%- if section.settings.day1_result != blank -%}
+            <span class="sft__step-result">{{ section.settings.day1_result }}</span>
+          {%- endif -%}
+          {%- if section.settings.day1_detail != blank -%}
+            <span class="sft__step-detail">{{ section.settings.day1_detail }}</span>
+          {%- endif -%}
+        </div>
+      </button>
+
+      <!-- Day 15 -->
+      <button class="sft__step" data-index="1" role="tab" aria-selected="false" aria-controls="sft-panel-1-{{ section.id }}">
+        <div class="sft__step-marker">
+          <div class="sft__step-dot"></div>
+          <div class="sft__step-line"></div>
+        </div>
+        <div class="sft__step-body">
+          <span class="sft__step-label">{{ section.settings.day2_label }}</span>
+          {%- if section.settings.day2_result != blank -%}
+            <span class="sft__step-result">{{ section.settings.day2_result }}</span>
+          {%- endif -%}
+          {%- if section.settings.day2_detail != blank -%}
+            <span class="sft__step-detail">{{ section.settings.day2_detail }}</span>
+          {%- endif -%}
+        </div>
+      </button>
+
+      <!-- Day 30 -->
+      <button class="sft__step" data-index="2" role="tab" aria-selected="false" aria-controls="sft-panel-2-{{ section.id }}">
+        <div class="sft__step-marker">
+          <div class="sft__step-dot"></div>
+          <!-- No line after last step -->
+        </div>
+        <div class="sft__step-body">
+          <span class="sft__step-label">{{ section.settings.day3_label }}</span>
+          {%- if section.settings.day3_result != blank -%}
+            <span class="sft__step-result">{{ section.settings.day3_result }}</span>
+          {%- endif -%}
+          {%- if section.settings.day3_detail != blank -%}
+            <span class="sft__step-detail">{{ section.settings.day3_detail }}</span>
+          {%- endif -%}
+        </div>
+      </button>
+
+      <!-- Mobile dots (shown only ≤768px) -->
+      <div class="sft__mobile-dots" aria-hidden="true">
+        <button class="sft__mdot is-active" data-index="0"></button>
+        <button class="sft__mdot" data-index="1"></button>
+        <button class="sft__mdot" data-index="2"></button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Crossfade Image Stage -->
+    <div class="sft__stage">
+      <div class="sft__images">
+
+        <!-- Panel 0: Day 1 -->
+        <div class="sft__panel is-active" id="sft-panel-0-{{ section.id }}" data-index="0">
+          {%- if section.settings.day1_image != blank -%}
+            <img
+              src="{{ section.settings.day1_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.day1_label }} — {{ section.settings.day1_result }}"
+              class="sft__img"
+              loading="eager"
+              width="1000" height="1000">
+          {%- else -%}
+            <div class="sft__placeholder">{{ section.settings.day1_label }}</div>
+          {%- endif -%}
+          <div class="sft__badge">{{ section.settings.day1_label }}</div>
+        </div>
+
+        <!-- Panel 1: Day 15 -->
+        <div class="sft__panel" id="sft-panel-1-{{ section.id }}" data-index="1">
+          {%- if section.settings.day2_image != blank -%}
+            <img
+              src="{{ section.settings.day2_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.day2_label }} — {{ section.settings.day2_result }}"
+              class="sft__img"
+              loading="lazy"
+              width="1000" height="1000">
+          {%- else -%}
+            <div class="sft__placeholder">{{ section.settings.day2_label }}</div>
+          {%- endif -%}
+          <div class="sft__badge">{{ section.settings.day2_label }}</div>
+        </div>
+
+        <!-- Panel 2: Day 30 -->
+        <div class="sft__panel" id="sft-panel-2-{{ section.id }}" data-index="2">
+          {%- if section.settings.day3_image != blank -%}
+            <img
+              src="{{ section.settings.day3_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.day3_label }} — {{ section.settings.day3_result }}"
+              class="sft__img"
+              loading="lazy"
+              width="1000" height="1000">
+          {%- else -%}
+            <div class="sft__placeholder">{{ section.settings.day3_label }}</div>
+          {%- endif -%}
+          <div class="sft__badge">{{ section.settings.day3_label }}</div>
+        </div>
+
+      </div>
+
+      <!-- Gold progress bar -->
+      <div class="sft__prog-track" aria-hidden="true">
+        <div class="sft__prog-bar"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── CTA ── -->
+  {%- if section.settings.cta_label != blank -%}
+    <div class="sft__footer">
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="sft__cta">
+        <span>{{ section.settings.cta_label }}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+
+<style>
+/* ════════════════════════════════════════════
+   SENFA — TRANSFORMATION TIMELINE
+   Cormorant Garamond + Jost · #1A1228 · #C9922A
+   max-width 1600px · 80px gutters
+════════════════════════════════════════════ */
+
+.sft {
+  background: var(--sft-bg);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  font-family: 'Jost', sans-serif;
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+.sft__header {
+  max-width: 1600px;
+  margin: 0 auto 64px;
+  padding: 0 80px;
+  text-align: center;
+}
+
+.sft__eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--sft-gold);
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.sft__eyebrow::before,
+.sft__eyebrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.sft__heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 60px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--sft-heading);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+}
+.sft__heading em {
+  font-style: italic;
+  color: var(--sft-gold);
+}
+
+.sft__subheading {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--sft-body);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── TWO-COLUMN BODY ── */
+.sft__body {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 80px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* ══════════════════
+   TIMELINE (LEFT)
+══════════════════ */
+.sft__timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.sft__step {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  transition: opacity 0.35s ease;
+}
+.sft__step:not(.is-active):not(.is-past) { opacity: 0.38; }
+.sft__step.is-past { opacity: 1; }
+.sft__step:hover:not(.is-active) { opacity: 0.7; }
+
+/* Dot + line */
+.sft__step-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sft__step-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sft-line);
+  background: transparent;
+  flex-shrink: 0;
+  margin-top: 5px;
+  transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
+}
+
+/* Active dot — gold filled, pulsing ring */
+.sft__step.is-active .sft__step-dot {
+  border-color: var(--sft-gold);
+  background: var(--sft-gold);
+  transform: scale(1.45);
+  box-shadow: 0 0 0 5px rgba(201,146,42,0.18);
+}
+
+/* Past dot — gold filled, no glow, slightly smaller */
+.sft__step.is-past .sft__step-dot {
+  border-color: var(--sft-gold);
+  background: var(--sft-gold);
+  transform: scale(1);
+  box-shadow: none;
+}
+
+.sft__step-line {
+  width: 2px;
+  flex: 1;
+  min-height: 52px;
+  background: var(--sft-line);
+  margin: 7px 0;
+  border-radius: 2px;
+  transition: background 0.5s cubic-bezier(0.25,1,0.5,1);
+}
+
+/* Line turns gold once the step above it is past */
+.sft__step.is-past .sft__step-line {
+  background: var(--sft-gold);
+}
+
+/* Step text */
+.sft__step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 52px;
+}
+.sft__step:last-child .sft__step-body { padding-bottom: 0; }
+
+.sft__step-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 2.4vw, 40px);
+  font-weight: 300;
+  color: var(--sft-heading);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+}
+.sft__step.is-active .sft__step-label { font-weight: 400; }
+
+.sft__step-result {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sft-gold);
+  margin-top: 2px;
+}
+
+.sft__step-detail {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--sft-body);
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+/* Mobile dots — hidden on desktop */
+.sft__mobile-dots { display: none; }
+
+/* ══════════════════
+   IMAGE STAGE (RIGHT)
+══════════════════ */
+.sft__stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+/* CSS Grid stacking — zero height jump between crossfades */
+.sft__images {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: {{ section.settings.image_bg }};
+  border-radius: 2px;
+}
+
+.sft__panel {
+  grid-area: 1 / 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.9s;
+}
+.sft__panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.sft__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 8s ease;
+}
+.sft__panel.is-active .sft__img { transform: scale(1.03); }
+.sft__panel:not(.is-active) .sft__img { transform: scale(1); }
+
+/* Frosted day badge */
+.sft__badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 5;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: rgba(26,18,40,0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 8px 16px;
+  border-radius: 2px;
+}
+
+/* Placeholder when no image uploaded */
+.sft__placeholder {
+  width: 100%;
+  height: 100%;
+  background: {{ section.settings.image_bg }};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--sft-gold);
+  opacity: 0.55;
+}
+
+/* Gold progress bar */
+.sft__prog-track {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.18);
+  z-index: 10;
+  overflow: hidden;
+}
+.sft__prog-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--sft-gold);
+}
+
+/* ── CTA FOOTER ── */
+.sft__footer {
+  max-width: 1600px;
+  margin: 60px auto 0;
+  padding: 0 80px;
+  display: flex;
+  justify-content: center;
+}
+.sft__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 56px;
+  background: var(--sft-heading);
+  color: #FFFFFF;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--sft-heading);
+  transition: all 0.4s cubic-bezier(0.25,1,0.5,1);
+}
+.sft__cta svg { transition: transform 0.4s cubic-bezier(0.25,1,0.5,1); }
+.sft__cta:hover { background: var(--sft-gold); border-color: var(--sft-gold); }
+.sft__cta:hover svg { transform: translateX(6px); }
+
+/* ══════════════
+   1200px TABLET
+══════════════ */
+@media (max-width: 1200px) {
+  .sft__body   { grid-template-columns: 320px 1fr; gap: 56px; padding: 0 48px; }
+  .sft__header { padding: 0 48px; }
+  .sft__footer { padding: 0 48px; }
+}
+
+/* ══════════════
+   1024px TABLET
+══════════════ */
+@media (max-width: 1024px) {
+  .sft__body   { grid-template-columns: 1fr; padding: 0 40px; gap: 48px; }
+  .sft__header { padding: 0 40px; margin-bottom: 48px; }
+  .sft__footer { padding: 0 40px; }
+
+  .sft__stage { order: -1; max-width: 560px; width: 100%; margin: 0 auto; }
+
+  /* Horizontal timeline on tablet */
+  .sft__timeline { flex-direction: row; justify-content: space-between; }
+  .sft__step { grid-template-columns: 1fr; grid-template-rows: auto auto; justify-items: center; text-align: center; flex: 1; gap: 10px; }
+  .sft__step-marker { flex-direction: row; width: 100%; align-items: center; }
+  .sft__step-line { flex: 1; min-height: unset; height: 1px; width: auto; margin: 0 4px; }
+  .sft__step:last-child .sft__step-line { display: none; }
+  .sft__step-body { padding-bottom: 0; align-items: center; }
+  .sft__step-detail { display: none; }
+  .sft__step-label { font-size: 24px; }
+}
+
+/* ══════════════
+   768px MOBILE
+══════════════ */
+@media (max-width: 768px) {
+  .sft {
+    padding: {{ section.settings.padding_top | times: 0.7 | round }}px 0 {{ section.settings.padding_bottom | times: 0.7 | round }}px;
+  }
+  .sft__header { padding: 0 24px; margin-bottom: 36px; }
+  .sft__body   { padding: 0; gap: 0; }
+  .sft__footer { padding: 0 24px; margin-top: 40px; }
+
+  .sft__stage { max-width: 100%; border-radius: 0; }
+  .sft__images { aspect-ratio: 4 / 3; border-radius: 0; }
+
+  /* Back to vertical on mobile */
+  .sft__timeline { flex-direction: column; padding: 32px 24px 0; }
+  .sft__step { grid-template-columns: 24px 1fr; gap: 14px; }
+  .sft__step-marker { flex-direction: column; }
+  .sft__step-line { min-height: 32px; height: auto; width: 1px; margin: 6px 0; }
+  .sft__step-body { padding-bottom: 32px; align-items: flex-start; text-align: left; }
+  .sft__step-label { font-size: 26px; }
+  .sft__step-detail { display: block; font-size: 13px; }
+
+  /* Mobile dots */
+  .sft__mobile-dots {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 28px 0 0;
+  }
+  .sft__mdot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    border: none;
+    background: var(--sft-line);
+    padding: 0; cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .sft__mdot.is-active { background: var(--sft-gold); transform: scale(1.4); }
+
+  .sft__cta { width: 100%; justify-content: center; }
+  .sft__badge { bottom: 14px; left: 14px; font-size: 10px; padding: 6px 12px; }
+}
+
+@media (max-width: 480px) {
+  .sft__images { aspect-ratio: 3 / 4; }
+}
+
+/* Entry animation */
+@keyframes sft-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.sft__header { animation: sft-up 0.8s cubic-bezier(0.25,1,0.5,1) both; }
+.sft__body   { animation: sft-up 0.8s cubic-bezier(0.25,1,0.5,1) 0.1s both; }
+.sft__footer { animation: sft-up 0.8s cubic-bezier(0.25,1,0.5,1) 0.2s both; }
+</style>
+
+
+<script>
+(function() {
+  'use strict';
+
+  function init(sectionEl) {
+    if (!sectionEl) return;
+
+    var steps    = sectionEl.querySelectorAll('.sft__step');
+    var panels   = sectionEl.querySelectorAll('.sft__panel');
+    var mdots    = sectionEl.querySelectorAll('.sft__mdot');
+    var progBar  = sectionEl.querySelector('.sft__prog-bar');
+    var total    = steps.length;
+    var current  = 0;
+    var speed    = {{ section.settings.autoplay_speed | times: 1000 }};
+    var timer    = null;
+
+    function goTo(idx) {
+      idx = ((idx % total) + total) % total;
+      if (idx === current && steps[idx].classList.contains('is-active')) return;
+
+      /* Clear all states */
+      steps.forEach(function(s) {
+        s.classList.remove('is-active', 'is-past');
+        s.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function(p) { p.classList.remove('is-active'); });
+      mdots.forEach(function(d) { d.classList.remove('is-active'); });
+
+      current = idx;
+
+      /* Mark steps BEFORE current as past (gold dot + gold line) */
+      for (var i = 0; i < current; i++) {
+        steps[i].classList.add('is-past');
+      }
+
+      /* Activate current */
+      steps[current].classList.add('is-active');
+      steps[current].setAttribute('aria-selected', 'true');
+      panels[current].classList.add('is-active');
+      if (mdots[current]) mdots[current].classList.add('is-active');
+
+      animateProgress();
+    }
+
+    function animateProgress() {
+      if (!progBar) return;
+      progBar.style.transition = 'none';
+      progBar.style.width = '0%';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          progBar.style.transition = 'width ' + (speed / 1000) + 's linear';
+          progBar.style.width = '100%';
+        });
+      });
+    }
+
+    function next() { goTo(current + 1); }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(next, speed);
+    }
+
+    function stopTimer() { clearInterval(timer); }
+
+    /* Step clicks */
+    steps.forEach(function(step) {
+      step.addEventListener('click', function() {
+        goTo(parseInt(this.dataset.index, 10));
+        stopTimer(); startTimer();
+      });
+    });
+
+    /* Mobile dot clicks */
+    mdots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        goTo(parseInt(this.dataset.index, 10));
+        stopTimer(); startTimer();
+      });
+    });
+
+    /* Pause on hover */
+    sectionEl.addEventListener('mouseenter', stopTimer);
+    sectionEl.addEventListener('mouseleave', startTimer);
+
+    /* Touch swipe on image */
+    var stage = sectionEl.querySelector('.sft__stage');
+    if (stage) {
+      var tx = 0;
+      stage.addEventListener('touchstart', function(e) { tx = e.changedTouches[0].screenX; }, { passive: true });
+      stage.addEventListener('touchend', function(e) {
+        var dx = e.changedTouches[0].screenX - tx;
+        if (Math.abs(dx) > 44) { goTo(current + (dx < 0 ? 1 : -1)); stopTimer(); startTimer(); }
+      }, { passive: true });
+    }
+
+    /* Boot */
+    animateProgress();
+    startTimer();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { init(document.getElementById('sft-{{ section.id }}')); });
+  } else {
+    init(document.getElementById('sft-{{ section.id }}'));
+  }
+
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+      init(document.getElementById('sft-{{ section.id }}'));
+    }
+  });
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "Senfa Transformation",
+  "tag": "section",
+  "class": "senfa-transformation-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Real Results"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading italic word",
+      "default": "Transformation"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "94% of users noticed visible skin improvement within 30 days."
+    },
+    {
+      "type": "header",
+      "content": "── DAY 1 ──────────────────────"
+    },
+    {
+      "type": "text",
+      "id": "day1_label",
+      "label": "Day 1 Label",
+      "default": "Day 1"
+    },
+    {
+      "type": "text",
+      "id": "day1_result",
+      "label": "Day 1 Short Result",
+      "default": "Deep Cleanse Begins"
+    },
+    {
+      "type": "textarea",
+      "id": "day1_detail",
+      "label": "Day 1 Detail Text",
+      "default": "Saffron and cold-pressed oils penetrate deeply from the very first lather, removing impurities without stripping moisture."
+    },
+    {
+      "type": "image_picker",
+      "id": "day1_image",
+      "label": "Day 1 — Upload Image"
+    },
+    {
+      "type": "header",
+      "content": "── DAY 15 ─────────────────────"
+    },
+    {
+      "type": "text",
+      "id": "day2_label",
+      "label": "Day 15 Label",
+      "default": "Day 15"
+    },
+    {
+      "type": "text",
+      "id": "day2_result",
+      "label": "Day 15 Short Result",
+      "default": "Radiance Awakens"
+    },
+    {
+      "type": "textarea",
+      "id": "day2_detail",
+      "label": "Day 15 Detail Text",
+      "default": "Natural crocin in Kashmir Saffron visibly brightens your skin tone, reducing dark spots and uneven patches."
+    },
+    {
+      "type": "image_picker",
+      "id": "day2_image",
+      "label": "Day 15 — Upload Image"
+    },
+    {
+      "type": "header",
+      "content": "── DAY 30 ─────────────────────"
+    },
+    {
+      "type": "text",
+      "id": "day3_label",
+      "label": "Day 30 Label",
+      "default": "Day 30"
+    },
+    {
+      "type": "text",
+      "id": "day3_result",
+      "label": "Day 30 Short Result",
+      "default": "Total Transformation"
+    },
+    {
+      "type": "textarea",
+      "id": "day3_detail",
+      "label": "Day 30 Detail Text",
+      "default": "94% of users report visibly brighter, smoother, and more even skin — the Senfa glow, earned naturally."
+    },
+    {
+      "type": "image_picker",
+      "id": "day3_image",
+      "label": "Day 30 — Upload Image"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop the Soap"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#F5F3EE"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading & Text Color",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body Text Color",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "image_bg",
+      "label": "Image Placeholder BG",
+      "default": "#EBE8E0"
+    },
+    {
+      "type": "header",
+      "content": "Timing & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Seconds per day",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 160, "step": 8, "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 160, "step": 8, "unit": "px",
+      "default": 120
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Transformation"
+    }
+  ]
+}
+{% endschema %}

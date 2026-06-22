@@ -1,0 +1,99 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "nav_col_rYGYqE": {
+          "type": "nav_col",
+          "settings": {
+            "col_heading": "Explore",
+            "link_1_label": "Our Story",
+            "link_1_url": "",
+            "link_2_label": "Shop",
+            "link_2_url": "",
+            "link_3_label": "Ingredients",
+            "link_3_url": "",
+            "link_4_label": "Reviews",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        },
+        "contact_col_bMcWaP": {
+          "type": "contact_col",
+          "settings": {
+            "col_heading": "Contact",
+            "email": "info@senfa.shop",
+            "phone": "+91 84840 82199",
+            "website": "www.senfa.shop",
+            "address": "Deccan Gymkhana, Pune"
+          }
+        },
+        "brand_information_QtGRnx": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true
+          }
+        },
+        "nav_col_bbVtyW": {
+          "type": "nav_col",
+          "settings": {
+            "col_heading": "Support",
+            "link_1_label": "Shipping Policy",
+            "link_1_url": "shopify://pages/shipping-policy",
+            "link_2_label": "Return & Refund Policy",
+            "link_2_url": "shopify://pages/return-refund-policy",
+            "link_3_label": "",
+            "link_3_url": "",
+            "link_4_label": "Contact Us",
+            "link_4_url": "",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "nav_col_rYGYqE",
+        "contact_col_bMcWaP",
+        "brand_information_QtGRnx",
+        "nav_col_bbVtyW"
+      ],
+      "settings": {
+        "footer_logo": "shopify://shop_images/logo_d3aed1db-9d85-4f54-bd5e-9ec127917644.png",
+        "logo_width": 150,
+        "invert_logo": false,
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "bottom_menu": "footer",
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

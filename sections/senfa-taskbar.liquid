@@ -1,0 +1,350 @@
+{% comment %}
+  Senfa — Premium Stats Bar Section (Kimirica-Inspired v2)
+  File: sections/senfa-stats.liquid
+{% endcomment %}
+
+<style>
+  .s-stats {
+    background: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    position: relative;
+    border-top: 1px solid rgba(0,0,0,0.04);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-family: 'Jost', sans-serif;
+  }
+
+  .s-stats__inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* ── Card ── */
+  .s-stats__card {
+    position: relative;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-right: 1px solid rgba(0,0,0,0.04);
+    background: transparent;
+    transition: background 0.6s ease;
+  }
+
+  .s-stats__card:last-child {
+    border-right: none;
+  }
+
+  /* Subtle luxury hover texture */
+  .s-stats__card:hover {
+    background: rgba(45, 27, 78, 0.015); /* Barely there Senfa Purple tint */
+  }
+
+  /* ── Number & Suffix Wrapper ── */
+  .s-stats__number-wrap {
+    display: flex;
+    align-items: baseline; /* FIX: Locks symbols to the bottom of the numbers */
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .s-stats__number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1;
+    color: #1A1228; /* Deep Royal Purple/Black */
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  /* Suffix (+, %) */
+  .s-stats__suffix {
+    font-family: 'Cormorant Garamond', serif; /* Matched to number for harmony */
+    font-size: clamp(36px, 3.5vw, 48px);
+    font-weight: 300;
+    color: #1A1228; /* Matched to number to remove the "cheap gold" look */
+    line-height: 1;
+    margin-left: 2px;
+  }
+
+  /* Optional Golden Star for Rating */
+  .s-stats__star {
+    margin-left: 4px;
+    color: #C9922A;
+    width: 12px; /* Drastically reduced size */
+    height: 12px;
+    transform: translateY(-24px); /* Lifted to sit as a sleek superscript */
+  }
+
+  /* ── Typography ── */
+  .s-stats__label {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #000000; 
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+
+  .s-stats__sublabel {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #666666; 
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── Mobile & Tablet Adjustments ── */
+  @media (max-width: 1024px) {
+    .s-stats__inner {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .s-stats__card {
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      padding: 56px 20px;
+    }
+    .s-stats__card:nth-child(even) { border-right: none; }
+    .s-stats__card:nth-last-child(-n+2) { border-bottom: none; }
+  }
+
+  @media (max-width: 768px) {
+    .s-stats__inner {
+      padding: 0 20px;
+    }
+    .s-stats__card {
+      padding: 48px 16px;
+    }
+    .s-stats__number { font-size: 48px; }
+    .s-stats__suffix { font-size: 32px; }
+    .s-stats__star { width: 10px; height: 10px; transform: translateY(-16px); } /* Mobile scale for star */
+    .s-stats__label { font-size: 9.5px; }
+  }
+</style>
+
+<div class="s-stats" id="senfa-stats-{{ section.id }}">
+  <div class="s-stats__inner">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'stat' -%}
+        <div class="s-stats__card" {{ block.shopify_attributes }}>
+
+          <div class="s-stats__number-wrap">
+            <span class="s-stats__number"
+              data-target="{{ block.settings.number_target }}"
+              data-decimals="{{ block.settings.decimals }}">
+              {{ block.settings.number_display }}
+            </span>
+            
+            {%- if block.settings.suffix != blank -%}
+              <span class="s-stats__suffix">{{ block.settings.suffix }}</span>
+            {%- endif -%}
+
+            {%- if block.settings.show_star -%}
+              <svg class="s-stats__star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+              </svg>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.label != blank -%}
+            <p class="s-stats__label">{{ block.settings.label }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.sublabel != blank -%}
+            <p class="s-stats__sublabel">{{ block.settings.sublabel }}</p>
+          {%- endif -%}
+
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+(function () {
+  function animateCounter(el) {
+    var target   = parseFloat(el.dataset.target);
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+    if (isNaN(target)) return;
+
+    var duration = 2000; 
+    var start    = performance.now();
+
+    function step(now) {
+      var elapsed  = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased    = 1 - Math.pow(1 - progress, 3); 
+      var value    = eased * target;
+      
+      el.innerHTML = value.toFixed(decimals);
+      
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.innerHTML = target.toFixed(decimals); 
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  function init() {
+    var numbers = document.querySelectorAll('#senfa-stats-{{ section.id }} .s-stats__number[data-target]');
+    if (!numbers.length) return;
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          animateCounter(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    numbers.forEach(function (el) { io.observe(el); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Senfa Premium Stats",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 120, "step": 4, "default": 0, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number_display",
+          "label": "Display number (before animation)",
+          "default": "150"
+        },
+        {
+          "type": "text",
+          "id": "number_target",
+          "label": "Counter target (number only)",
+          "default": "150"
+        },
+        {
+          "type": "text",
+          "id": "decimals",
+          "label": "Decimal places (0 for whole)",
+          "default": "0"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix (+, %)",
+          "default": "+"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_star",
+          "label": "Show Gold Star (for ratings)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Acres Saffron Farms"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sublabel",
+          "default": "Kashmir Origin"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Premium Stats",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number_display": "150",
+            "number_target": "150",
+            "decimals": "0",
+            "suffix": "+",
+            "show_star": false,
+            "label": "Acres Saffron Farms",
+            "sublabel": "Kashmir Origin"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number_display": "0",
+            "number_target": "0",
+            "decimals": "0",
+            "suffix": "%",
+            "show_star": false,
+            "label": "Sulphate · Paraben · SLS",
+            "sublabel": "Zero Harsh Chemicals"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number_display": "100",
+            "number_target": "100",
+            "decimals": "0",
+            "suffix": "%",
+            "show_star": false,
+            "label": "Vegan Formula",
+            "sublabel": "No Animal Testing"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number_display": "4.9",
+            "number_target": "4.9",
+            "decimals": "1",
+            "suffix": "",
+            "show_star": true,
+            "label": "Customer Rating",
+            "sublabel": "Verified Reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

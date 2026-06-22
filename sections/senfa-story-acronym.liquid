@@ -1,0 +1,545 @@
+{% comment %}
+  SENFA — Acronym Section (Premium White Editorial)
+  File: sections/senfa-acronym.liquid
+{% endcomment %}
+
+<section id="sa-{{ section.id }}" class="senfa-acronym" style="
+  background: linear-gradient(135deg, #2D1B4E 0%, #4A2D78 50%, #3D2468 80%, #2D1B4E 100%);
+  --heading-color: {{ section.settings.heading_color }};
+  --text-body: {{ section.settings.text_body }};
+  --accent-gold: {{ section.settings.accent_gold }};
+">
+  <div class="sa-container">
+
+    {%- comment -%} ── STANDARDIZED UTILITY HEADER ── {%- endcomment -%}
+    <header class="sa-header-standard">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="sa-eyebrow-centered">
+          <span>{{ section.settings.eyebrow }}</span>
+        </div>
+      {%- endif -%}
+
+      <h2 class="sa-heading-centered">
+        {{ section.settings.title_normal }}
+        {%- if section.settings.title_italic != blank -%}
+          <br><em>{{ section.settings.title_italic }}</em>
+        {%- endif -%}
+      </h2>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="sa-body-centered">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- comment -%} ── ACRONYM STAGGERED LIST ── {%- endcomment -%}
+    <div class="sa-list">
+
+      <div class="sa-block sa-block--left" data-sa-delay="0">
+        <div class="sa-ghost-letter" aria-hidden="true">S</div>
+        <div class="sa-content">
+          <h3 class="sa-word"><span>S</span>{{ section.settings.s_word }}</h3>
+          <p class="sa-desc">{{ section.settings.s_desc }}</p>
+        </div>
+      </div>
+
+      <div class="sa-block sa-block--right" data-sa-delay="150">
+        <div class="sa-ghost-letter" aria-hidden="true">E</div>
+        <div class="sa-content">
+          <h3 class="sa-word"><span>E</span>{{ section.settings.e_word }}</h3>
+          <p class="sa-desc">{{ section.settings.e_desc }}</p>
+        </div>
+      </div>
+
+      <div class="sa-block sa-block--left" data-sa-delay="150">
+        <div class="sa-ghost-letter" aria-hidden="true">N</div>
+        <div class="sa-content">
+          <h3 class="sa-word"><span>N</span>{{ section.settings.n_word }}</h3>
+          <p class="sa-desc">{{ section.settings.n_desc }}</p>
+        </div>
+      </div>
+
+      <div class="sa-block sa-block--right" data-sa-delay="150">
+        <div class="sa-ghost-letter" aria-hidden="true">F</div>
+        <div class="sa-content">
+          <h3 class="sa-word"><span>F</span>{{ section.settings.f_word }}</h3>
+          <p class="sa-desc">{{ section.settings.f_desc }}</p>
+        </div>
+      </div>
+
+      <div class="sa-block sa-block--left" data-sa-delay="150">
+        <div class="sa-ghost-letter" aria-hidden="true">A</div>
+        <div class="sa-content">
+          <h3 class="sa-word"><span>A</span>{{ section.settings.a_word }}</h3>
+          <p class="sa-desc">{{ section.settings.a_desc }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    {%- comment -%} ── FOOTER LINE ── {%- endcomment -%}
+    {%- if section.settings.footer_text != blank -%}
+      <div class="sa-footer">
+        <div class="sa-footer-line"></div>
+        <p class="sa-footer-text">{{ section.settings.footer_text }}</p>
+        <div class="sa-footer-line"></div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — ACRONYM SECTION
+════════════════════════════════ */
+
+.senfa-acronym {
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sa-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+
+.sa-header-standard {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: saFadeUp 0.8s ease forwards;
+}
+
+.sa-eyebrow-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+.sa-eyebrow-centered::before,
+.sa-eyebrow-centered::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.sa-heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  line-height: 1.1;
+}
+
+.sa-heading-centered em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 400;
+}
+
+.sa-body-centered {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-body);
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ── STAGGERED LIST ARCHITECTURE ── */
+.sa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.sa-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 700px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sa-block.sa-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sa-block--left {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.sa-block--right {
+  align-self: flex-end;
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+/* The Ghost Letter */
+.sa-ghost-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 240px;
+  font-weight: 300;
+  line-height: 0.8;
+  color: var(--accent-gold);
+  opacity: 0.08;
+  position: absolute;
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.sa-block--left .sa-ghost-letter {
+  left: -40px;
+  top: -20px;
+}
+
+.sa-block--right .sa-ghost-letter {
+  right: -40px;
+  top: -20px;
+}
+
+/* The Content */
+.sa-content {
+  position: relative;
+  z-index: 2;
+}
+
+.sa-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.sa-word span {
+  color: var(--accent-gold);
+  font-style: italic;
+  font-size: 42px;
+}
+
+.sa-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* ── FOOTER LINE ── */
+.sa-footer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 100px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.sa-footer.sa-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sa-footer-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,146,42,0.3));
+}
+.sa-footer-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(201,146,42,0.3));
+}
+
+.sa-footer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--heading-color);
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@keyframes saFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .sa-container { padding: 0 56px; }
+  .sa-list { gap: 48px; }
+}
+
+/* ════════════════
+   MOBILE 768px 
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-acronym { padding: 80px 0; }
+  .sa-container { padding: 0 24px; }
+  .sa-header-standard { margin-bottom: 48px; padding: 0; }
+  
+  .sa-list { gap: 56px; }
+  
+  .sa-block {
+    align-self: center;
+    text-align: center;
+    flex-direction: column;
+  }
+  
+  .sa-ghost-letter {
+    font-size: 200px;
+    left: 50% !important;
+    transform: translateX(-50%);
+    top: -40px !important;
+  }
+  
+  .sa-word { font-size: 32px; }
+  .sa-desc { font-size: 14.5px; }
+
+  .sa-footer { flex-direction: column; gap: 16px; margin-top: 64px; }
+  .sa-footer-line { display: none; }
+  .sa-footer-text { white-space: normal; font-size: 20px; line-height: 1.4;}
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .sa-container { padding: 0 20px; }
+}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const section = document.getElementById('sa-{{ section.id }}');
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.getAttribute('data-sa-delay') || 0;
+          setTimeout(() => {
+            entry.target.classList.add('sa-visible');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    section.querySelectorAll('.sa-block, .sa-footer').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "SENFA Acronym",
+  "tag": "section",
+  "class": "senfa-acronym-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "The Five-Letter Promise"
+    },
+    {
+      "type": "text",
+      "id": "title_normal",
+      "label": "Title — Normal line",
+      "default": "Not just a name."
+    },
+    {
+      "type": "text",
+      "id": "title_italic",
+      "label": "Title — Italic gold line",
+      "default": "A guarantee."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle paragraph",
+      "default": "I looked at the saffron from our family fields and realised that for a soap to be worthy of my father's name, it had to be more than a product. It had to be a S·E·N·F·A."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "info": "Overrides Background Color if set. Use for luxurious dark or light gradient washes."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Body Text",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "header",
+      "content": "S — Saffron Soap"
+    },
+    {
+      "type": "text",
+      "id": "s_word",
+      "label": "Word (after S)",
+      "default": "affron Soap"
+    },
+    {
+      "type": "textarea",
+      "id": "s_desc",
+      "label": "Description",
+      "default": "Not 'saffron-scented.' Saffron-Infused. We took the threads from our own soil and put the soul of the flower into the bar. You don't smell our saffron. You feel it."
+    },
+    {
+      "type": "header",
+      "content": "E — Essential Only"
+    },
+    {
+      "type": "text",
+      "id": "e_word",
+      "label": "Word (after E)",
+      "default": "ssential Only"
+    },
+    {
+      "type": "textarea",
+      "id": "e_desc",
+      "label": "Description",
+      "default": "We stripped away the Silicon and Triclosan. We kept only what is Essential for your skin to breathe and heal. Zero sulphate. Zero paraben. Zero compromise."
+    },
+    {
+      "type": "header",
+      "content": "N — Natural Herbs"
+    },
+    {
+      "type": "text",
+      "id": "n_word",
+      "label": "Word (after N)",
+      "default": "atural Herbs"
+    },
+    {
+      "type": "textarea",
+      "id": "n_desc",
+      "label": "Description",
+      "default": "We didn't stop at saffron. We blended it with Natural Herbs to ensure the benefit isn't just on the surface — but deep within. Skin that heals, not just skin that shines."
+    },
+    {
+      "type": "header",
+      "content": "F — Freshness"
+    },
+    {
+      "type": "text",
+      "id": "f_word",
+      "label": "Word (after F)",
+      "default": "reshness"
+    },
+    {
+      "type": "textarea",
+      "id": "f_desc",
+      "label": "Description",
+      "default": "Because we source directly from the harvest, you feel the Freshness of the farm — not the staleness of a warehouse. From our field to your shower in the shortest time possible."
+    },
+    {
+      "type": "header",
+      "content": "A — Aroma"
+    },
+    {
+      "type": "text",
+      "id": "a_word",
+      "label": "Word (after A)",
+      "default": "roma"
+    },
+    {
+      "type": "textarea",
+      "id": "a_desc",
+      "label": "Description",
+      "default": "Not a chemical perfume, but the honest, earthy scent of a promise kept. The Aroma of Senfa is the smell of integrity — of a family that refused to cut a single corner."
+    },
+    {
+      "type": "header",
+      "content": "Footer Line"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "Most brands give you a name. We give you our word, spelled out in five letters."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 160, "step": 8, "default": 128, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 160, "step": 8, "default": 112, "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SENFA Acronym"
+    }
+  ]
+}
+{% endschema %}

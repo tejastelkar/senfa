@@ -1,0 +1,427 @@
+{% comment %}
+  SENFA — Closing / Promise Section
+  sections/senfa-story-closing.liquid
+{% endcomment %}
+
+<section id="senfa-closing-{{ section.id }}" class="ssc-root">
+
+  <div class="ssc-top-line"></div>
+
+  <div class="ssc-inner">
+
+    {%- comment %} ── Left Visual Panel ── {% endcomment %}
+    <div class="ssc-visual">
+      <svg class="ssc-svg" viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ssc-bg-{{ section.id }}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#E8E0F5"/>
+            <stop offset="100%" stop-color="#FBF5E8"/>
+          </linearGradient>
+          <radialGradient id="ssc-glow-{{ section.id }}" cx="50%" cy="38%" r="52%">
+            <stop offset="0%" stop-color="rgba(201,146,42,0.18)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+        </defs>
+        <rect width="500" height="600" fill="url(#ssc-bg-{{ section.id }})"/>
+        <rect width="500" height="600" fill="url(#ssc-glow-{{ section.id }})"/>
+        <!-- Ghost 150 numeral -->
+        <text x="250" y="320" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-size="180" font-weight="300" fill="rgba(201,146,42,0.07)" letter-spacing="-4">150</text>
+        <text x="250" y="355" text-anchor="middle" font-family="'Jost',sans-serif" font-size="9" fill="rgba(74,45,120,0.3)" letter-spacing="5">ACRES</text>
+        <!-- Primary saffron thread -->
+        <path d="M250,30 Q278,120 260,220 Q242,318 268,408 Q294,498 272,590" stroke="#C9922A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="250" cy="28" r="5.5" fill="#E8A020" opacity="0.75"/>
+        <!-- Secondary threads -->
+        <path d="M195,52 Q218,140 204,235 Q190,330 210,418 Q230,506 215,590" stroke="#E0B84E" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.28"/>
+        <circle cx="195" cy="50" r="3.5" fill="#E8A020" opacity="0.45"/>
+        <path d="M308,42 Q328,132 315,228 Q302,324 320,414 Q338,504 324,590" stroke="#C9922A" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.18"/>
+        <circle cx="308" cy="40" r="2.5" fill="#E8A020" opacity="0.35"/>
+        <!-- Saffron flowers low -->
+        <g transform="translate(110,460)">
+          <line x1="0" y1="0" x2="0" y2="-52" stroke="#8A6A38" stroke-width="1.5"/>
+          <ellipse cx="0" cy="-64" rx="5" ry="12" fill="#7B5A9E" transform="rotate(-10,0,-64)"/>
+          <ellipse cx="-9" cy="-56" rx="4" ry="10" fill="#9B7ABE" transform="rotate(-32,-9,-56)"/>
+          <ellipse cx="9" cy="-57" rx="4" ry="10" fill="#9B7ABE" transform="rotate(28,9,-57)"/>
+          <line x1="0" y1="-64" x2="0" y2="-82" stroke="#C9922A" stroke-width="1.2" opacity="0.8"/>
+        </g>
+        <g transform="translate(370,480)">
+          <line x1="0" y1="0" x2="0" y2="-48" stroke="#8A6A38" stroke-width="1.5"/>
+          <ellipse cx="0" cy="-60" rx="5" ry="11" fill="#6B4A9E" transform="rotate(8,0,-60)"/>
+          <ellipse cx="-8" cy="-53" rx="4" ry="9" fill="#8B6ABE" transform="rotate(-26,-8,-53)"/>
+          <ellipse cx="8" cy="-54" rx="4" ry="9" fill="#7B5A9E" transform="rotate(24,8,-54)"/>
+          <line x1="0" y1="-60" x2="0" y2="-76" stroke="#C9922A" stroke-width="1.2" opacity="0.8"/>
+        </g>
+        <!-- Scattered stigma dots -->
+        <g fill="#E8A020" opacity="0.35">
+          <circle cx="72" cy="148" r="1.5"/><circle cx="420" cy="188" r="1.5"/>
+          <circle cx="55" cy="310" r="1"/><circle cx="438" cy="290" r="1"/>
+          <circle cx="88" cy="430" r="1.2"/><circle cx="405" cy="410" r="1.2"/>
+        </g>
+      </svg>
+
+      {%- comment %} ── Accent badge ── {% endcomment %}
+      <div class="ssc-badge">
+        <div class="ssc-badge-num">{{ section.settings.badge_number | default: '150+' }}</div>
+        <div class="ssc-badge-lbl">{{ section.settings.badge_label | default: 'Acres of Saffron Farms' }}<br>{{ section.settings.badge_sublabel | default: 'Kashmir, India' }}</div>
+      </div>
+
+      {%- comment %} ── Vertical gold thread line ── {% endcomment %}
+      <div class="ssc-visual-line"></div>
+    </div>
+
+    {%- comment %} ── Right Text Panel ── {% endcomment %}
+    <div class="ssc-content">
+
+      <div class="ssc-tag">
+        <span class="ssc-tag-inner">{{ section.settings.section_tag | default: 'The Promise, Kept' }}</span>
+      </div>
+
+      <h2 class="ssc-promise">
+{%- assign promise_lines = section.settings.promise_text | split: '|' -%}        {%- for line in promise_lines -%}
+          {%- assign mod = forloop.index | modulo: 2 -%}
+          {%- if mod == 0 -%}
+            <em>{{ line }}</em><br>
+          {%- else -%}
+            <span>{{ line }}</span><br>
+          {%- endif -%}
+        {%- endfor -%}
+      </h2>
+
+      <div class="ssc-rule"></div>
+
+      <p class="ssc-body">{{ section.settings.body_text | default: 'From our family fields to your home — this is the purity my father always wanted you to have. Not luxury as a marketing word. Luxury as a moral obligation to never compromise on what goes into your hands every morning.' }}</p>
+
+      <p class="ssc-italic">{{ section.settings.italic_line | default: 'Every bar is an unfinished conversation, finally completed.' }}</p>
+
+      <div class="ssc-sig-wrap">
+        <div class="ssc-sig-rule"></div>
+        <div class="ssc-sig">
+          <span class="ssc-sig-name">{{ section.settings.sig_name | default: 'The Birla Family' }}</span>
+          <span class="ssc-sig-lbl">{{ section.settings.sig_label | default: 'Founders, Senfa · Pune, Maharashtra' }}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="ssc-bottom-line"></div>
+
+</section>
+
+<style>
+#senfa-closing-{{ section.id }} {
+  --pd:  #2D1B4E;
+  --pm:  #4A2D78;
+  --pmi: #6B4A9E;
+  --pp:  #E8E0F5;
+  --gd:  #C9922A;
+  --gl:  #E0B84E;
+  --gs:  #FBF5E8;
+  --wh:  #FEFCF8;
+  --ps:  #F8F5FC;
+  --tm:  #5A4A6E;
+  --tl:  #8A7A9E;
+  --bg:  rgba(201,146,42,0.15);
+  --bp:  rgba(74,45,120,0.08);
+
+  position: relative;
+  background: var(--ps);
+  font-family: 'Jost', sans-serif;
+  overflow: hidden;
+  padding-bottom: 80px;
+  padding-top: 80px;
+  z-index: 0;   /* ← ADD THIS */
+
+}
+
+#senfa-closing-{{ section.id }} .ssc-top-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--bg) 40%, transparent);
+}
+#senfa-closing-{{ section.id }} .ssc-bottom-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--bg) 40%, transparent);
+}
+
+/* ── Grid ── */
+#senfa-closing-{{ section.id }} .ssc-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 680px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ── Visual panel ── */
+#senfa-closing-{{ section.id }} .ssc-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 560px;
+}
+#senfa-closing-{{ section.id }} .ssc-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+#senfa-closing-{{ section.id }} .ssc-visual-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--bg) 30%, var(--bg) 70%, transparent);
+}
+
+/* ── Badge ── */
+#senfa-closing-{{ section.id }} .ssc-badge {
+  position: absolute;
+  bottom: 48px;
+  right: -1px;
+  background: var(--pm);
+  padding: 28px 36px;
+  z-index: 3;
+  transform: translateX(0);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+}
+#senfa-closing-{{ section.id }} .ssc-badge.ssc-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+#senfa-closing-{{ section.id }} .ssc-badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--gl);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+#senfa-closing-{{ section.id }} .ssc-badge-lbl {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-top: 7px;
+  line-height: 1.7;
+}
+
+/* ── Content panel ── */
+#senfa-closing-{{ section.id }} .ssc-content {
+  padding: 110px 80px 110px 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── Section tag ── */
+#senfa-closing-{{ section.id }} .ssc-tag {
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+#senfa-closing-{{ section.id }} .ssc-tag.ssc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#senfa-closing-{{ section.id }} .ssc-tag-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gd);
+  font-weight: 400;
+}
+#senfa-closing-{{ section.id }} .ssc-tag-inner::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--gd);
+}
+
+/* ── Promise heading ── */
+#senfa-closing-{{ section.id }} .ssc-promise {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3.6vw, 54px);
+  font-weight: 300;
+  line-height: 1.18;
+  color: var(--pd);
+  margin-bottom: 36px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s;
+}
+#senfa-closing-{{ section.id }} .ssc-promise.ssc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#senfa-closing-{{ section.id }} .ssc-promise span {
+  font-style: normal;
+  color: var(--pd);
+}
+#senfa-closing-{{ section.id }} .ssc-promise em {
+  font-style: italic;
+  color: var(--gd);
+}
+
+/* ── Decorative rule ── */
+#senfa-closing-{{ section.id }} .ssc-rule {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(to right, var(--gd), transparent);
+  margin-bottom: 30px;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.32s;
+}
+#senfa-closing-{{ section.id }} .ssc-rule.ssc-visible { opacity: 1; }
+
+/* ── Body text ── */
+#senfa-closing-{{ section.id }} .ssc-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.95;
+  color: var(--tm);
+  margin-bottom: 22px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease 0.36s, transform 0.9s ease 0.36s;
+}
+#senfa-closing-{{ section.id }} .ssc-body.ssc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Italic line ── */
+#senfa-closing-{{ section.id }} .ssc-italic {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--pd);
+  line-height: 1.6;
+  margin-bottom: 42px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s ease 0.44s, transform 0.9s ease 0.44s;
+}
+#senfa-closing-{{ section.id }} .ssc-italic.ssc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Signature ── */
+#senfa-closing-{{ section.id }} .ssc-sig-wrap {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s ease 0.52s, transform 0.9s ease 0.52s;
+}
+#senfa-closing-{{ section.id }} .ssc-sig-wrap.ssc-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+#senfa-closing-{{ section.id }} .ssc-sig-rule {
+  height: 1px;
+  background: linear-gradient(to right, var(--bg), transparent);
+  margin-bottom: 22px;
+}
+#senfa-closing-{{ section.id }} .ssc-sig {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#senfa-closing-{{ section.id }} .ssc-sig-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--pd);
+  line-height: 1.2;
+}
+#senfa-closing-{{ section.id }} .ssc-sig-lbl {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--tl);
+  font-family: 'Jost', sans-serif;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 960px) {
+  #senfa-closing-{{ section.id }} .ssc-inner {
+    grid-template-columns: 1fr;
+  }
+  #senfa-closing-{{ section.id }} .ssc-visual {
+    min-height: 380px;
+  }
+  #senfa-closing-{{ section.id }} .ssc-badge {
+    bottom: 28px;
+    right: 28px;
+  }
+  #senfa-closing-{{ section.id }} .ssc-content {
+    padding: 72px 48px;
+  }
+}
+@media (max-width: 768px) {
+  #senfa-closing-{{ section.id }} .ssc-content {
+    padding: 56px 32px;
+  }
+  #senfa-closing-{{ section.id }} .ssc-visual {
+    min-height: 300px;
+  }
+}
+@media (max-width: 480px) {
+  #senfa-closing-{{ section.id }} .ssc-content {
+    padding: 48px 22px;
+  }
+  #senfa-closing-{{ section.id }} .ssc-badge {
+    padding: 20px 24px;
+    bottom: 20px;
+    right: 20px;
+  }
+  #senfa-closing-{{ section.id }} .ssc-badge-num {
+    font-size: 40px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  var section = document.getElementById('senfa-closing-{{ section.id }}');
+  if (!section) return;
+  var targets = section.querySelectorAll('.ssc-tag, .ssc-promise, .ssc-rule, .ssc-body, .ssc-italic, .ssc-sig-wrap, .ssc-badge');
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('ssc-visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  targets.forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SENFA Closing Promise",
+  "tag": "section",
+  "class": "senfa-section",
+  "settings": [
+    { "type": "text", "id": "section_tag", "label": "Section Tag", "default": "The Promise, Kept" },
+    { "type": "textarea", "id": "promise_text", "label": "Promise Lines (separate with |)", "default": "We don't just source saffron.|We grow it.|We don't just make soap.|We fulfil a dream." },
+    { "type": "textarea", "id": "body_text", "label": "Body Text", "default": "From our family's fields to your home — this is the purity my father always wanted you to have. Not luxury as a marketing word. Luxury as a moral obligation to never compromise on what goes into your hands every morning." },
+    { "type": "text", "id": "italic_line", "label": "Italic Closing Line", "default": "Every bar is an unfinished conversation, finally completed." },
+    { "type": "text", "id": "sig_name", "label": "Signature Name", "default": "The Birla Family" },
+    { "type": "text", "id": "sig_label", "label": "Signature Label", "default": "Founders, Senfa · Pune, Maharashtra" },
+    { "type": "text", "id": "badge_number", "label": "Badge Number", "default": "150+" },
+    { "type": "text", "id": "badge_label", "label": "Badge Label", "default": "Acres of Saffron Farms" },
+    { "type": "text", "id": "badge_sublabel", "label": "Badge Sub-label", "default": "Kashmir, India" }
+  ],
+  "presets": [{ "name": "SENFA Closing Promise" }]
+}
+{% endschema %}

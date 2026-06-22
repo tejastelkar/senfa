@@ -1,0 +1,514 @@
+{% comment %}
+  SENFA — Luxury Hero Slideshow (Dynamic Positioning & Colors)
+  File: sections/senfa-hero-slideshow.liquid
+{% endcomment %}
+
+<div class="senfa-hero-wrapper" id="SenfaHero-{{ section.id }}" data-speed="{{ section.settings.autoplay_speed | times: 1000 }}" data-autoplay="{{ section.settings.enable_autoplay }}">
+  
+  <div class="senfa-hero-track">
+    {% for block in section.blocks %}
+      <div class="senfa-hero-slide {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        
+        <div class="senfa-hero-media">
+          <div class="senfa-hero-overlay" style="background-color: rgba(0,0,0,{{ block.settings.overlay_opacity | divided_by: 100.0 }});"></div>
+          
+          {% if block.settings.image != blank %}
+            {%- liquid
+              assign mobile_img = block.settings.image_mobile | default: block.settings.image
+            -%}
+            
+            <picture class="senfa-img-desktop small-hide">
+              {{ block.settings.image | image_url: width: 2400 | image_tag: class: 'senfa-hero-img', loading: 'lazy', fetchpriority: 'high' }}
+            </picture>
+            
+            <picture class="senfa-img-mobile medium-hide large-up-hide">
+              {{ mobile_img | image_url: width: 900 | image_tag: class: 'senfa-hero-img', loading: 'lazy', fetchpriority: 'high' }}
+            </picture>
+          {% else %}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'senfa-hero-placeholder' }}
+          {% endif %}
+        </div>
+
+        {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank %}
+          <div class="senfa-hero-content page-width pos-x-{{ block.settings.text_position_x }} pos-y-{{ block.settings.text_position_y }} theme-{{ block.settings.color_theme }}">
+            <div class="senfa-hero-text-box">
+              {% if block.settings.subheading != blank %}
+                <p class="senfa-hero-subheading">{{ block.settings.subheading }}</p>
+              {% endif %}
+              
+              {% if block.settings.heading != blank %}
+                <h2 class="senfa-hero-heading">{{ block.settings.heading }}</h2>
+              {% endif %}
+              
+              {% if block.settings.button_label != blank %}
+                <a href="{{ block.settings.button_link }}" class="senfa-hero-btn">
+                  {{ block.settings.button_label }}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+        
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <div class="senfa-hero-nav">
+      <div class="senfa-hero-dots">
+        {% for block in section.blocks %}
+          <button class="senfa-hero-dot {% if forloop.first %}is-active{% endif %}" data-target="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+
+<style>
+/* ══════════════════════════════════════════════
+   SENFA — HERO SLIDESHOW STYLES
+══════════════════════════════════════════════ */
+
+.senfa-hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: {{ section.settings.desktop_height }}vh;
+  min-height: 600px;
+  background-color: #1A1228;
+  overflow: hidden;
+  font-family: 'Jost', sans-serif;
+}
+
+.senfa-hero-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.senfa-hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), visibility 1s;
+  z-index: 1;
+}
+
+.senfa-hero-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* Image & Overlay */
+.senfa-hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.senfa-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.senfa-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.senfa-hero-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #F5F3EE;
+  color: #999;
+}
+
+/* Content Alignment Container */
+.senfa-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 60px 40px;
+}
+
+/* Horizontal Positioning */
+.senfa-hero-content.pos-x-left { justify-content: flex-start; text-align: left; }
+.senfa-hero-content.pos-x-center { justify-content: center; text-align: center; }
+.senfa-hero-content.pos-x-right { justify-content: flex-end; text-align: right; }
+
+/* Vertical Positioning */
+.senfa-hero-content.pos-y-top { align-items: flex-start; }
+.senfa-hero-content.pos-y-middle { align-items: center; }
+.senfa-hero-content.pos-y-bottom { align-items: flex-end; }
+
+.senfa-hero-text-box {
+  max-width: 600px;
+}
+
+/* Base Typography */
+.senfa-hero-subheading {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin: 0 0 16px 0;
+}
+
+.senfa-hero-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0 0 32px 0;
+}
+
+.senfa-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 40px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Theme: Light (White Text) */
+.theme-light .senfa-hero-subheading,
+.theme-light .senfa-hero-heading {
+  color: #FFFFFF;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Slight shadow for readability */
+}
+.theme-light .senfa-hero-btn {
+  background-color: #FFFFFF;
+  color: #1A1228;
+}
+.theme-light .senfa-hero-btn:hover {
+  background-color: #C9922A;
+  color: #FFFFFF;
+}
+
+/* Theme: Dark (Black Text) */
+.theme-dark .senfa-hero-subheading,
+.theme-dark .senfa-hero-heading {
+  color: #1A1228;
+}
+.theme-dark .senfa-hero-btn {
+  background-color: #1A1228;
+  color: #FFFFFF;
+}
+.theme-dark .senfa-hero-btn:hover {
+  background-color: #C9922A;
+}
+
+/* Navigation Dots */
+.senfa-hero-nav {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  z-index: 10;
+}
+
+.senfa-hero-dots {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.senfa-hero-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.6);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.senfa-hero-dot:hover {
+  border-color: #FFFFFF;
+}
+
+.senfa-hero-dot.is-active {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  transform: scale(1.2);
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .senfa-hero-wrapper {
+    height: {{ section.settings.mobile_height }}vh;
+    min-height: 500px;
+  }
+
+  .senfa-hero-content {
+    padding: 40px 24px;
+    align-items: flex-end !important; /* Always push text to bottom on mobile */
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .senfa-hero-nav {
+    right: 50%;
+    bottom: 20px;
+    transform: translateX(50%);
+  }
+
+  .senfa-hero-heading {
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+
+  .senfa-hero-btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .small-hide { display: none !important; }
+}
+@media screen and (min-width: 769px) {
+  .medium-hide { display: none !important; }
+  .large-up-hide { display: none !important; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const wrapper = document.querySelector('#SenfaHero-{{ section.id }}');
+  if (!wrapper) return;
+
+  const slides = wrapper.querySelectorAll('.senfa-hero-slide');
+  const dots = wrapper.querySelectorAll('.senfa-hero-dot');
+  const speed = parseInt(wrapper.dataset.speed) || 5000;
+  const autoplay = wrapper.dataset.autoplay === 'true';
+  let currentIndex = 0;
+  let timer;
+
+  function goToSlide(index) {
+    slides[currentIndex].classList.remove('is-active');
+    if (dots.length > 0) dots[currentIndex].classList.remove('is-active');
+
+    currentIndex = index;
+
+    slides[currentIndex].classList.add('is-active');
+    if (dots.length > 0) dots[currentIndex].classList.add('is-active');
+  }
+
+  function nextSlide() {
+    let nextIndex = currentIndex + 1;
+    if (nextIndex >= slides.length) nextIndex = 0;
+    goToSlide(nextIndex);
+  }
+
+  function startTimer() {
+    if (autoplay && slides.length > 1) {
+      timer = setInterval(nextSlide, speed);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    startTimer();
+  }
+
+  // Click events for dots
+  dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      const targetIndex = parseInt(e.target.dataset.target);
+      if (targetIndex !== currentIndex) {
+        goToSlide(targetIndex);
+        resetTimer();
+      }
+    });
+  });
+
+  // Swipe support for mobile
+  let touchstartX = 0;
+  let touchendX = 0;
+
+  wrapper.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  wrapper.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    if (touchendX < touchstartX - 50) {
+      nextSlide();
+      resetTimer();
+    }
+    if (touchendX > touchstartX + 50) {
+      let prevIndex = currentIndex - 1;
+      if (prevIndex < 0) prevIndex = slides.length - 1;
+      goToSlide(prevIndex);
+      resetTimer();
+    }
+  }
+
+  startTimer();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Senfa Hero Slideshow",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop Height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Height (vh)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change slides every",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "sec",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image (Optional)"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Dark Overlay Opacity",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "header",
+          "content": "Text Layout & Colors"
+        },
+        {
+          "type": "select",
+          "id": "color_theme",
+          "label": "Text Color Theme",
+          "options": [
+            { "value": "light", "label": "Light (White Text)" },
+            { "value": "dark", "label": "Dark (Black Text)" }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "text_position_y",
+          "label": "Vertical Position",
+          "options": [
+            { "value": "top", "label": "Top" },
+            { "value": "middle", "label": "Middle" },
+            { "value": "bottom", "label": "Bottom" }
+          ],
+          "default": "middle"
+        },
+        {
+          "type": "select",
+          "id": "text_position_x",
+          "label": "Horizontal Position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "The Saffron Collection"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Nature's Rarest Luxury"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Shop the Soap"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Hero Slideshow",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

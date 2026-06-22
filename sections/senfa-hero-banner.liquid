@@ -1,0 +1,455 @@
+{% comment %}
+  Senfa — Hero Banner Section (Editorial & Minimalist)
+  File: sections/senfa-hero-banner.liquid
+{% endcomment %}
+
+<section class="senfa-hero-{{ section.id }}" id="senfa-hero-{{ section.id }}" style="
+  --bg-start: {{ section.settings.bg_color_start }};
+  --bg-end: {{ section.settings.bg_color_end }};
+  --eyebrow-color: {{ section.settings.eyebrow_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --italic-color: {{ section.settings.italic_color }};
+  --btn-bg: {{ section.settings.btn_bg_color }};
+  --btn-text: {{ section.settings.btn_text_color }};
+  --btn-hover-bg: {{ section.settings.btn_hover_bg }};
+  --btn-hover-text: {{ section.settings.btn_hover_text }};
+  --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+">
+
+  {%- if section.settings.bg_image != blank -%}
+    <div class="shb__bg">
+      {{- section.settings.bg_image | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000', sizes: '100vw' -}}
+    </div>
+  {%- endif -%}
+
+  <div class="shb__glow"></div>
+  <div class="shb__line-top"></div>
+  <div class="shb__line-bottom"></div>
+
+  <div class="shb__inner">
+
+    <div class="shb__left">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="shb__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="shb__heading">
+        {{- section.settings.heading_line1 -}}
+        {%- if section.settings.heading_italic != blank %} <em>{{ section.settings.heading_italic }}</em>{%- endif %}
+        {%- if section.settings.heading_line2 != blank -%}<br>{{ section.settings.heading_line2 }}{%- endif -%}
+      </h2>
+    </div>
+
+    {%- if section.settings.btn_label != blank -%}
+      <div class="shb__right">
+        <a href="{{ section.settings.btn_url | default: '#' }}" class="shb__btn">
+          <span>{{ section.settings.btn_label }}</span>
+          <svg class="shb__btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        {%- if section.settings.btn_subtext != blank -%}
+          <p class="shb__subtext">{{ section.settings.btn_subtext }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+
+</section>
+
+<style>
+  /* ════════════════════════════════
+     SENFA — HERO ARCHITECTURE
+  ════════════════════════════════ */
+
+  .senfa-hero-{{ section.id }} {
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    position: relative;
+    z-index: 0;
+    isolation: isolate; /* Prevents overlap with header */
+    overflow: hidden;
+    padding: {{ section.settings.padding_top }}px 0px {{ section.settings.padding_bottom }}px;
+  }
+
+  .senfa-hero-{{ section.id }} .shb__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .senfa-hero-{{ section.id }} .shb__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .senfa-hero-{{ section.id }} .shb__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+    opacity: var(--overlay-opacity);
+  }
+
+  /* Refined, whisper-faint glow */
+  .senfa-hero-{{ section.id }} .shb__glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(201,146,42,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 50% at 100% 0%, rgba(201,146,42,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Elegant track lines */
+  .senfa-hero-{{ section.id }} .shb__line-top,
+  .senfa-hero-{{ section.id }} .shb__line-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 2;
+  }
+  .senfa-hero-{{ section.id }} .shb__line-top {
+    top: 0;
+    background: linear-gradient(to right, transparent, rgba(201,146,42,0.15), transparent);
+  }
+  .senfa-hero-{{ section.id }} .shb__line-bottom {
+    bottom: 0;
+    background: linear-gradient(to right, transparent, rgba(201,146,42,0.2), rgba(201,146,42,0.1), rgba(201,146,42,0.2), transparent);
+  }
+
+  /* ── LAYOUT ── */
+  .senfa-hero-{{ section.id }} .shb__inner {
+    position: relative;
+    z-index: 3;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 64px;
+    box-sizing: border-box;
+  }
+
+  .senfa-hero-{{ section.id }} .shb__left {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .senfa-hero-{{ section.id }} .shb__eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--eyebrow-color);
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .senfa-hero-{{ section.id }} .shb__eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .senfa-hero-{{ section.id }} .shb__heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4.5vw, 68px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--heading-color);
+    margin: 0;
+    letter-spacing: -0.01em;
+    text-transform: none !important;
+  }
+  .senfa-hero-{{ section.id }} .shb__heading em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--italic-color);
+  }
+
+  /* ── RIGHT PANEL & BUTTON ── */
+  .senfa-hero-{{ section.id }} .shb__right {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+  }
+
+  .senfa-hero-{{ section.id }} .shb__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 40px;
+    border: 1px solid var(--btn-bg);
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  
+  .senfa-hero-{{ section.id }} .shb__btn-arrow {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .senfa-hero-{{ section.id }} .shb__btn:hover {
+    background: var(--btn-hover-bg);
+    border-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+  }
+  
+  .senfa-hero-{{ section.id }} .shb__btn:hover .shb__btn-arrow {
+    transform: translateX(6px);
+  }
+
+  .senfa-hero-{{ section.id }} .shb__subtext {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    margin: 0;
+    text-align: right;
+    font-weight: 300;
+  }
+
+  /* ── ANIMATIONS ── */
+  .senfa-hero-{{ section.id }} .shb__eyebrow,
+  .senfa-hero-{{ section.id }} .shb__heading,
+  .senfa-hero-{{ section.id }} .shb__right {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: shb-up 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  }
+  .senfa-hero-{{ section.id }} .shb__eyebrow { animation-delay: 0.1s; }
+  .senfa-hero-{{ section.id }} .shb__heading  { animation-delay: 0.2s; }
+  .senfa-hero-{{ section.id }} .shb__right    { animation-delay: 0.3s; }
+  
+  @keyframes shb-up { 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+
+  /* ════════════════
+     TABLET 1024px
+  ════════════════ */
+  @media (max-width: 1024px) {
+    .senfa-hero-{{ section.id }} .shb__inner {
+      padding: 0 56px;
+      gap: 40px;
+    }
+  }
+
+  /* ════════════════
+     MOBILE 768px
+  ════════════════ */
+  @media (max-width: 768px) {
+    .senfa-hero-{{ section.id }} {
+      padding: {{ section.settings.padding_top | times: 0.7 | round }}px 0px {{ section.settings.padding_bottom | times: 0.7 | round }}px;
+    }
+    .senfa-hero-{{ section.id }} .shb__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 24px;
+      gap: 32px;
+    }
+    .senfa-hero-{{ section.id }} .shb__right { 
+      align-items: flex-start; 
+      width: 100%;
+    }
+    .senfa-hero-{{ section.id }} .shb__btn {
+      width: 100%; /* Full width button on mobile */
+    }
+    .senfa-hero-{{ section.id }} .shb__subtext { 
+      text-align: left; 
+      width: 100%;
+      margin-top: 4px;
+    }
+  }
+
+  /* ════════════════
+     SMALL 480px
+  ════════════════ */
+  @media (max-width: 480px) {
+    .senfa-hero-{{ section.id }} .shb__inner { padding: 0 20px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Senfa Hero Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Cleanse. Soothe. Glow."
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading line 1",
+      "default": "Experience the"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading italic word",
+      "default": "Luxury"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Heading line 2",
+      "default": "of Kashmir in Every Shower"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button label",
+      "default": "Shop Now - Rs.349"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "btn_subtext",
+      "label": "Button subtext (optional)",
+      "default": "Free shipping above ₹999"
+    },
+    {
+      "type": "header",
+      "content": "Background Gradient"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_start",
+      "label": "Gradient start (deep purple)",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_end",
+      "label": "Gradient end (mid purple)",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image (optional)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 80,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "italic_color",
+      "label": "Italic word color",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text",
+      "label": "Button Hover Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 8,
+      "default": 120,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Hero Banner"
+    }
+  ]
+}
+{% endschema %}

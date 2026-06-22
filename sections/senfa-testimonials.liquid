@@ -1,0 +1,440 @@
+{% comment %}
+  Senfa — Testimonials Section (Utility Standard + Auto Fade)
+  File: sections/senfa-testimonials.liquid
+{% endcomment %}
+
+<section class="senfa-testi" id="senfa-testi-{{ section.id }}" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --accent-gold: {{ section.settings.accent_gold }};
+  --text-body: {{ section.settings.text_body }};
+  --dot-color: {{ section.settings.heading_color | color_modify: 'alpha', 0.2 }};
+  --dot-active: {{ section.settings.heading_color }};
+">
+  <div class="senfa-testi__inner">
+
+    {%- comment -%} ── STANDARDIZED UTILITY HEADER ── {%- endcomment -%}
+    <div class="senfa-testi__header-standard">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="senfa-testi__heading-centered">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_italic != blank -%}
+            <br><em>{{ section.settings.heading_italic }}</em>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── TESTIMONIAL CAROUSEL ── {%- endcomment -%}
+    <div class="senfa-testi__carousel" data-autoplay="5000">
+      <div class="senfa-testi__slides">
+        {%- for block in section.blocks -%}
+          <div class="senfa-testi__slide {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            
+            <div class="senfa-testi__stars">
+              {% for i in (1..5) %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--accent-gold)" stroke="var(--accent-gold)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              {% endfor %}
+            </div>
+
+            {%- if block.settings.quote != blank -%}
+              <p class="senfa-testi__quote">{{ block.settings.quote }}</p>
+            {%- endif -%}
+
+            <div class="senfa-testi__author">
+              {%- if block.settings.image != blank -%}
+                <div class="senfa-testi__author-img-wrap">
+                  <img src="{{ block.settings.image | image_url: width: 120 }}" alt="{{ block.settings.author_name }}" class="senfa-testi__author-img" loading="lazy">
+                </div>
+              {%- endif -%}
+              
+              {%- if block.settings.author_name != blank -%}
+                <span class="senfa-testi__author-name">{{ block.settings.author_name }}</span>
+              {%- endif -%}
+            </div>
+
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.blocks.size > 1 -%}
+        <div class="senfa-testi__dots">
+          {%- for block in section.blocks -%}
+            <button class="senfa-testi__dot {% if forloop.first %}is-active{% endif %}" data-target="{{ forloop.index0 }}" aria-label="Go to testimonial {{ forloop.index }}"></button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — TESTIMONIALS ARCHITECTURE
+════════════════════════════════ */
+
+.senfa-testi {
+  background-color: var(--bg-color);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+}
+
+.senfa-testi__inner {
+  max-width: 1000px; /* Kept narrow for optimal reading length */
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+.senfa-testi__header-standard {
+  text-align: center;
+  margin: 0 auto 48px;
+}
+
+.senfa-testi__heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  line-height: 1.1;
+}
+
+.senfa-testi__heading-centered em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 400;
+}
+
+/* ── CAROUSEL STRUCTURE ── */
+.senfa-testi__carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Grid-stacking prevents height jumps when fading */
+.senfa-testi__slides {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+.senfa-testi__slide {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+  pointer-events: none;
+}
+
+.senfa-testi__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ── SLIDE CONTENT ── */
+.senfa-testi__stars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+
+.senfa-testi__stars svg {
+  width: 16px;
+  height: 16px;
+}
+
+.senfa-testi__quote {
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin: 0 0 40px;
+  max-width: 800px;
+}
+
+.senfa-testi__author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.senfa-testi__author-img-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.senfa-testi__author-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.senfa-testi__author-name {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--heading-color);
+}
+
+/* ── DOTS NAVIGATION ── */
+.senfa-testi__dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+  z-index: 10;
+}
+
+.senfa-testi__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--dot-color);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.senfa-testi__dot:hover {
+  transform: scale(1.2);
+}
+
+.senfa-testi__dot.is-active {
+  background-color: var(--dot-active);
+  transform: scale(1.2);
+}
+
+/* ════════════════
+   MOBILE 768px
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-testi {
+    padding: 80px 0;
+  }
+  .senfa-testi__inner {
+    padding: 0 24px;
+  }
+  .senfa-testi__heading-centered {
+    font-size: 36px;
+  }
+  .senfa-testi__header-standard {
+    margin-bottom: 32px;
+  }
+  .senfa-testi__stars {
+    margin-bottom: 24px;
+  }
+  .senfa-testi__quote {
+    margin-bottom: 32px;
+  }
+  .senfa-testi__dots {
+    margin-top: 40px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const section = document.getElementById('senfa-testi-{{ section.id }}');
+  if (!section) return;
+
+  const carousel = section.querySelector('.senfa-testi__carousel');
+  const slides = section.querySelectorAll('.senfa-testi__slide');
+  const dots = section.querySelectorAll('.senfa-testi__dot');
+  
+  if (slides.length <= 1) return; // No need to slide if only 1 review
+
+  const autoplaySpeed = parseInt(carousel.dataset.autoplay) || 5000;
+  let currentIndex = 0;
+  let slideInterval;
+
+  function goToSlide(index) {
+    // Remove active from all
+    slides.forEach(slide => slide.classList.remove('is-active'));
+    dots.forEach(dot => dot.classList.remove('is-active'));
+
+    // Add active to current
+    slides[index].classList.add('is-active');
+    dots[index].classList.add('is-active');
+    currentIndex = index;
+  }
+
+  function nextSlide() {
+    let nextIndex = currentIndex + 1;
+    if (nextIndex >= slides.length) nextIndex = 0;
+    goToSlide(nextIndex);
+  }
+
+  function startAutoplay() {
+    slideInterval = setInterval(nextSlide, autoplaySpeed);
+  }
+
+  function stopAutoplay() {
+    clearInterval(slideInterval);
+  }
+
+  // Dot Click Listeners
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      goToSlide(index);
+      stopAutoplay();
+      startAutoplay(); // Reset timer on click
+    });
+  });
+
+  // Pause on hover
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+
+  // Init
+  startAutoplay();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Senfa Testimonials",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "TESTIMONIALS"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading Italic (Optional)",
+      "default": "Real Results"
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading & Name Color",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Gold Accents (Stars)",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Quote Text Color",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "These multifunctional products simplify my routine and keep me looking and feeling my best, wherever I go."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Image"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Customer Name",
+          "default": "Sunny Arora"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "These multifunctional products simplify my routine and keep me looking and feeling my best, wherever I go.",
+            "author_name": "Sunny Arora"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I have completely switched my daily ritual to Senfa. The difference in my skin's hydration is night and day.",
+            "author_name": "Aisha Patel"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The scent of genuine Kashmir saffron is unmistakable. True luxury in a bar of soap.",
+            "author_name": "Rohan Mehta"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

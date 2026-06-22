@@ -1,0 +1,193 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{%- if predictive_search.performed -%}
+  {% assign first_column_results_size = predictive_search.resources.queries.size
+    | plus: predictive_search.resources.collections.size
+    | plus: predictive_search.resources.pages.size
+    | plus: predictive_search.resources.articles.size
+  %}
+  <div id="predictive-search-results" class="senfa-predictive-results" role="listbox">
+
+    {%- comment -%} ── TABS: PRODUCTS | COLLECTIONS (Kimirica style) ── {%- endcomment -%}
+    <div class="senfa-tabs">
+      {%- if predictive_search.resources.products.size > 0 -%}
+        <button class="senfa-tab senfa-tab--active" data-senfa-tab="products" type="button">
+          PRODUCTS
+        </button>
+      {%- endif -%}
+      {%- if predictive_search.resources.collections.size > 0 -%}
+        <button class="senfa-tab" data-senfa-tab="collections" type="button">
+          COLLECTIONS
+        </button>
+      {%- endif -%}
+      {%- if predictive_search.resources.pages.size > 0 or predictive_search.resources.articles.size > 0 -%}
+        <button class="senfa-tab" data-senfa-tab="pages" type="button">
+          PAGES
+        </button>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── PRODUCTS GRID ── {%- endcomment -%}
+    {%- if predictive_search.resources.products.size > 0 -%}
+      <div class="senfa-results-section senfa-tab-panel senfa-tab-panel--active" data-senfa-panel="products">
+        <div class="senfa-products-grid">
+          {%- for product in predictive_search.resources.products -%}
+            <a
+              href="{{ product.url }}"
+              id="predictive-search-option-product-{{ forloop.index }}"
+              class="senfa-product-card"
+              role="option"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              {%- if product.featured_media != blank -%}
+                <div class="senfa-product-card__image-wrapper">
+                  <img
+                    class="senfa-product-card__image"
+                    src="{{ product.featured_media | image_url: width: 400 }}"
+                    alt="{{ product.featured_media.alt | escape }}"
+                    width="200"
+                    height="{{ 200 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                  >
+                </div>
+              {%- endif -%}
+              <div class="senfa-product-card__info" style="display: flex; flex-direction: column; text-align: center; margin-top: 12px;">
+                <p class="senfa-product-card__title" style="margin: 0 0 6px 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #1a1a1a; line-height: 1.4;">{{ product.title | escape }}</p>
+                
+                <div class="senfa-product-card__price-wrapper" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 0;">
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="senfa-price-current" style="font-weight: 600; color: #1a1a1a; font-size: 14px;">{{ product.price | money_without_trailing_zeros }}</span>
+                    <span class="senfa-price-compare" style="color: #999; text-decoration: line-through; font-size: 13px;">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                    <span class="senfa-price-discount" style="color: #1a1a1a; font-weight: 600; font-size: 12px; letter-spacing: 0.5px;">
+                      {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}% OFF
+                    </span>
+                  {%- else -%}
+                    <span class="senfa-price-current" style="font-weight: 600; color: #1a1a1a; font-size: 14px;">{{ product.price | money_without_trailing_zeros }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ── COLLECTIONS TAB PANEL (Kimirica grid with photos) ── {%- endcomment -%}
+    {%- if predictive_search.resources.collections.size > 0 -%}
+      <div class="senfa-results-section senfa-tab-panel" data-senfa-panel="collections">
+        <div class="senfa-products-grid">
+          {%- for collection in predictive_search.resources.collections -%}
+            <a
+              href="{{ collection.url }}"
+              id="predictive-search-option-collection-tab-{{ forloop.index }}"
+              class="senfa-product-card"
+              role="option"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              {%- if collection.featured_image != blank -%}
+                <div class="senfa-product-card__image-wrapper" style="padding: 0; background: #f7f7f7;">
+                  <img
+                    class="senfa-product-card__image"
+                    src="{{ collection.featured_image | image_url: width: 400 }}"
+                    alt="{{ collection.title | escape }}"
+                    width="200"
+                    height="{{ 200 | divided_by: collection.featured_image.aspect_ratio }}"
+                    style="object-fit: cover;"
+                  >
+                </div>
+              {%- else -%}
+                <div class="senfa-product-card__image-wrapper" style="padding: 0; background: #f7f7f7;">
+                  <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #eee;">
+                    <span style="color: #999; font-size: 12px;">No Image</span>
+                  </div>
+                </div>
+              {%- endif -%}
+              <div class="senfa-product-card__info" style="display: flex; flex-direction: column; text-align: center; margin-top: 10px;">
+                <p class="senfa-product-card__title" style="margin: 0; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #1a1a1a; line-height: 1.4; display: block;">{{ collection.title | escape }}</p>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ── PAGES & ARTICLES ── {%- endcomment -%}
+    {%- if predictive_search.resources.articles.size > 0 or predictive_search.resources.pages.size > 0 -%}
+      <div class="senfa-results-section senfa-tab-panel" data-senfa-panel="pages">
+        <h2 class="senfa-results-heading senfa-desktop-only">
+          {{ 'templates.search.pages' | t }}
+        </h2>
+        <ul class="senfa-pages-list list-unstyled">
+          {%- for page in predictive_search.resources.pages -%}
+            <li>
+              <a
+                href="{{ page.url }}"
+                id="predictive-search-option-page-{{ forloop.index }}"
+                class="senfa-page-link"
+                role="option"
+                aria-selected="false"
+                tabindex="-1"
+              >
+                {{ page.title | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+          {%- for article in predictive_search.resources.articles -%}
+            <li>
+              <a
+                href="{{ article.url }}"
+                id="predictive-search-option-article-{{ forloop.index }}"
+                class="senfa-page-link"
+                role="option"
+                aria-selected="false"
+                tabindex="-1"
+              >
+                {{ article.title | escape }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+
+    <div id="predictive-search-option-search-keywords" class="senfa-search-for-button">
+      <button
+        class="predictive-search__item predictive-search__item--term link link--text h5 animate-arrow"
+        tabindex="-1"
+        role="option"
+        aria-selected="false"
+      >
+        <span data-predictive-search-search-for-text>
+          {{- 'templates.search.search_for' | t: terms: predictive_search.terms -}}
+        </span>
+        <span class="svg-wrapper">
+          {{- 'icon-arrow.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <span class="hidden" data-predictive-search-live-region-count-value>
+    {% liquid
+      assign total_results = predictive_search.resources.products.size | plus: first_column_results_size
+      if total_results == 0
+        echo 'templates.search.no_results' | t: terms: predictive_search.terms
+      else
+        echo 'templates.search.results_with_count' | t: count: total_results | append: ': '
+        if predictive_search.resources.queries.size > 0
+          assign count = predictive_search.resources.queries.size | plus: predictive_search.resources.collections.size
+          echo 'templates.search.results_suggestions_with_count' | t: count: count | append: ', '
+        endif
+        if predictive_search.resources.pages.size > 0
+          assign count = predictive_search.resources.pages.size | plus: predictive_search.resources.articles.size
+          echo 'templates.search.results_pages_with_count' | t: count: count | append: ', '
+        endif
+        if predictive_search.resources.products.size > 0
+          echo 'templates.search.results_products_with_count' | t: count: predictive_search.resources.products.size
+        endif
+      endif
+    %}
+  </span>
+{%- endif -%}

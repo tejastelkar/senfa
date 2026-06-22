@@ -1,0 +1,461 @@
+<section class="senfa-heritage" style="margin-top: {{ section.settings.margin_top }}px; margin-bottom: {{ section.settings.margin_bottom }}px;">
+
+  <!-- LEFT: Image -->
+  <div class="senfa-heritage__left">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 1200 }}"
+        alt="{{ section.settings.image.alt | default: section.settings.image_caption }}"
+        width="{{ section.settings.image.width | default: 1200 }}"
+        height="{{ section.settings.image.height | default: 800 }}"
+        class="senfa-heritage__img"
+        loading="lazy">
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'senfa-heritage__img senfa-heritage__placeholder' }}
+    {%- endif -%}
+
+    <div class="senfa-heritage__caption">{{ section.settings.image_caption }}</div>
+
+    <!-- Stat card INSIDE left panel — always anchors to image bottom-right -->
+    <div class="senfa-heritage__stat">
+      <p class="senfa-heritage__stat-num">{{ section.settings.stat_number }}</p>
+      <p class="senfa-heritage__stat-label">{{ section.settings.stat_label }}</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: Content -->
+  <div class="senfa-heritage__right">
+
+    <div class="senfa-heritage__tagline">
+      <div class="senfa-heritage__tagline-line"></div>
+      <span>{{ section.settings.tagline }}</span>
+    </div>
+
+    <h2 class="senfa-heritage__h2">
+      {{ section.settings.heading }}<br>
+      <em>{{ section.settings.heading_italic }}</em>
+    </h2>
+
+    <p class="senfa-heritage__body">{{ section.settings.body_1 }}</p>
+
+    <div class="senfa-heritage__divider"></div>
+
+    <p class="senfa-heritage__body">{{ section.settings.body_2 }}</p>
+
+    <div class="senfa-heritage__features">
+      {%- for block in section.blocks -%}
+        <div class="senfa-heritage__feature" {{ block.shopify_attributes }}>
+          <span class="senfa-heritage__feature-icon">{{ block.settings.icon }}</span>
+          <div>
+            <p class="senfa-heritage__feature-title">{{ block.settings.title }}</p>
+            <p class="senfa-heritage__feature-desc">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+.shopify-section:has(.senfa-heritage) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.senfa-heritage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 800px;
+  background: #FAFAF7;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── LEFT ── */
+.senfa-heritage__left {
+  position: relative;
+  overflow: hidden;
+  background: #E8DFD0;
+  margin-left: 80px;
+  isolation: isolate;  /* ← add this */
+
+}
+
+.senfa-heritage__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.senfa-heritage__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.senfa-heritage__caption {
+  position: absolute;
+  bottom: 88px;
+  left: 32px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #FAFAF7;
+  font-weight: 300;
+  opacity: 0.85;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+/* Stat card — always bottom-right of image panel */
+.senfa-heritage__stat {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #1A1410;
+  padding: 28px 36px;
+  text-align: center;
+  min-width: 180px;
+  z-index: 10;
+}
+.senfa-heritage__stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: #B8922A;
+  margin: 0 0 4px;
+  line-height: 1;
+}
+.senfa-heritage__stat-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #FAFAF7;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* ── RIGHT ── */
+.senfa-heritage__right {
+  padding: 80px 72px 80px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #FAFAF7;
+}
+
+.senfa-heritage__tagline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.senfa-heritage__tagline-line {
+  width: 40px;
+  height: 1.5px;
+  background: #B8922A;
+  flex-shrink: 0;
+}
+.senfa-heritage__tagline span {
+  font-family: 'Jost', sans-serif;
+  font-size: 9.5px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #B8922A;
+  font-weight: 300;
+}
+
+.senfa-heritage__h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #2C2418;
+  margin: 0 0 28px;
+  letter-spacing: -0.5px;
+}
+.senfa-heritage__h2 em {
+  color: #B8922A;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.senfa-heritage__body {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #7A6F62;
+  font-weight: 400;
+  margin: 0 0 16px;
+  max-width: 520px;
+}
+
+.senfa-heritage__divider {
+  width: 48px;
+  height: 1.5px;
+  background: #B8922A;
+  margin: 4px 0 16px;
+  opacity: 0.5;
+}
+
+/* Features grid */
+.senfa-heritage__features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 32px;
+  margin-top: 32px;
+}
+
+.senfa-heritage__feature {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.senfa-heritage__feature-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #B8922A;
+  line-height: 1;
+}
+
+.senfa-heritage__feature-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #2C2418;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.senfa-heritage__feature-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #7A6F62;
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ── TABLET ── */
+@media (max-width: 1024px) {
+  .senfa-heritage__right {
+    padding: 60px 40px;
+  }
+  .senfa-heritage__h2 {
+    font-size: 44px;
+  }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .senfa-heritage {
+    grid-template-columns: 1fr;
+  }
+  .senfa-heritage__left {
+    height: 60vw;
+    min-height: 260px;
+    max-height: 380px;
+    margin-left: 0;
+  }
+  .senfa-heritage__right {
+    padding: 48px 24px;
+  }
+  .senfa-heritage__h2 {
+    font-size: 36px;
+  }
+  .senfa-heritage__features {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  /* Shrink stat card on mobile, stays bottom-right of image */
+  .senfa-heritage__stat {
+    padding: 14px 20px;
+    min-width: 110px;
+  }
+  .senfa-heritage__stat-num {
+    font-size: 28px;
+  }
+  .senfa-heritage__stat-label {
+    font-size: 7px;
+    letter-spacing: 1.5px;
+  }
+  .senfa-heritage__caption {
+    bottom: 56px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .senfa-heritage__h2 {
+    font-size: 30px;
+  }
+  .senfa-heritage__body {
+    font-size: 14px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Heritage Section",
+  "tag": "div",
+  "class": "senfa-heritage-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image Caption",
+      "default": "Saffron Valleys, Kashmir"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat Number",
+      "default": "150+"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Stat Label",
+      "default": "Years of Cultivation"
+    },
+    {
+      "type": "header",
+      "content": "Right Panel"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline (above heading)",
+      "default": "Our Heritage"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (normal)",
+      "default": "Born in the"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading (italic gold line)",
+      "default": "Fields of Kashmir"
+    },
+    {
+      "type": "textarea",
+      "id": "body_1",
+      "label": "Body Paragraph 1",
+      "default": "Nestled in the high-altitude valleys of Kashmir, our family has cultivated saffron for generations. Each crimson thread is hand-picked at dawn — the only moment these precious flowers reveal their fragrance."
+    },
+    {
+      "type": "textarea",
+      "id": "body_2",
+      "label": "Body Paragraph 2",
+      "default": "From farm to formula, Senfa's Himalayan Saffron Bath Soap carries the essence of Kashmir's finest harvest — gently purifying, deeply nourishing, and leaving your skin with a radiant, natural glow."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "🌿"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "Farm to Skin"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Feature Description",
+          "default": "Directly sourced from our own Kashmir farms — no middlemen, no compromise."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Heritage Section",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🌿",
+            "title": "Farm to Skin",
+            "description": "Directly sourced from our own Kashmir farms — no middlemen, no compromise."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "title": "Hand-Crafted",
+            "description": "Cold processed in small batches to preserve every nutrient and strand."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🌱",
+            "title": "100% Vegan",
+            "description": "No animal testing. No animal ingredients. Just pure, conscious beauty."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🏔",
+            "title": "Himalayan Purity",
+            "description": "Crafted at altitude for altitude — where the air and water are pristine."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

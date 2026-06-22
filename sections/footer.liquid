@@ -1,0 +1,784 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .footer {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .footer {
+      margin-top: {{ section.settings.margin_top }}px;
+    }
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+  /* ── SENFA FOOTER ── */
+  .senfa-footer {
+    background: linear-gradient(135deg, #2D1B4E 0%, #4A2D78 60%, #1a1a2e 100%);
+    color: #F4F1EC;
+    font-family: 'Jost', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle texture overlay */
+  .senfa-footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 0%, rgba(184,146,42,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 90% 100%, rgba(184,146,42,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .senfa-footer__inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 72px 80px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── TOP RULE ── */
+  .senfa-footer__top-rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(184,146,42,0.4), transparent);
+    margin-bottom: 64px;
+  }
+
+  /* ── MAIN GRID ── */
+  .senfa-footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 48px 40px;
+    margin-bottom: 64px;
+  }
+
+  /* ── BRAND COLUMN ── */
+  
+  .senfa-footer__brand-logo-link {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 24px;
+  }
+  
+  .senfa-footer__logo-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Inverts the logo to white for dark backgrounds */
+  .senfa-logo-invert {
+    filter: brightness(0) invert(1);
+  }
+
+  .senfa-footer__brand-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .senfa-footer__brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: #F4F1EC;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .senfa-footer__brand-tm {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    color: rgba(244,241,236,0.5);
+    letter-spacing: 0.05em;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  .senfa-footer__brand-tagline {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #B8922A;
+    margin: 0 0 20px;
+  }
+
+  .senfa-footer__brand-desc {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(244,241,236,0.5);
+    margin: 0 0 28px;
+    max-width: 280px;
+  }
+
+  /* Social icons */
+  .senfa-footer__social {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .senfa-footer__social-link {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(184,146,42,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(244,241,236,0.5);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    font-size: 13px;
+  }
+
+  .senfa-footer__social-link:hover {
+    border-color: #B8922A;
+    color: #B8922A;
+  }
+
+  /* ── NAV COLUMNS ── */
+  .senfa-footer__col-heading {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .senfa-footer__col-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(184,146,42,0.2);
+  }
+
+  .senfa-footer__nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .senfa-footer__nav-list li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .senfa-footer__nav-link {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(244,241,236,0.55);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+    display: inline-block;
+  }
+
+  .senfa-footer__nav-link:hover {
+    color: #F4F1EC;
+  }
+
+  /* Contact column specifics */
+  .senfa-footer__contact-item {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: rgba(244,241,236,0.55);
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+    margin: 0;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  a.senfa-footer__contact-item:hover {
+    color: #F4F1EC;
+  }
+
+  /* ── BOTTOM BAR ── */
+  .senfa-footer__bottom {
+    border-top: 1px solid rgba(184,146,42,0.12);
+    position: relative;
+    z-index: 1;
+  }
+
+  .senfa-footer__bottom-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .senfa-footer__copyright {
+    font-size: 11px;
+    color: rgba(244,241,236,0.3);
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .senfa-footer__copyright a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .senfa-footer__crafted {
+    font-size: 11px;
+    color: rgba(244,241,236,0.3);
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .senfa-footer__crafted-heart {
+    color: #B8922A;
+  }
+
+  .senfa-footer__policies {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .senfa-footer__policies a {
+    font-size: 11px;
+    color: rgba(244,241,236,0.3);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .senfa-footer__policies a:hover {
+    color: rgba(244,241,236,0.6);
+  }
+
+  /* Payment icons */
+  .senfa-footer__payment {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .senfa-footer__payment .icon {
+    filter: brightness(0.6);
+    height: 20px;
+  }
+
+  /* ── TABLET ── */
+  @media (max-width: 989px) {
+    .senfa-footer__inner {
+      padding: 56px 24px 0;
+    }
+
+    .senfa-footer__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 24px;
+    }
+
+    .senfa-footer__brand-col {
+      grid-column: 1 / -1;
+    }
+
+    .senfa-footer__brand-desc {
+      max-width: 100%;
+    }
+
+    .senfa-footer__bottom-inner {
+      padding: 24px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 599px) {
+    .senfa-footer__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .senfa-footer__top-rule {
+      margin-bottom: 40px;
+    }
+  }
+</style>
+
+<footer class="senfa-footer footer section-{{ section.id }}-padding" role="contentinfo">
+
+  <div class="senfa-footer__inner">
+    <div class="senfa-footer__top-rule"></div>
+
+    <div class="senfa-footer__grid">
+
+      <div class="senfa-footer__brand-col">
+        
+        {%- if section.settings.footer_logo != blank -%}
+          <a href="{{ routes.root_url }}" class="senfa-footer__brand-logo-link">
+            <img 
+              src="{{ section.settings.footer_logo | image_url: width: section.settings.logo_width }}" 
+              alt="{{ shop.name }}" 
+              class="senfa-footer__logo-img {% if section.settings.invert_logo %}senfa-logo-invert{% endif %}"
+              style="max-width: {{ section.settings.logo_width }}px;"
+              loading="lazy"
+            >
+          </a>
+        {%- else -%}
+          <div class="senfa-footer__brand-logo">
+            <a href="{{ routes.root_url }}" class="senfa-footer__brand-name">SENFA</a>
+            <span class="senfa-footer__brand-tm">TM</span>
+          </div>
+          <p class="senfa-footer__brand-tagline">Simply Beyond</p>
+        {%- endif -%}
+        
+        <p class="senfa-footer__brand-desc">
+          {%- if settings.brand_description != blank -%}
+            {{ settings.brand_description | strip_html }}
+          {%- else -%}
+            From the saffron valleys of Kashmir to your daily ritual — Senfa is where ancient luxury meets modern conscience.
+          {%- endif -%}
+        </p>
+
+        {%- liquid
+          assign has_social = false
+          if settings.social_instagram_link != blank or settings.social_facebook_link != blank or settings.social_youtube_link != blank or settings.social_tiktok_link != blank or settings.social_twitter_link != blank or settings.social_pinterest_link != blank
+            assign has_social = true
+          endif
+        -%}
+        {%- if has_social -%}
+          <div class="senfa-footer__social">
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" class="senfa-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_facebook_link != blank -%}
+              <a href="{{ settings.social_facebook_link }}" class="senfa-footer__social-link" aria-label="Facebook" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_youtube_link != blank -%}
+              <a href="{{ settings.social_youtube_link }}" class="senfa-footer__social-link" aria-label="YouTube" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" stroke="none" fill="currentColor"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" class="senfa-footer__social-link" aria-label="TikTok" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.75a8.16 8.16 0 0 0 4.77 1.52V6.82a4.85 4.85 0 0 1-1-.13z"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'nav_col' -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.col_heading != blank -%}
+              <h3 class="senfa-footer__col-heading">{{ block.settings.col_heading }}</h3>
+            {%- endif -%}
+            <ul class="senfa-footer__nav-list">
+              {%- for i in (1..6) -%}
+                {%- assign label_key = 'link_' | append: i | append: '_label' -%}
+                {%- assign url_key   = 'link_' | append: i | append: '_url' -%}
+                {%- assign lbl = block.settings[label_key] -%}
+                {%- assign url = block.settings[url_key] -%}
+                {%- if lbl != blank -%}
+                  <li>
+                    <a href="{{ url | default: '#' }}" class="senfa-footer__nav-link">{{ lbl }}</a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'contact_col' -%}
+          <div {{ block.shopify_attributes }}>
+            <h3 class="senfa-footer__col-heading">{{ block.settings.col_heading | default: 'Contact' }}</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              {%- if block.settings.email != blank -%}
+                <a href="mailto:{{ block.settings.email }}" class="senfa-footer__contact-item">{{ block.settings.email }}</a>
+              {%- endif -%}
+              {%- if block.settings.phone != blank -%}
+                <a href="tel:{{ block.settings.phone | remove: ' ' }}" class="senfa-footer__contact-item">{{ block.settings.phone }}</a>
+              {%- endif -%}
+              {%- if block.settings.website != blank -%}
+                <span class="senfa-footer__contact-item">{{ block.settings.website }}</span>
+              {%- endif -%}
+              {%- if block.settings.address != blank -%}
+                <span class="senfa-footer__contact-item">{{ block.settings.address }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div></div><div class="senfa-footer__bottom">
+    <div class="senfa-footer__bottom-inner">
+
+      <p class="senfa-footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name | link_to: routes.root_url }}. All rights reserved.
+      </p>
+
+      {%- if section.settings.payment_enable -%}
+        <div class="senfa-footer__payment">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        {%- if section.settings.bottom_menu != blank -%}
+          <ul class="senfa-footer__policies">
+            {%- for link in linklists[section.settings.bottom_menu].links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- elsif section.settings.show_policy -%}
+          <ul class="senfa-footer__policies">
+            {%- for policy in shop.policies -%}
+              {%- if policy != blank -%}
+                <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        <span class="senfa-footer__crafted">
+          Crafted with <span class="senfa-footer__crafted-heart">♥</span> in India &nbsp;·&nbsp; Made in Gujarat
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 150
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_logo",
+      "label": "Make logo pure white (Best for dark backgrounds)",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__1.content",
+      "info": "t:sections.footer.settings.header__1.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "newsletter_enable",
+      "default": false,
+      "label": "t:sections.footer.settings.newsletter_enable.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "newsletter_heading",
+      "default": "t:sections.footer.settings.newsletter_heading.default",
+      "label": "t:sections.footer.settings.newsletter_heading.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__9.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "default": false,
+      "label": "t:sections.footer.settings.enable_follow_on_shop.label",
+      "info": "t:sections.footer.settings.enable_follow_on_shop.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.footer.settings.show_social.label",
+      "info": "t:sections.footer.settings.show_social.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": false,
+      "label": "t:sections.footer.settings.enable_country_selector.label",
+      "info": "t:sections.footer.settings.enable_country_selector.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": false,
+      "label": "t:sections.footer.settings.enable_language_selector.label",
+      "info": "t:sections.footer.settings.enable_language_selector.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "t:sections.footer.settings.payment_enable.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy",
+      "default": true,
+      "label": "t:sections.footer.settings.show_policy.label",
+      "info": "t:sections.footer.settings.show_policy.info"
+    },
+    {
+      "type": "link_list",
+      "id": "bottom_menu",
+      "label": "Bottom Footer Menu",
+      "info": "Select a menu to show your policy links (Privacy, Terms, etc.). This overrides the default Shopify policies."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.footer.settings.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "nav_col",
+      "name": "Nav Column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "col_heading",
+          "label": "Column heading",
+          "default": "Explore"
+        },
+        { "type": "header", "content": "Link 1" },
+        { "type": "text", "id": "link_1_label", "label": "Label", "default": "Our Story" },
+        { "type": "url",  "id": "link_1_url",   "label": "URL" },
+        { "type": "header", "content": "Link 2" },
+        { "type": "text", "id": "link_2_label", "label": "Label", "default": "Shop" },
+        { "type": "url",  "id": "link_2_url",   "label": "URL" },
+        { "type": "header", "content": "Link 3" },
+        { "type": "text", "id": "link_3_label", "label": "Label", "default": "Ingredients" },
+        { "type": "url",  "id": "link_3_url",   "label": "URL" },
+        { "type": "header", "content": "Link 4" },
+        { "type": "text", "id": "link_4_label", "label": "Label", "default": "Reviews" },
+        { "type": "url",  "id": "link_4_url",   "label": "URL" },
+        { "type": "header", "content": "Link 5" },
+        { "type": "text", "id": "link_5_label", "label": "Label" },
+        { "type": "url",  "id": "link_5_url",   "label": "URL" },
+        { "type": "header", "content": "Link 6" },
+        { "type": "text", "id": "link_6_label", "label": "Label" },
+        { "type": "url",  "id": "link_6_url",   "label": "URL" }
+      ]
+    },
+    {
+      "type": "brand_information",
+      "name": "t:sections.footer.blocks.brand_information.name",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "default": true,
+          "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
+          "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.footer.blocks.text.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "t:sections.footer.blocks.text.settings.heading.default",
+          "label": "t:sections.footer.blocks.text.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "default": "t:sections.footer.blocks.text.settings.subtext.default",
+          "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        }
+      ]
+    },
+    {
+      "type": "contact_col",
+      "name": "Contact Column",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "col_heading",
+          "label": "Column heading",
+          "default": "Contact"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "info@senfa.shop"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone",
+          "default": "+91 84840 82199"
+        },
+        {
+          "type": "text",
+          "id": "website",
+          "label": "Website",
+          "default": "www.senfa.shop"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "Address",
+          "default": "Deccan Gymkhana, Pune"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Footer",
+      "blocks": [
+        {
+          "type": "nav_col",
+          "settings": {
+            "col_heading": "Explore",
+            "link_1_label": "Our Story",
+            "link_2_label": "Shop",
+            "link_3_label": "Ingredients",
+            "link_4_label": "Reviews"
+          }
+        },
+        {
+          "type": "nav_col",
+          "settings": {
+            "col_heading": "Support",
+            "link_1_label": "Shipping Policy",
+            "link_2_label": "Returns",
+            "link_3_label": "FAQs",
+            "link_4_label": "Contact Us"
+          }
+        },
+        {
+          "type": "contact_col",
+          "settings": {
+            "col_heading": "Contact",
+            "email": "info@senfa.shop",
+            "phone": "+91 84840 82199",
+            "website": "www.senfa.shop",
+            "address": "Deccan Gymkhana, Pune"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

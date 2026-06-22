@@ -1,0 +1,549 @@
+{% comment %}
+  Section: senfa-story-blocks
+  File: sections/senfa-story-blocks.liquid
+  Three story sub-blocks: The Inheritance · The Family Mission · The Standard
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ═══════════════════════════════════════
+     TOKENS
+  ═══════════════════════════════════════ */
+  #ssb-{{ section.id }} {
+    --pd:  #2D1B4E;
+    --pm:  #4A2D78;
+    --pmi: #6B4A9E;
+    --pp:  #E8E0F5;
+    --pg:  #F3EFF9;
+    --gd:  #C9922A;
+    --gl:  #E0B84E;
+    --wh:  #FFFFFF;
+    --ow:  #F8F4EE;
+    --cr:  #F0EAE0;
+    --tm:  #5A4A6E;
+    --tl:  #8A7A9E;
+    --bp:  rgba(74,45,120,0.08);
+    --bg:  rgba(201,146,42,0.15);
+    font-family: 'Jost', sans-serif;
+    background: var(--wh);
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  /* ═══════════════════════════════════════
+     EACH STORY BLOCK
+  ═══════════════════════════════════════ */
+  .ssb-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+    border-bottom: 1px solid var(--bp);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Reverse layout for even blocks */
+  .ssb-block--rev {
+    direction: rtl;
+  }
+  .ssb-block--rev > * {
+    direction: ltr;
+  }
+
+  /* ── Visual panel (Now handles real images) ── */
+  .ssb-visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 520px;
+    background: #FAFAFA;
+  }
+
+  .ssb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Subtle zoom on hover for a luxury feel */
+  .ssb-block:hover .ssb-img {
+    transform: scale(1.03);
+  }
+
+  /* Subtle luxury tint overlay so text doesn't clash */
+  .ssb-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(74,45,120,0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 2;
+    transition: opacity 0.6s ease;
+  }
+
+  .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    background-color: #EBEBEB;
+    color: #999;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* ── Text panel ── */
+  .ssb-text {
+    padding: 80px 70px 80px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--wh);
+    position: relative;
+  }
+
+  .ssb-block--rev .ssb-text {
+    padding: 80px 72px 80px 70px;
+  }
+
+  /* Top gold rule on text panel */
+  .ssb-text::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 72px; right: 72px;
+    height: 1px;
+    background: linear-gradient(to right, var(--bg), transparent 70%);
+  }
+
+  /* ── Section tag ── */
+  .ssb-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--gd);
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .ssb-tag::before {
+    content: '';
+    width: 26px;
+    height: 1px;
+    background: var(--gd);
+    flex-shrink: 0;
+  }
+
+  .ssb-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--bg);
+    max-width: 120px;
+  }
+
+  /* ── Heading ── */
+  .ssb-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 2.8vw, 44px);
+    font-weight: 400;
+    line-height: 1.12;
+    color: var(--pd);
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.85s 0.1s ease, transform 0.85s 0.1s ease;
+  }
+
+  .ssb-heading em {
+    font-style: italic;
+    color: var(--gd);
+    display: block;
+  }
+
+  /* ── Body text ── */
+  .ssb-para {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--tm);
+    margin-bottom: 18px;
+    max-width: 520px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .ssb-para strong {
+    color: var(--pd);
+    font-weight: 500;
+  }
+
+  .ssb-para em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--pd);
+    font-size: 16px;
+  }
+
+  /* ── Pull quote ── */
+  .ssb-pull {
+    border-left: 2px solid var(--gd);
+    padding: 4px 0 4px 22px;
+    margin: 26px 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 1.6vw, 20px);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--pd);
+    line-height: 1.6;
+    max-width: 500px;
+    opacity: 0;
+    transform: translateY(14px) translateX(-6px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    /* Override Dawn blockquote styles */
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    padding-left: 22px !important;
+    margin-left: 0 !important;
+    font-style: italic !important;
+    color: var(--pd) !important;
+  }
+
+  /* ── Animated in state ── */
+  .ssb-in .ssb-tag       { opacity: 1; transform: translateY(0); }
+  .ssb-in .ssb-heading   { opacity: 1; transform: translateY(0); transition-delay: 0.12s; }
+  .ssb-in .ssb-para:nth-of-type(1) { opacity: 1; transform: translateY(0); transition-delay: 0.22s; }
+  .ssb-in .ssb-para:nth-of-type(2) { opacity: 1; transform: translateY(0); transition-delay: 0.33s; }
+  .ssb-in .ssb-para:nth-of-type(3) { opacity: 1; transform: translateY(0); transition-delay: 0.43s; }
+  .ssb-in .ssb-pull      { opacity: 1; transform: translateY(0) translateX(0); transition-delay: 0.38s; }
+
+  /* ── Divider between blocks ── */
+  .ssb-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent 5%, var(--bg) 30%, var(--bg) 70%, transparent 95%);
+  }
+
+  /* ═══════════════════════════════════════
+     MOBILE RESPONSIVE
+  ═══════════════════════════════════════ */
+  @media (max-width: 900px) {
+    #ssb-{{ section.id }} {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .ssb-block,
+    .ssb-block--rev {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      min-height: auto;
+    }
+
+    .ssb-block--rev > * { direction: ltr; }
+
+    /* On mobile: visual always first */
+    .ssb-block--rev .ssb-visual { order: -1; }
+    .ssb-block--rev .ssb-text   { order: 1; }
+
+    .ssb-visual { min-height: 360px; }
+
+    .ssb-text,
+    .ssb-block--rev .ssb-text {
+      padding: 52px 32px 56px;
+    }
+
+    .ssb-text::before { left: 32px; right: 32px; }
+
+    .ssb-heading { font-size: clamp(24px, 6vw, 36px); }
+  }
+
+  @media (max-width: 580px) {
+    .ssb-visual { min-height: 280px; }
+
+    .ssb-text,
+    .ssb-block--rev .ssb-text {
+      padding: 40px 20px 44px;
+    }
+
+    .ssb-text::before { left: 20px; right: 20px; }
+
+    .ssb-para { font-size: 13.5px; }
+  }
+</style>
+
+<div id="ssb-{{ section.id }}">
+
+  <div class="ssb-block">
+
+    <div class="ssb-visual" aria-hidden="true">
+      {% if section.settings.b1_image != blank %}
+        {{ section.settings.b1_image | image_url: width: 1200 | image_tag: class: 'ssb-img', loading: 'lazy' }}
+      {% else %}
+        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg ssb-img' }}
+      {% endif %}
+    </div>
+
+    <div class="ssb-text">
+      <div class="ssb-tag">{{ section.settings.b1_tag }}</div>
+      <h3 class="ssb-heading">
+        {{ section.settings.b1_heading }}
+        <em>{{ section.settings.b1_heading_em }}</em>
+      </h3>
+      {% if section.settings.b1_para1 != blank %}
+        <p class="ssb-para">{{ section.settings.b1_para1 }}</p>
+      {% endif %}
+      {% if section.settings.b1_pull != blank %}
+        <blockquote class="ssb-pull">{{ section.settings.b1_pull }}</blockquote>
+      {% endif %}
+      {% if section.settings.b1_para2 != blank %}
+        <p class="ssb-para">{{ section.settings.b1_para2 }}</p>
+      {% endif %}
+    </div>
+
+  </div><div class="ssb-divider"></div>
+
+  <div class="ssb-block ssb-block--rev">
+
+    <div class="ssb-visual" aria-hidden="true">
+      {% if section.settings.b2_image != blank %}
+        {{ section.settings.b2_image | image_url: width: 1200 | image_tag: class: 'ssb-img', loading: 'lazy' }}
+      {% else %}
+        {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg ssb-img' }}
+      {% endif %}
+    </div>
+
+    <div class="ssb-text">
+      <div class="ssb-tag">{{ section.settings.b2_tag }}</div>
+      <h3 class="ssb-heading">
+        <em>{{ section.settings.b2_heading_em }}</em>
+        {{ section.settings.b2_heading }}
+      </h3>
+      {% if section.settings.b2_para1 != blank %}
+        <p class="ssb-para">{{ section.settings.b2_para1 }}</p>
+      {% endif %}
+      {% if section.settings.b2_para2 != blank %}
+        <p class="ssb-para">{{ section.settings.b2_para2 }}</p>
+      {% endif %}
+      {% if section.settings.b2_pull != blank %}
+        <blockquote class="ssb-pull">{{ section.settings.b2_pull }}</blockquote>
+      {% endif %}
+    </div>
+
+  </div><div class="ssb-divider"></div>
+
+  <div class="ssb-block">
+
+    <div class="ssb-visual" aria-hidden="true">
+      {% if section.settings.b3_image != blank %}
+        {{ section.settings.b3_image | image_url: width: 1200 | image_tag: class: 'ssb-img', loading: 'lazy' }}
+      {% else %}
+        {{ 'collection-3' | placeholder_svg_tag: 'placeholder-svg ssb-img' }}
+      {% endif %}
+    </div>
+
+    <div class="ssb-text">
+      <div class="ssb-tag">{{ section.settings.b3_tag }}</div>
+      <h3 class="ssb-heading">
+        {{ section.settings.b3_heading }}
+        <em>{{ section.settings.b3_heading_em }}</em>
+      </h3>
+      {% if section.settings.b3_para1 != blank %}
+        <p class="ssb-para">{{ section.settings.b3_para1 }}</p>
+      {% endif %}
+      {% if section.settings.b3_para2 != blank %}
+        <p class="ssb-para">{{ section.settings.b3_para2 }}</p>
+      {% endif %}
+      {% if section.settings.b3_pull != blank %}
+        <blockquote class="ssb-pull">{{ section.settings.b3_pull }}</blockquote>
+      {% endif %}
+      {% if section.settings.b3_para3 != blank %}
+        <p class="ssb-para">{{ section.settings.b3_para3 }}</p>
+      {% endif %}
+    </div>
+
+  </div></div>
+
+<script>
+  (function () {
+    var blocks = document.querySelectorAll('#ssb-{{ section.id }} .ssb-text');
+    if (!blocks.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('ssb-in');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    blocks.forEach(function (b) { obs.observe(b); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Story Blocks",
+  "tag": "section",
+  "class": "senfa-story-blocks",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Block 1 — The Inheritance"
+    },
+    {
+      "type": "image_picker",
+      "id": "b1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "b1_tag",
+      "label": "Section Tag",
+      "default": "The Inheritance"
+    },
+    {
+      "type": "text",
+      "id": "b1_heading",
+      "label": "Heading (normal)",
+      "default": "A weight that no business plan"
+    },
+    {
+      "type": "text",
+      "id": "b1_heading_em",
+      "label": "Heading (italic gold)",
+      "default": "could describe."
+    },
+    {
+      "type": "textarea",
+      "id": "b1_para1",
+      "label": "Paragraph 1",
+      "default": "I remember sitting in my office, looking at the saffron threads from our own soil. There was grief. There was love. And there was a question I couldn't shake — what do you do with a dream that isn't yours yet?"
+    },
+    {
+      "type": "textarea",
+      "id": "b1_pull",
+      "label": "Pull Quote",
+      "default": "\"If I was going to do this, it couldn't be 'just another soap.' It had to be a standard of integrity that my father would be proud of.\""
+    },
+    {
+      "type": "textarea",
+      "id": "b1_para2",
+      "label": "Paragraph 2",
+      "default": "I realised that the saffron in our fields wasn't just a raw material. It was a promise he had already made to every person who would one day hold a bar of Senfa in their hands."
+    },
+    {
+      "type": "header",
+      "content": "Block 2 — The Family Mission"
+    },
+    {
+      "type": "image_picker",
+      "id": "b2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "b2_tag",
+      "label": "Section Tag",
+      "default": "The Family Mission"
+    },
+    {
+      "type": "text",
+      "id": "b2_heading_em",
+      "label": "Heading (italic gold, first line)",
+      "default": "I couldn't do it alone."
+    },
+    {
+      "type": "text",
+      "id": "b2_heading",
+      "label": "Heading (normal, second line)",
+      "default": "And I didn't have to."
+    },
+    {
+      "type": "textarea",
+      "id": "b2_para1",
+      "label": "Paragraph 1",
+      "default": "I brought my wife into the heart of the formulation. We sat with my Mama, discussing how to make it as pure as the earth it came from. There were late nights. There were disagreements. There was love holding all of it together."
+    },
+    {
+      "type": "textarea",
+      "id": "b2_para2",
+      "label": "Paragraph 2",
+      "default": "And when my cousin Pratik finished his studies, he didn't just join a company. He joined a family mission to protect a name — the name of a man we all loved and wanted to honour."
+    },
+    {
+      "type": "textarea",
+      "id": "b2_pull",
+      "label": "Pull Quote",
+      "default": "\"He didn't join a company. He joined a family mission to protect a name.\""
+    },
+    {
+      "type": "header",
+      "content": "Block 3 — The Standard"
+    },
+    {
+      "type": "image_picker",
+      "id": "b3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "b3_tag",
+      "label": "Section Tag",
+      "default": "The Standard"
+    },
+    {
+      "type": "text",
+      "id": "b3_heading",
+      "label": "Heading (normal)",
+      "default": "Months of obsession."
+    },
+    {
+      "type": "text",
+      "id": "b3_heading_em",
+      "label": "Heading (italic gold)",
+      "default": "Zero shortcuts."
+    },
+    {
+      "type": "textarea",
+      "id": "b3_para1",
+      "label": "Paragraph 1",
+      "default": "We spent months obsessing over the Senfa standard. We refused the shortcuts that make manufacturing easy but make the product hollow."
+    },
+    {
+      "type": "textarea",
+      "id": "b3_para2",
+      "label": "Paragraph 2",
+      "default": "We wanted a lather so creamy and an infusion so deep that you could feel the honesty in the water."
+    },
+    {
+      "type": "textarea",
+      "id": "b3_pull",
+      "label": "Pull Quote",
+      "default": "\"We refused the shortcuts that make manufacturing easy but make the product hollow.\""
+    },
+    {
+      "type": "textarea",
+      "id": "b3_para3",
+      "label": "Paragraph 3",
+      "default": "If a batch didn't meet the standard — every letter of S-E-N-F-A — it never left our doors. Not once. Not ever."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Blocks"
+    }
+  ]
+}
+{% endschema %}

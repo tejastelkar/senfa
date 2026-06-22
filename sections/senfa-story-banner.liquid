@@ -1,0 +1,80 @@
+{% comment %}
+  SENFA — Story Graphic Banner (No-Crop)
+  File: sections/senfa-story-banner.liquid
+{% endcomment %}
+
+<div class="senfa-sb-wrapper">
+  {% if section.settings.image != blank %}
+    <picture>
+      {% if section.settings.image_mobile != blank %}
+        <source media="(max-width: 768px)" srcset="{{ section.settings.image_mobile | image_url: width: 900 }}">
+      {% endif %}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'senfa-sb-img', loading: 'eager', fetchpriority: 'high', alt: section.settings.image.alt | default: 'Senfa Our Story Banner' }}
+    </picture>
+  {% else %}
+    <div class="senfa-sb-placeholder">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'senfa-placeholder-svg' }}
+    </div>
+  {% endif %}
+</div>
+
+<style>
+/* ══════════════════════════════════════════════
+   SENFA — STORY BANNER STYLES
+══════════════════════════════════════════════ */
+.senfa-sb-wrapper {
+  width: 100%;
+  display: block;
+  background-color: #FAFAFA;
+  /* Ensures no weird gaps at the bottom of the image */
+  line-height: 0; 
+}
+
+.senfa-sb-img {
+  width: 100%;
+  height: auto; /* This is the magic rule that prevents your text from being cropped */
+  display: block;
+  object-fit: contain; 
+}
+
+.senfa-sb-placeholder {
+  width: 100%;
+  height: 60vh;
+  background: #EBEBEB;
+}
+
+.senfa-placeholder-svg {
+  width: 100%;
+  height: 100%;
+  fill: #999;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Senfa Story Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This banner is designed for images with baked-in text. It scales proportionally to prevent cropping on all devices."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Image (Graphic)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image (Optional)",
+      "info": "If the text is too small on mobile, upload a square/vertical version of the graphic here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Story Banner"
+    }
+  ]
+}
+{% endschema %}

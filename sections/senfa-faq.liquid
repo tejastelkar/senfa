@@ -1,0 +1,199 @@
+{% comment %}
+  Section: Senfa FAQ
+  File: sections/senfa-faq.liquid
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  .sfaq-section {
+    background-color: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    font-family: 'Jost', sans-serif;
+    color: #000000;
+  }
+
+  .sfaq-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 80px;
+    box-sizing: border-box;
+  }
+
+  .sfaq-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .sfaq-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #000000; 
+    margin: 0 0 16px 0;
+  }
+
+  .sfaq-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 3.5vw, 46px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #000000;
+    margin: 0;
+  }
+
+  .sfaq-list {
+    max-width: 900px; 
+    margin: 0 auto;
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .sfaq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .sfaq-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000; 
+    list-style: none;
+    transition: opacity 0.3s ease;
+  }
+  .sfaq-summary:hover { opacity: 0.7; }
+  .sfaq-summary::-webkit-details-marker { display: none; }
+
+  .sfaq-icon {
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000; 
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  .sfaq-icon::before { content: '+'; }
+  .sfaq-item.is-open .sfaq-icon { transform: rotate(180deg); }
+  .sfaq-item.is-open .sfaq-icon::before { content: '−'; }
+
+  .sfaq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  .sfaq-content-inner {
+    padding-bottom: 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333333; 
+    font-weight: 300;
+  }
+  .sfaq-content-inner p { margin: 0 0 10px 0; }
+  .sfaq-content-inner p:last-child { margin: 0; }
+
+  @media (max-width: 1024px) { .sfaq-container { padding: 0 40px; } }
+  @media (max-width: 768px) {
+    .sfaq-container { padding: 0 20px; }
+    .sfaq-summary { font-size: 15px; padding: 20px 0; }
+    .sfaq-title { font-size: 32px; }
+  }
+</style>
+
+<section class="sfaq-section">
+  <div class="sfaq-container">
+    <div class="sfaq-header">
+      {% if section.settings.eyebrow != blank %}<p class="sfaq-eyebrow">{{ section.settings.eyebrow }}</p>{% endif %}
+      {% if section.settings.title != blank %}<h2 class="sfaq-title">{{ section.settings.title }}</h2>{% endif %}
+    </div>
+    <div class="sfaq-list">
+      {% for block in section.blocks %}
+        <details class="sfaq-item" {{ block.shopify_attributes }}>
+          <summary class="sfaq-summary">
+            {{ block.settings.question }}
+            <span class="sfaq-icon"></span>
+          </summary>
+          <div class="sfaq-content">
+            <div class="sfaq-content-inner">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const faqItems = document.querySelectorAll('.sfaq-item');
+    faqItems.forEach(item => {
+      const summary = item.querySelector('.sfaq-summary');
+      const content = item.querySelector('.sfaq-content');
+      summary.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        if (item.classList.contains('is-open')) {
+          item.classList.remove('is-open');
+          content.style.maxHeight = '0px';
+          content.style.opacity = '0';
+          setTimeout(() => { item.removeAttribute('open'); }, 400); 
+        } else {
+          item.setAttribute('open', '');
+          item.classList.add('is-open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          content.style.opacity = '1';
+          setTimeout(() => {
+            if(item.classList.contains('is-open')){
+               content.style.maxHeight = '2000px'; 
+            }
+          }, 400);
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Senfa FAQ",
+  "tag": "section",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FFFFFF" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow Text", "default": "Need Help?" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding Top", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding Bottom", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "What makes Senfa soaps different?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>We source our ingredients directly from Kashmir, ensuring 100% purity without harsh chemicals, parabens, or sulphates.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "What is included in the Saffron Soap Duo?", "answer": "<p>The Saffron Soap Duo includes two of our signature cold-pressed saffron soaps, crafted for deep nourishment and an even skin tone.</p>" } },
+        { "type": "faq", "settings": { "question": "Is this suitable for all skin types?", "answer": "<p>Yes! Our formulations are 100% vegan, dermatologically tested, and free from harsh chemicals, making them safe for sensitive skin.</p>" } },
+        { "type": "faq", "settings": { "question": "How long does shipping take?", "answer": "<p>All orders are processed and shipped within 24 to 48 hours. Standard delivery takes 3-5 business days.</p>" } },
+        { "type": "faq", "settings": { "question": "Can this be gifted?", "answer": "<p>Absolutely. Our packaging is designed to offer a premium, luxury unboxing experience perfect for gifting.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

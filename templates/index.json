@@ -888,7 +888,7 @@
           "type": "commitment",
           "settings": {
             "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 2v14a3 3 0 0 0 6 0V2\"></path><path d=\"M7 2h10\"></path><path d=\"M9 8h6\"></path><circle cx=\"19\" cy=\"19\" r=\"5\" fill=\"#FFFFFF\"></circle><path d=\"M17 19l1.5 1.5L21 18\"></path></svg>",
-            "title": "Dermatologically Tested",
+            "title": "Gentle on Skin",
             "subtitle": "Suitable For Every Skin Type"
           }
         }

@@ -4,6 +4,12 @@
   Emails sent FREE via FormSubmit.co — no app, no cost
 {% endcomment %}
 
+{% if section.settings.banner_image != blank %}
+  <div class="sbo-banner">
+    {{ section.settings.banner_image | image_url: width: 2000 | image_tag: class: 'sbo-banner-img', loading: 'lazy' }}
+  </div>
+{% endif %}
+
 <div class="sbo-section">
   <div class="sbo-container">
 
@@ -39,8 +45,8 @@
             <input type="text" id="sbo-name" name="Full Name" required placeholder="Your full name">
           </div>
           <div class="sbo-field">
-            <label for="sbo-company">Company / Business</label>
-            <input type="text" id="sbo-company" name="Company" placeholder="Company name (optional)">
+            <label for="sbo-company">Firm Name</label>
+            <input type="text" id="sbo-company" name="Firm Name" placeholder="Your firm/company name">
           </div>
         </div>
         <div class="sbo-grid sbo-grid-2">
@@ -49,9 +55,13 @@
             <input type="email" id="sbo-email" name="Email" required placeholder="you@example.com">
           </div>
           <div class="sbo-field">
-            <label for="sbo-phone">Phone <span class="sbo-req">*</span></label>
+            <label for="sbo-phone">Phone No. <span class="sbo-req">*</span></label>
             <input type="tel" id="sbo-phone" name="Phone" required placeholder="+91 XXXXX XXXXX">
           </div>
+        </div>
+        <div class="sbo-field">
+          <label for="sbo-gst">GST Details</label>
+          <input type="text" id="sbo-gst" name="GST Details" placeholder="Enter GST Number (if applicable)">
         </div>
       </div>
 
@@ -77,7 +87,13 @@
                 </div>
                 <div class="sbo-field">
                   <label>Quantity <span class="sbo-req">*</span></label>
-                  <input type="number" name="Product 1 - Quantity" required min="1" placeholder="Min 10">
+                  <select name="Product 1 - Quantity" required>
+                    <option value="" disabled selected>Select quantity</option>
+                    <option value="200 pcs">200 pcs</option>
+                    <option value="500 pcs">500 pcs</option>
+                    <option value="1000 pcs">1000 pcs</option>
+                    <option value="1000 and above">1000 and above</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -93,15 +109,35 @@
         </button>
       </div>
 
-      <!-- Shipping & Notes -->
+      <!-- Shipping & Additional Info -->
       <div class="sbo-fieldset">
         <legend class="sbo-legend">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          Shipping & Additional Info
+          Shipping & Purpose
         </legend>
+        
+        <div class="sbo-grid sbo-grid-2">
+          <div class="sbo-field">
+            <label for="sbo-purpose">Purpose of Purchasing <span class="sbo-req">*</span></label>
+            <select id="sbo-purpose" name="Purpose of Purchasing" required>
+              <option value="" disabled selected>Select purpose</option>
+              <option value="Distributor">Distributor</option>
+              <option value="Wholesaler">Wholesaler</option>
+              <option value="Wedding gift">Wedding gift</option>
+              <option value="Corporate gifting">Corporate gifting</option>
+              <option value="Festive gifting">Festive gifting</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="sbo-field">
+            <label for="sbo-date">Expected Delivery Date <span class="sbo-req">*</span></label>
+            <input type="date" id="sbo-date" name="Expected Delivery Date" required>
+          </div>
+        </div>
+
         <div class="sbo-field">
           <label for="sbo-address">Delivery Address <span class="sbo-req">*</span></label>
-          <textarea id="sbo-address" name="Delivery Address" required rows="3" placeholder="Full shipping address with pincode"></textarea>
+          <textarea id="sbo-address" name="Delivery Address" required rows="3" placeholder="Full shipping address"></textarea>
         </div>
         <div class="sbo-grid sbo-grid-2">
           <div class="sbo-field">
@@ -109,13 +145,13 @@
             <input type="text" id="sbo-city" name="City" required placeholder="City">
           </div>
           <div class="sbo-field">
-            <label for="sbo-pincode">Pincode <span class="sbo-req">*</span></label>
-            <input type="text" id="sbo-pincode" name="Pincode" required placeholder="Pincode">
+            <label for="sbo-pincode">PIN Code <span class="sbo-req">*</span></label>
+            <input type="text" id="sbo-pincode" name="PIN Code" required placeholder="Pincode">
           </div>
         </div>
         <div class="sbo-field">
-          <label for="sbo-notes">Special Instructions</label>
-          <textarea id="sbo-notes" name="Special Instructions" rows="3" placeholder="Any specific requirements, preferred delivery dates, etc."></textarea>
+          <label for="sbo-notes">Remark or Description</label>
+          <textarea id="sbo-notes" name="Remark or Description" rows="3" placeholder="Any specific requirements, comments, etc."></textarea>
         </div>
       </div>
 
@@ -199,6 +235,18 @@
    SENFA — BULK ORDER FORM
 ════════════════════════════════ */
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+.sbo-banner {
+  width: 100%;
+  display: block;
+}
+.sbo-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 500px;
+}
 
 .sbo-section {
   padding: 80px 20px;
@@ -790,7 +838,7 @@
     rows.forEach(function(row, i) {
       row.dataset.index = i + 1;
       row.querySelector('.sbo-item-num').textContent = String(i + 1).padStart(2, '0');
-      const inputs = row.querySelectorAll('input');
+      const inputs = row.querySelectorAll('input, select');
       inputs[0].name = 'Product ' + (i + 1) + ' - Name';
       inputs[1].name = 'Product ' + (i + 1) + ' - Variant';
       inputs[2].name = 'Product ' + (i + 1) + ' - Quantity';
@@ -819,7 +867,13 @@
           '</div>' +
           '<div class="sbo-field">' +
             '<label>Quantity <span class="sbo-req">*</span></label>' +
-            '<input type="number" name="Product ' + count + ' - Quantity" required min="1" placeholder="Min 10">' +
+            '<select name="Product ' + count + ' - Quantity" required>' +
+              '<option value="" disabled selected>Select quantity</option>' +
+              '<option value="200 pcs">200 pcs</option>' +
+              '<option value="500 pcs">500 pcs</option>' +
+              '<option value="1000 pcs">1000 pcs</option>' +
+              '<option value="1000 and above">1000 and above</option>' +
+            '</select>' +
           '</div>' +
         '</div>' +
       '</div>' +
@@ -896,6 +950,15 @@
   "tag": "section",
   "class": "senfa-bulk-order",
   "settings": [
+    {
+      "type": "header",
+      "content": "🖼️ Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
     {
       "type": "header",
       "content": "📧 Email Configuration"

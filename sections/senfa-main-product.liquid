@@ -569,6 +569,11 @@
                 {% endif %}
               </div>
 
+              <!-- Judge.me Preview Badge -->
+              <div style="margin-bottom: 24px;">
+                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: false, product: product %}
+              </div>
+
             {% when 'variant_label' %}
               {% if product.variants.size > 1 or block.settings.custom_net_vol != blank %}
                 <div class="smp-variant-label" {{ block.shopify_attributes }}>

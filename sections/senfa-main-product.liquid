@@ -571,7 +571,7 @@
 
               <!-- Judge.me Preview Badge -->
               <div style="margin-bottom: 24px;">
-                {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: false, product: product %}
+                <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'></div>
               </div>
 
             {% when 'variant_label' %}

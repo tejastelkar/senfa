@@ -872,6 +872,7 @@ class SenfaCartDrawer {
       // Skip if it's inside the cart drawer itself
       if (form.closest('#senfa-cart-drawer')) return;
       e.preventDefault();
+      e.stopPropagation();
       e.stopImmediatePropagation();
       this.addFormToCart(form);
     }, true);
@@ -887,7 +888,11 @@ class SenfaCartDrawer {
     if (closeEmptyBtn) closeEmptyBtn.addEventListener('click', () => this.close());
     
     this.overlay.addEventListener('click', (e) => {
-      if (e.target === this.overlay) this.close();
+      if (e.target === this.overlay) {
+        if (Date.now() - (this.openedAt || 0) > 300) {
+          this.close();
+        }
+      }
     });
 
     this.drawer.querySelectorAll('.scd-qty-btn').forEach(btn => {
@@ -904,6 +909,7 @@ class SenfaCartDrawer {
   }
 
   open() {
+    this.openedAt = Date.now();
     this.overlay.classList.add('scd-active');
     document.body.style.overflow = 'hidden';
   }

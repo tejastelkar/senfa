@@ -1,0 +1,345 @@
+{% comment %}
+  SENFA — Why Your Skin Will Love It
+  File: sections/senfa-why-love-it.liquid
+{% endcomment %}
+
+<div class="swl-section" id="swl-{{ section.id }}">
+  <div class="swl-container">
+    
+    <!-- Top Text (Optional) -->
+    {% if section.settings.top_text != blank %}
+      <div class="swl-top-text">
+        {{ section.settings.top_text }}
+      </div>
+    {% endif %}
+
+    <div class="swl-grid">
+      
+      <!-- Left Column: Why Your Skin Will Love It -->
+      <div class="swl-col">
+        <div class="swl-heading-wrap">
+          <h3 class="swl-heading">{{ section.settings.left_heading }}</h3>
+          <div class="swl-heading-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/>
+              <path d="M9 10h.01M15 10h.01"/>
+              <path d="M9.5 15a3.5 3.5 0 0 0 5 0"/>
+              <path d="M21 12c-2.5 0-4.5-2-4.5-4.5S18.5 3 21 3"/>
+            </svg>
+          </div>
+        </div>
+        <ul class="swl-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'left_claim' %}
+              <li>
+                <span class="swl-bullet"></span>
+                <span class="swl-text">{{ block.settings.text }}</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Right Column: Clean & Conscious Claims -->
+      <div class="swl-col">
+        <div class="swl-heading-wrap">
+          <h3 class="swl-heading">{{ section.settings.right_heading }}</h3>
+          <div class="swl-heading-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+              <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+        </div>
+        <ul class="swl-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'right_claim' %}
+              <li>
+                <span class="swl-bullet"></span>
+                <span class="swl-text">{{ block.settings.text }}</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Info -->
+    <div class="swl-bottom">
+      <div class="swl-made-in">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span>{{ section.settings.made_in_text }}</span>
+      </div>
+      <div class="swl-bottom-desc">
+        {{ section.settings.bottom_desc }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
+.swl-section {
+  background-color: {{ section.settings.bg_color }};
+  padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  color: #1A1228;
+}
+
+.swl-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.swl-top-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+  align-items: stretch;
+}
+
+.swl-col {
+  background: #FFFFFF;
+  border: 1px solid rgba(201,146,42,0.2);
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.swl-heading-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(201,146,42,0.15);
+}
+
+.swl-heading {
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin: 0;
+}
+
+.swl-heading-icon {
+  color: #C9922A;
+  display: flex;
+  align-items: center;
+}
+
+.swl-heading-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.swl-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.swl-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.swl-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #C9922A;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.swl-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.swl-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.swl-made-in {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #C9922A;
+}
+
+.swl-made-in svg {
+  width: 18px;
+  height: 18px;
+  fill: #C9922A;
+}
+
+.swl-bottom-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #1A1228;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .swl-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .swl-col {
+    padding: 30px 20px;
+  }
+  .swl-bottom-desc {
+    font-size: 18px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Why Skin Will Love It",
+  "tag": "section",
+  "class": "senfa-why-love",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 80
+    },
+    {
+      "type": "textarea",
+      "id": "top_text",
+      "label": "Top Intro Text"
+    },
+    {
+      "type": "text",
+      "id": "left_heading",
+      "label": "Left Column Heading",
+      "default": "Why Your Skin Will Love It"
+    },
+    {
+      "type": "text",
+      "id": "right_heading",
+      "label": "Right Column Heading",
+      "default": "Clean & Conscious Claims"
+    },
+    {
+      "type": "text",
+      "id": "made_in_text",
+      "label": "Made In Text",
+      "default": "Made with Love in India"
+    },
+    {
+      "type": "textarea",
+      "id": "bottom_desc",
+      "label": "Bottom Description",
+      "default": "It celebrates purity, elegance, and the quiet luxury of everyday moments."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "left_claim",
+      "name": "Left Claim",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Claim Text"
+        }
+      ]
+    },
+    {
+      "type": "right_claim",
+      "name": "Right Claim",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Claim Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Skin Will Love It",
+      "blocks": [
+        { "type": "left_claim", "settings": { "text": "Made with real Himalayan saffron" } },
+        { "type": "left_claim", "settings": { "text": "Cleanses without drying or irritation" } },
+        { "type": "left_claim", "settings": { "text": "Helps maintain skin hydration throughout the day" } },
+        { "type": "left_claim", "settings": { "text": "Skin feels fresh, soft, and naturally smooth" } },
+        { "type": "left_claim", "settings": { "text": "Gentle enough for every skin type" } },
+        { "type": "right_claim", "settings": { "text": "0% Sulphate & Paraben" } },
+        { "type": "right_claim", "settings": { "text": "0% Silicones & Triclosan" } },
+        { "type": "right_claim", "settings": { "text": "Made from Naturally derived Ingredients" } },
+        { "type": "right_claim", "settings": { "text": "Pure Himalayan Saffron" } },
+        { "type": "right_claim", "settings": { "text": "Helps in Brightening" } },
+        { "type": "right_claim", "settings": { "text": "IFRA Certified Perfume" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

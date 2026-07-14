@@ -1,0 +1,201 @@
+{% comment %}
+  Renders a header search modal. Should be used with 'header.liquid'
+  KIMIRICA-STYLE: Full-page search overlay below header with product grid results
+
+  Accepts:
+  - input_id: {String} Id for the search input element (required)
+
+  Usage:
+  {% render 'header-search', input_id: 'My-Id'%}
+{% endcomment %}
+
+<details-modal class="header__search">
+  <details>
+    <summary
+      class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle"
+      aria-haspopup="dialog"
+      aria-label="{{ 'general.search.search' | t }}"
+    >
+      <span>
+        <span class="svg-wrapper">
+          {{- 'icon-search.svg' | inline_asset_content -}}
+        </span>
+        <span class="svg-wrapper header__icon-close">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </span>
+    </summary>
+    <div
+      class="search-modal modal__content senfa-search-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ 'general.search.search' | t }}"
+    >
+      <div class="senfa-search-panel">
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search class="senfa-search-form-wrapper" data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- else -%}
+          <search-form class="senfa-search-form-wrapper">
+        {%- endif -%}
+        {%- comment -%} FORM wraps input + results (Dawn JS needs this) {%- endcomment -%}
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form senfa-search-form">
+
+          {%- comment -%} Search input row (sticky) {%- endcomment -%}
+          <div class="senfa-search-input-row">
+            <div class="field senfa-search-field">
+              <span class="senfa-search-icon svg-wrapper">
+                {{- 'icon-search.svg' | inline_asset_content -}}
+              </span>
+              <input
+                class="search__input field__input senfa-search-input"
+                id="{{ input_id }}"
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ 'general.search.search' | t }}"
+                {%- if settings.predictive_search_enabled -%}
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-owns="predictive-search-results"
+                  aria-controls="predictive-search-results"
+                  aria-haspopup="listbox"
+                  aria-autocomplete="list"
+                  autocorrect="off"
+                  autocomplete="off"
+                  autocapitalize="off"
+                  spellcheck="false"
+                {%- endif -%}
+              >
+              <label class="field__label visually-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+              <input type="hidden" name="options[prefix]" value="last">
+              <button type="reset" class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}" aria-label="{{ 'general.search.clear_search_term' | t }}" style="right: 15px; top: 50%; transform: translateY(-50%);">
+                <span class="svg-wrapper" style="width: 1.5rem; height: 1.5rem;">
+                  {{- 'icon-close.svg' | inline_asset_content -}}
+                </span>
+              </button>
+            </div>
+            <button
+              type="button"
+              class="senfa-search-close link link--text focus-inset"
+              aria-label="{{ 'accessibility.close' | t }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </span>
+            </button>
+          </div>
+
+          {%- comment -%} Results — INSIDE form (Dawn JS needs this) {%- endcomment -%}
+          {%- if settings.predictive_search_enabled -%}
+            <div class="predictive-search predictive-search--header senfa-search-results" tabindex="-1" data-predictive-search>
+              {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+            </div>
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+          {%- endif -%}
+
+        </form>
+
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- else -%}
+          </search-form>
+        {%- endif -%}
+      </div>
+      <!-- Clickable dark backdrop area (closes search on click) -->
+      <div class="senfa-search-backdrop" aria-hidden="true"></div>
+    </div>
+  </details>
+</details-modal>
+
+<script>
+  // Senfa Search: Set correct header height on search open
+  (function() {
+    function updateSearchPosition() {
+      var sectionHeader = document.querySelector('.section-header');
+      if (sectionHeader) {
+        var rect = sectionHeader.getBoundingClientRect();
+        var headerBottom = rect.bottom;
+        // If header is off-screen (scrolled past), use the sticky height
+        if (headerBottom < 0) {
+          headerBottom = sectionHeader.offsetHeight;
+        }
+        document.documentElement.style.setProperty('--header-height', headerBottom + 'px');
+      }
+    }
+
+    // Update position when search details open
+    document.addEventListener('toggle', function(e) {
+      if (e.target.closest && e.target.closest('details-modal.header__search')) {
+        if (e.target.open) {
+          updateSearchPosition();
+          // Lock body scroll when search is open
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+    }, true);
+
+    // Also listen for the summary click
+    document.addEventListener('click', function(e) {
+      var summary = e.target.closest('details-modal.header__search summary');
+      if (summary) {
+        setTimeout(updateSearchPosition, 10);
+      }
+    });
+
+    // Close search helper
+    function closeSearch() {
+      document.body.style.overflow = '';
+      var detailsEl = document.querySelector('details-modal.header__search details');
+      if (detailsEl) {
+        detailsEl.removeAttribute('open');
+      }
+    }
+
+    // Close button click
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.senfa-search-close')) {
+        closeSearch();
+      }
+    });
+
+    // Backdrop click to close
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.senfa-search-backdrop')) {
+        closeSearch();
+      }
+    });
+  })();
+
+  // Senfa Search Tab Switching (Kimirica mobile style)
+  document.addEventListener('click', function(e) {
+    var tab = e.target.closest('[data-senfa-tab]');
+    if (!tab) return;
+    var container = tab.closest('.senfa-predictive-results') || tab.closest('.senfa-search-results');
+    if (!container) {
+      container = tab.closest('#predictive-search-results');
+    }
+    if (!container) return;
+
+    var tabName = tab.getAttribute('data-senfa-tab');
+
+    // Deactivate all tabs
+    container.querySelectorAll('.senfa-tab').forEach(function(t) {
+      t.classList.remove('senfa-tab--active');
+    });
+    // Activate clicked tab
+    tab.classList.add('senfa-tab--active');
+
+    // Hide all panels
+    container.querySelectorAll('.senfa-tab-panel').forEach(function(p) {
+      p.classList.remove('senfa-tab-panel--active');
+    });
+    // Show target panel
+    var targetPanel = container.querySelector('[data-senfa-panel="' + tabName + '"]');
+    if (targetPanel) {
+      targetPanel.classList.add('senfa-tab-panel--active');
+    }
+  });
+</script>
+

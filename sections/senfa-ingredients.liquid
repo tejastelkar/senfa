@@ -1,0 +1,737 @@
+{% comment %}
+  Senfa — Ingredients Section (Utility Standard / Pure White Editorial)
+  File: sections/senfa-ingredients.liquid
+{% endcomment %}
+
+<section class="senfa-ing" id="senfa-ing-{{ section.id }}" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --accent-gold: {{ section.settings.accent_gold }};
+  --text-body: {{ section.settings.text_body }};
+  --text-muted: {{ section.settings.text_muted }};
+  --border-faint: {{ section.settings.accent_gold | color_modify: 'alpha', 0.25 }};
+">
+  <div class="senfa-ing__inner">
+
+    {%- comment -%} ── STANDARDIZED UTILITY HEADER (Clean & Centered) ── {%- endcomment -%}
+    <div class="senfa-ing__header-standard">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="senfa-ing__heading-centered">
+          {{ section.settings.heading }}
+          {%- if section.settings.heading_italic != blank -%}
+            <em>{{ section.settings.heading_italic }}</em>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="senfa-ing__body-centered">{{ section.settings.body }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="senfa-ing__content-grid">
+      
+      <div class="senfa-ing__left">
+        <div class="senfa-ing__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'ingredient' -%}
+              <div class="senfa-ing__item" {{ block.shopify_attributes }}>
+                <span class="senfa-ing__num">0{{ forloop.index }}</span>
+                <div class="senfa-ing__item-content">
+                  <h3 class="senfa-ing__item-title">{{ block.settings.title }}</h3>
+                  {%- if block.settings.description != blank -%}
+                    <p class="senfa-ing__item-desc">{{ block.settings.description }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="senfa-ing__right">
+        
+        {%- if section.settings.bg_word != blank -%}
+          <div class="senfa-ing__bg-word">{{ section.settings.bg_word }}</div>
+        {%- endif -%}
+
+        <div class="senfa-ing__visual">
+          
+          <svg class="senfa-ing__text-ring" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <path id="senfa-circlePath" d="M 200,200 m -160,0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0"/>
+            </defs>
+            <text font-family="Jost, sans-serif" font-size="12" font-weight="500" letter-spacing="4" fill="var(--heading-color)" text-transform="uppercase" opacity="0.4">
+              <textPath href="#senfa-circlePath" startOffset="0%">
+                100% PURE HIMALAYANI SAFFRON • SIMPLY BEYOND • 100% PURE HIMALAYANI SAFFRON • SIMPLY BEYOND •
+              </textPath>
+            </text>
+          </svg>
+
+          <div class="senfa-ing__flower-wrap">
+            <svg class="senfa-ing__flower" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              
+              <g class="senfa-saffron-threads" stroke="var(--accent-gold)" stroke-width="2.5" stroke-linecap="round" fill="none">
+                <path class="thread thread-center" d="M100,130 Q100,70 100,40" />
+                <path class="thread thread-left" d="M98,130 Q70,75 55,45" />
+                <path class="thread thread-right" d="M102,130 Q130,75 145,45" />
+              </g>
+
+              <g class="senfa-saffron-petals" stroke="var(--heading-color)" stroke-width="1.2" fill="none">
+                <path class="petal petal-back-left" d="M100,140 C60,110 30,90 40,60 C50,30 80,70 100,110" />
+                <path class="petal petal-back-right" d="M100,140 C140,110 170,90 160,60 C150,30 120,70 100,110" />
+                <path class="petal petal-front-left" d="M100,150 C70,130 50,110 60,80 C70,50 90,90 100,130" />
+                <path class="petal petal-front-right" d="M100,150 C130,130 150,110 140,80 C130,50 110,90 100,130" />
+                <path class="petal petal-center" d="M100,150 C80,120 80,80 100,60 C120,80 120,120 100,150" />
+              </g>
+              
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="senfa-ing__stats-row">
+    <div class="senfa-ing__stats-inner">
+      {%- if section.settings.stat1_label != blank -%}
+        <div class="senfa-ing__stat">
+          <span class="senfa-ing__stat-number" data-target="{{ section.settings.stat1_target }}" data-suffix="{{ section.settings.stat1_suffix }}">
+            {{ section.settings.stat1_value }}
+          </span>
+          <span class="senfa-ing__stat-label">{{ section.settings.stat1_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat2_label != blank -%}
+        <div class="senfa-ing__stat">
+          <span class="senfa-ing__stat-number" data-target="{{ section.settings.stat2_target }}" data-suffix="{{ section.settings.stat2_suffix }}">
+            {{ section.settings.stat2_value }}
+          </span>
+          <span class="senfa-ing__stat-label">{{ section.settings.stat2_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat3_label != blank -%}
+        <div class="senfa-ing__stat">
+          <span class="senfa-ing__stat-number" data-target="{{ section.settings.stat3_target }}" data-suffix="{{ section.settings.stat3_suffix }}">
+            {{ section.settings.stat3_value }}
+          </span>
+          <span class="senfa-ing__stat-label">{{ section.settings.stat3_label }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — INGREDIENTS ARCHITECTURE
+════════════════════════════════ */
+
+.senfa-ing {
+  background-color: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  padding-top: {{ section.settings.padding_top }}px;
+}
+
+.senfa-ing__inner {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+
+.senfa-ing__header-standard {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 64px;
+  padding: 0 40px;
+}
+
+.senfa-ing__heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  line-height: 1.1;
+}
+
+.senfa-ing__heading-centered em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 400;
+}
+
+.senfa-ing__body-centered {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-body);
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ── CONTENT GRID ── */
+.senfa-ing__content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ── LEFT PANEL ── */
+.senfa-ing__left {
+  padding: 0 80px 80px 80px;
+  border-right: 1px solid var(--border-faint);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── INGREDIENTS LIST ── */
+.senfa-ing__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.senfa-ing__item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 24px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-faint);
+  position: relative;
+}
+.senfa-ing__item:first-child {
+  border-top: 1px solid var(--border-faint);
+}
+
+/* Elegant gold hover line */
+.senfa-ing__item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 0;
+  background: var(--accent-gold);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.senfa-ing__item:hover::after {
+  width: 100%;
+}
+
+.senfa-ing__num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--accent-gold);
+  line-height: 1.4;
+}
+
+.senfa-ing__item-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 10px;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.senfa-ing__item-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-weight: 300;
+  margin: 0;
+  max-width: 95%;
+  transition: color 0.3s ease;
+}
+
+.senfa-ing__item:hover .senfa-ing__item-title {
+  color: var(--accent-gold);
+}
+.senfa-ing__item:hover .senfa-ing__item-desc {
+  color: var(--text-body);
+}
+
+/* ── RIGHT PANEL (The Visual) ── */
+.senfa-ing__right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 80px 80px 80px;
+  overflow: hidden;
+}
+
+.senfa-ing__bg-word {
+  position: absolute;
+  bottom: 10%;
+  right: -5%;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(120px, 15vw, 220px);
+  font-weight: 300;
+  color: var(--heading-color);
+  opacity: 0.03; /* Barely visible watermark */
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+}
+
+.senfa-ing__visual {
+  position: relative;
+  width: 440px;
+  height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rotating Text Ring */
+.senfa-ing__text-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: senfaRotate 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes senfaRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* The Animated Saffron Flower */
+.senfa-ing__flower-wrap {
+  width: 240px;
+  height: 240px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.senfa-ing__flower {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* CSS Breathing Animation for Petals */
+.petal {
+  transform-origin: 100px 150px;
+  opacity: 0.4;
+  animation: senfaBreathe 6s ease-in-out infinite alternate;
+}
+.petal-back-left { animation-delay: 0s; }
+.petal-back-right { animation-delay: 0.2s; }
+.petal-front-left { animation-delay: 0.4s; }
+.petal-front-right { animation-delay: 0.6s; }
+.petal-center { animation-delay: 0.8s; opacity: 0.6; }
+
+@keyframes senfaBreathe {
+  0% { transform: scale(0.95) rotate(0deg); opacity: 0.2; }
+  100% { transform: scale(1.05) rotate(1deg); opacity: 0.6; }
+}
+
+/* Glowing Threads */
+.thread {
+  animation: senfaGlow 3s ease-in-out infinite alternate;
+}
+.thread-left { animation-delay: 0s; }
+.thread-center { animation-delay: 0.5s; }
+.thread-right { animation-delay: 1s; }
+
+@keyframes senfaGlow {
+  0% { stroke-opacity: 0.8; transform: translateY(2px); }
+  100% { stroke-opacity: 1; transform: translateY(-2px); }
+}
+
+/* ── STATS ROW (BOTTOM) ── */
+.senfa-ing__stats-row {
+  border-top: 1px solid var(--border-faint);
+  background: transparent; 
+}
+
+.senfa-ing__stats-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0;
+}
+
+.senfa-ing__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  border-right: 1px solid var(--border-faint);
+}
+.senfa-ing__stat:last-child {
+  border-right: none;
+}
+
+.senfa-ing__stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 4vw, 64px);
+  font-weight: 300;
+  color: var(--accent-gold);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.senfa-ing__stat-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--heading-color);
+  font-weight: 500;
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .senfa-ing__content-grid {
+    grid-template-columns: 1fr;
+  }
+  .senfa-ing__left {
+    padding: 0 56px 64px 56px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-faint);
+  }
+  .senfa-ing__right {
+    padding: 80px 56px;
+  }
+  .senfa-ing__bg-word {
+    bottom: -20px;
+    right: 0;
+  }
+}
+
+/* ════════════════
+   MOBILE 768px
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-ing__header-standard {
+    padding: 0 24px;
+    margin-bottom: 48px;
+  }
+  .senfa-ing__heading-centered {
+    font-size: 36px;
+  }
+  .senfa-ing__left {
+    padding: 0 24px 64px 24px;
+  }
+  .senfa-ing__body-centered {
+    max-width: 100%;
+  }
+  .senfa-ing__right {
+    padding: 80px 24px 100px 24px;
+  }
+  .senfa-ing__visual {
+    width: 300px;
+    height: 300px;
+  }
+  .senfa-ing__flower-wrap {
+    width: 180px;
+    height: 180px;
+  }
+  .senfa-ing__stats-inner {
+    grid-template-columns: 1fr;
+  }
+  .senfa-ing__stat {
+    padding: 40px 24px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-faint);
+  }
+  .senfa-ing__stat:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .senfa-ing__left {
+    padding: 0 20px 48px 20px;
+  }
+  .senfa-ing__right {
+    padding: 64px 20px 80px 20px;
+  }
+  .senfa-ing__visual {
+    width: 260px;
+    height: 260px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  function animateCounter(el) {
+    var target = parseInt(el.dataset.target, 10);
+    var suffix = el.dataset.suffix || '';
+    if (isNaN(target)) return;
+    var duration = 2000;
+    var start = performance.now();
+    function step(now) {
+      var elapsed = now - start;
+      var progress = Math.min(elapsed / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initCounters() {
+    var els = document.querySelectorAll('#senfa-ing-{{ section.id }} .senfa-ing__stat-number[data-target]');
+    if (!els.length) return;
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { animateCounter(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    els.forEach(function(el) { io.observe(el); });
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', initCounters)
+    : initCounters();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Senfa Ingredients",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading & Flower Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Body Text Color",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "text_muted",
+      "label": "Muted Text Color",
+      "default": "#888888"
+    },
+    {
+      "type": "header",
+      "content": "Header: Text"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Goes"
+    },
+    {
+      "type": "text",
+      "id": "heading_italic",
+      "label": "Heading italic line",
+      "default": "Inside Matters"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Every ingredient in Senfa's bath soap is chosen with intention. No fillers, no shortcuts — only what your skin truly needs."
+    },
+    {
+      "type": "header",
+      "content": "Right Panel: Visuals"
+    },
+    {
+      "type": "text",
+      "id": "bg_word",
+      "label": "Faint Background Word",
+      "default": "PURE"
+    },
+    {
+      "type": "header",
+      "content": "Bottom: Animated Stats"
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 - Display (Pre-animation)",
+      "default": "0%"
+    },
+    {
+      "type": "text",
+      "id": "stat1_target",
+      "label": "Stat 1 - Number Target",
+      "default": "0"
+    },
+    {
+      "type": "text",
+      "id": "stat1_suffix",
+      "label": "Stat 1 - Suffix",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 - Label",
+      "default": "Sulphates & Parabens"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 - Display",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "stat2_target",
+      "label": "Stat 2 - Number Target",
+      "default": "100"
+    },
+    {
+      "type": "text",
+      "id": "stat2_suffix",
+      "label": "Stat 2 - Suffix",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 - Label",
+      "default": "Vegan Formulation"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 - Display",
+      "default": "4+"
+    },
+    {
+      "type": "text",
+      "id": "stat3_target",
+      "label": "Stat 3 - Number Target",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "stat3_suffix",
+      "label": "Stat 3 - Suffix",
+      "default": "+"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 - Label",
+      "default": "Key Active Botanicals"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (Overrides stats if 0)",
+      "min": 0, "max": 160, "step": 8, "default": 0, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Ingredient name",
+          "default": "Himalayani Saffron Strands"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Hand-picked at dawn. Rich in crocin and antioxidants for natural brightening and glow."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Ingredients",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "title": "Himalayani Saffron Strands",
+            "description": "Hand-picked at dawn. Rich in crocin and antioxidants for natural brightening and glow."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "title": "Coconut-Derived Surfactants",
+            "description": "Ultra-gentle, sulphate-free cleansing agents that respect your skin barrier."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "title": "Natural Perfume",
+            "description": "Delicate floral accord that lingers without irritating sensitive skin."
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "title": "Skin-Loving Emollients",
+            "description": "Cocamidopropyl Betaine and Glycol — deep moisture, no greasy residue."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

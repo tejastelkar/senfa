@@ -1,0 +1,396 @@
+{% comment %}
+  Section: senfa-story-quote
+  File: sections/senfa-story-quote.liquid
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+<style>
+  #senfa-quote-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #2D1B4E 0%, #4A2D78 50%, #3D2468 80%, #2D1B4E 100%);
+    padding: 80px 80px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  /* ── Deep layered background atmosphere ── */
+  #senfa-quote-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 15% 50%, rgba(201,146,42,0.07), transparent),
+      radial-gradient(ellipse 50% 70% at 85% 20%, rgba(74,45,120,0.6), transparent),
+      radial-gradient(ellipse 40% 50% at 60% 80%, rgba(201,146,42,0.04), transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Giant ghost quotation mark ── */
+  .sqg-mark-{{ section.id }} {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(280px, 35vw, 480px);
+    font-weight: 300;
+    color: rgba(201, 146, 42, 0.045);
+    line-height: 1;
+    top: -40px;
+    left: -20px;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    letter-spacing: -10px;
+  }
+
+  /* ── Top & bottom shimmer lines ── */
+  .sqg-shimmer-top-{{ section.id }},
+  .sqg-shimmer-bot-{{ section.id }} {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent 5%, rgba(201,146,42,0.35) 30%, rgba(201,146,42,0.35) 70%, transparent 95%);
+    z-index: 3;
+  }
+  .sqg-shimmer-top-{{ section.id }} { top: 0; }
+  .sqg-shimmer-bot-{{ section.id }} { bottom: 0; }
+
+  /* ── Vertical gold thread left ── */
+  .sqg-thread-{{ section.id }} {
+    position: absolute;
+    left: 80px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,146,42,0.2) 25%, rgba(201,146,42,0.2) 75%, transparent);
+    z-index: 2;
+  }
+
+  .sqg-thread-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #C9922A;
+    opacity: 0.5;
+    box-shadow: 0 0 12px rgba(201,146,42,0.5);
+  }
+
+  /* ── Inner wrapper ── */
+  .sqg-inner-{{ section.id }} {
+    position: relative;
+    z-index: 4;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  /* ── Top ornament ── */
+  .sqg-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .sqg-ornament-line {
+    height: 1px;
+    width: 60px;
+    background: linear-gradient(to right, transparent, rgba(201,146,42,0.5));
+  }
+
+  .sqg-ornament-line:last-child {
+    background: linear-gradient(to left, transparent, rgba(201,146,42,0.5));
+  }
+
+  .sqg-ornament-diamond {
+    width: 6px;
+    height: 6px;
+    background: #C9922A;
+    transform: rotate(45deg);
+    opacity: 0.7;
+  }
+
+  .sqg-ornament-dot {
+    width: 3px;
+    height: 3px;
+    background: rgba(201,146,42,0.4);
+    transform: rotate(45deg);
+  }
+
+  /* ── Quote mark icon ── */
+  .sqg-icon {
+    display: block;
+    margin: 0 auto 36px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
+  }
+
+  #senfa-quote-{{ section.id }} blockquote {
+  border-left: none !important;
+  padding-left: 0 !important;
+  font-style: normal !important;
+  color: inherit !important;
+  margin: 0 !important;
+}
+  /* ── The quote text ── */
+  .sqg-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 2.2vw, 34px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: #FEFCF8;
+    margin-bottom: 0;
+    letter-spacing: 0.2px;
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 1s 0.2s ease, transform 1s 0.2s ease;
+  }
+
+  /* Highlighted word(s) in gold */
+  .sqg-text em {
+    font-style: italic;
+    color: #E0B84E;
+    font-weight: 400;
+  }
+
+  /* ── Divider below quote ── */
+  .sqg-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 44px auto 36px;
+    width: 180px;
+    opacity: 0;
+    transform: scaleX(0.5);
+    transition: opacity 0.7s 0.4s ease, transform 0.7s 0.4s ease;
+  }
+
+  .sqg-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(201,146,42,0.3);
+  }
+
+  .sqg-divider-icon {
+    width: 5px;
+    height: 5px;
+    border: 1px solid rgba(201,146,42,0.5);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── Attribution ── */
+  .sqg-attr {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(224, 184, 78, 0.65);
+    font-weight: 300;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.7s 0.5s ease, transform 0.7s 0.5s ease;
+  }
+
+  /* ── Sub-attribution (smaller, lighter) ── */
+  .sqg-attr-sub {
+    display: block;
+    margin-top: 8px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.18);
+    font-weight: 300;
+    font-style: normal;
+    font-family: 'Jost', sans-serif;
+    opacity: 0;
+    transition: opacity 0.7s 0.6s ease;
+  }
+
+  /* ── Animated state ── */
+  .sqg-visible .sqg-ornament,
+  .sqg-visible .sqg-icon,
+  .sqg-visible .sqg-text,
+  .sqg-visible .sqg-divider,
+  .sqg-visible .sqg-attr,
+  .sqg-visible .sqg-attr-sub {
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+  }
+
+  /* ── Bottom saffron threads decoration ── */
+  .sqg-threads-{{ section.id }} {
+    position: absolute;
+    bottom: 0;
+    right: 80px;
+    width: 160px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.25;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    #senfa-quote-{{ section.id }} {
+      padding: 90px 28px;
+    }
+
+    .sqg-thread-{{ section.id }} {
+      left: 28px;
+    }
+
+    .sqg-threads-{{ section.id }} {
+      right: 16px;
+      width: 80px;
+    }
+
+    .sqg-mark-{{ section.id }} {
+      font-size: clamp(160px, 45vw, 260px);
+      top: -20px;
+      left: -10px;
+    }
+
+    .sqg-text {
+      font-size: clamp(22px, 5.5vw, 34px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    #senfa-quote-{{ section.id }} {
+      padding: 72px 20px;
+    }
+
+    .sqg-text {
+      font-size: clamp(20px, 6vw, 28px);
+    }
+  }
+</style>
+
+<section id="senfa-quote-{{ section.id }}" aria-label="Founder Quote">
+
+  <!-- Ghost quotation mark -->
+  <div class="sqg-mark-{{ section.id }}" aria-hidden="true">"</div>
+
+  <!-- Shimmer edges -->
+  <div class="sqg-shimmer-top-{{ section.id }}" aria-hidden="true"></div>
+  <div class="sqg-shimmer-bot-{{ section.id }}" aria-hidden="true"></div>
+
+  <!-- Left vertical thread -->
+  <div class="sqg-thread-{{ section.id }}" aria-hidden="true"></div>
+
+  <!-- Right saffron thread SVG -->
+  <div class="sqg-threads-{{ section.id }}" aria-hidden="true">
+    <svg viewBox="0 0 160 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+      <path d="M80,10 Q96,100 82,210 Q68,320 86,430 Q104,540 84,660 Q72,720 80,780" stroke="#C9922A" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.6"/>
+      <path d="M54,20 Q66,112 54,220 Q42,328 60,436" stroke="#E0B84E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.35"/>
+      <path d="M110,14 Q120,108 110,218 Q100,328 116,436" stroke="#C9922A" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.25"/>
+      <circle cx="80"  cy="8"  r="5"   fill="#E8A020" opacity="0.65"/>
+      <circle cx="54"  cy="18" r="3.5" fill="#E8A020" opacity="0.4"/>
+      <circle cx="110" cy="12" r="3.5" fill="#E8A020" opacity="0.35"/>
+    </svg>
+  </div>
+
+  <!-- Main quote content -->
+  <div class="sqg-inner-{{ section.id }}">
+
+    <!-- Top ornament -->
+    <div class="sqg-ornament">
+      <span class="sqg-ornament-line"></span>
+      <span class="sqg-ornament-dot"></span>
+      <span class="sqg-ornament-diamond"></span>
+      <span class="sqg-ornament-dot"></span>
+      <span class="sqg-ornament-line"></span>
+    </div>
+
+    <!-- SVG quote icon -->
+    <svg class="sqg-icon" width="32" height="24" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 24V14.4C0 10.56 0.96 7.36 2.88 4.8C4.88 2.24 7.76 0.64 11.52 0L13.44 3.36C11.12 3.84 9.28 4.88 7.92 6.48C6.64 8.08 6 9.92 6 12H11.52V24H0ZM18.48 24V14.4C18.48 10.56 19.44 7.36 21.36 4.8C23.36 2.24 26.24 0.64 30 0L31.92 3.36C29.6 3.84 27.76 4.88 26.4 6.48C25.12 8.08 24.48 9.92 24.48 12H30V24H18.48Z" fill="#C9922A" opacity="0.55"/>
+    </svg>
+
+    <!-- Quote text -->
+    <blockquote>
+      <p class="sqg-text">{{ section.settings.quote_text }}</p>
+
+      <!-- Divider -->
+      <div class="sqg-divider">
+        <span class="sqg-divider-line"></span>
+        <span class="sqg-divider-icon"></span>
+        <span class="sqg-divider-line"></span>
+      </div>
+
+      <!-- Attribution -->
+      <footer class="sqg-attr">
+        {{ section.settings.attribution }}
+        {% if section.settings.attribution_sub != blank %}
+          <span class="sqg-attr-sub">{{ section.settings.attribution_sub }}</span>
+        {% endif %}
+      </footer>
+    </blockquote>
+
+  </div>
+
+</section>
+
+<script>
+  (function () {
+    var section = document.getElementById('senfa-quote-{{ section.id }}');
+    var inner   = section.querySelector('.sqg-inner-{{ section.id }}');
+    if (!inner) return;
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          inner.classList.add('sqg-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    obs.observe(inner);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Story Quote",
+  "tag": "section",
+  "class": "senfa-story-quote",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text (wrap words in <em></em> to highlight in gold)",
+      "default": "I realized that if I was going to do this, it couldn't be 'just another soap.' It had to be a <em>standard of integrity</em> that my father would be proud of."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "— The Founder, Senfa"
+    },
+    {
+      "type": "text",
+      "id": "attribution_sub",
+      "label": "Attribution Sub-line (optional)",
+      "default": "Pune, Maharashtra · Est. 2023"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Quote"
+    }
+  ]
+}
+{% endschema %}

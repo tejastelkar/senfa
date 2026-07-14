@@ -1,0 +1,556 @@
+{% comment %}
+  SENFA — What We Never Use (Premium Editorial Split)
+  File: sections/senfa-ingredients-never.liquid
+{% endcomment %}
+
+<section id="sin-{{ section.id }}" class="senfa-never" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --text-body: {{ section.settings.text_body }};
+  --accent-gold: {{ section.settings.accent_gold }};
+">
+  <div class="sin-container">
+
+    <div class="sin-layout">
+      
+      {%- comment -%} ── LEFT: STICKY HEADER ── {%- endcomment -%}
+      <div class="sin-header-col">
+        <div class="sin-header-sticky">
+          
+          {%- if section.settings.eyebrow_text != blank -%}
+            <div class="sin-eyebrow">
+              <span>{{ section.settings.eyebrow_text }}</span>
+            </div>
+          {%- endif -%}
+
+          <h2 class="sin-heading">
+            {{ section.settings.title_line1 }}
+            {%- if section.settings.title_line2 != blank -%}
+              <br><em>{{ section.settings.title_line2 }}</em>
+            {%- endif -%}
+          </h2>
+
+          {%- if section.settings.description != blank -%}
+            <p class="sin-desc">{{ section.settings.description }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.promise_label != blank -%}
+            <div class="sin-promise">
+              <div class="sin-promise-dot"></div>
+              <span>{{ section.settings.promise_label }}</span>
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+
+      {%- comment -%} ── RIGHT: INGREDIENTS GRID ── {%- endcomment -%}
+      <div class="sin-grid-col">
+        <div class="sin-grid" role="list">
+          {% for block in section.blocks %}
+            {% if block.type == 'never_item' %}
+              <div class="sin-item {% if forloop.index <= 2 %}sin-item--top-row{% endif %}" role="listitem" {{ block.shopify_attributes }}>
+                <div class="sin-item-top">
+                  <h3 class="sin-item-name">{{ block.settings.ingredient_name }}</h3>
+                  <div class="sin-icon-x" aria-hidden="true">
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1L13 13M13 1L1 13" stroke="var(--accent-gold)" stroke-width="1" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <p class="sin-item-reason">{{ block.settings.reason }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+    {%- comment -%} ── BOTTOM VERDICT STRIP ── {%- endcomment -%}
+    {%- if section.settings.verdict_text != blank -%}
+      <div class="sin-verdict">
+        <div class="sin-verdict-line"></div>
+        <div class="sin-verdict-content">
+          <p class="sin-verdict-text">{{ section.settings.verdict_text | replace: '[gold]', '<em>' | replace: '[/gold]', '</em>' }}</p>
+          {%- if section.settings.verdict_meta != blank -%}
+            <span class="sin-verdict-meta">{{ section.settings.verdict_meta }}</span>
+          {%- endif -%}
+        </div>
+        <div class="sin-verdict-line"></div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — WHAT WE NEVER USE
+════════════════════════════════ */
+
+.senfa-never {
+  background-color: var(--bg-color);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sin-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ── SPLIT LAYOUT ── */
+.sin-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 100px;
+}
+
+/* ── LEFT COLUMN (STICKY) ── */
+.sin-header-col {
+  /* Pushes header down to align with the first row of cards perfectly */
+  margin-top: 36px; 
+}
+
+.sin-header-sticky {
+  position: sticky;
+  top: 120px; 
+  opacity: 0;
+  transform: translateY(20px);
+  animation: sinFadeUp 0.8s ease forwards;
+}
+
+.sin-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.sin-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.sin-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 24px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.sin-heading em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 400;
+  display: block;
+}
+
+.sin-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-body);
+  max-width: 480px;
+  margin: 0 0 40px;
+}
+
+.sin-promise {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border: 1px solid rgba(201,146,42,0.2);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--heading-color);
+}
+
+.sin-promise-dot {
+  width: 6px; 
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  animation: sinPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes sinPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+/* ── RIGHT COLUMN (GRID) ── */
+.sin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.sin-item {
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 24px 0 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease, border-color 0.4s ease;
+}
+
+.sin-item.sin-item--top-row {
+  border-top: none; /* Removes the top border from the very first row */
+  padding-top: 0; /* Removes top padding to align with header */
+}
+
+.sin-item.sin-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sin-item:hover {
+  border-top-color: var(--accent-gold);
+}
+
+.sin-item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.sin-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.sin-icon-x {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+}
+
+.sin-item:hover .sin-icon-x {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+.sin-item-reason {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* ── BOTTOM VERDICT ── */
+.sin-verdict {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Ensures perfect centering */
+  width: 100%;
+  margin-top: 120px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.sin-verdict.sin-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sin-verdict-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,146,42,0.3));
+}
+.sin-verdict-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(201,146,42,0.3));
+}
+
+.sin-verdict-content {
+  text-align: center;
+  padding: 0 40px; /* Provides breathing room between lines and text */
+  flex-shrink: 0; /* Prevents text from being squished by lines */
+}
+
+.sin-verdict-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 300;
+  color: var(--heading-color);
+  margin: 0 0 8px;
+  white-space: nowrap; /* Keeps the sentence on one line if possible */
+}
+
+.sin-verdict-text em {
+  font-style: italic;
+  color: var(--accent-gold);
+}
+
+.sin-verdict-meta {
+  display: block;
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  opacity: 0.6;
+}
+
+@keyframes sinFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .sin-container { padding: 0 48px; }
+  .sin-layout { gap: 48px; grid-template-columns: 1fr 1fr; }
+  .sin-header-col { margin-top: 0; padding-top: 24px; } /* Adjust tablet align */
+  .sin-grid { grid-template-columns: 1fr; gap: 16px; }
+  .sin-item.sin-item--top-row { border-top: 1px solid rgba(0,0,0,0.08); padding-top: 24px;} /* Restore border on tablet stack */
+  .sin-heading em { padding-left: 0px; }
+  .sin-verdict-content { padding: 0 24px; }
+}
+
+/* ════════════════
+   MOBILE 768px
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-never { padding: 80px 0; }
+  .sin-container { padding: 0 24px; }
+  
+  .sin-layout {
+    grid-template-columns: 1fr;
+    gap: 64px;
+  }
+  
+  .sin-header-sticky {
+    position: relative;
+    top: 0;
+  }
+  
+  .sin-heading { font-size: 40px; }
+  .sin-heading em { padding-left: 0px; }
+  
+  .sin-grid { grid-template-columns: 1fr; gap: 24px; }
+  
+  .sin-item { padding: 20px 0; }
+  .sin-item.sin-item--top-row { border-top: 1px solid rgba(0,0,0,0.08); padding-top: 20px;}
+  .sin-item-name { font-size: 24px; }
+  
+  .sin-verdict {
+    flex-direction: column;
+    margin-top: 80px;
+  }
+  .sin-verdict-content { padding: 0; }
+  .sin-verdict-text { white-space: normal; } /* Allows wrapping on small screens */
+  .sin-verdict-line { display: none; }
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .sin-container { padding: 0 16px; }
+  .sin-heading { font-size: 36px; }
+  .sin-heading em { padding-left: 0px; }
+}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const section = document.getElementById('sin-{{ section.id }}');
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          // Add slight stagger to grid items
+          if (entry.target.classList.contains('sin-item')) {
+            setTimeout(() => {
+              entry.target.classList.add('sin-visible');
+            }, index * 100);
+          } else {
+            entry.target.classList.add('sin-visible');
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    section.querySelectorAll('.sin-item, .sin-verdict').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "What We Never Use",
+  "tag": "section",
+  "class": "senfa-never-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Label",
+      "default": "Our Promise"
+    },
+    {
+      "type": "text",
+      "id": "title_line1",
+      "label": "Heading Line 1",
+      "default": "What we'll"
+    },
+    {
+      "type": "text",
+      "id": "title_line2",
+      "label": "Heading Line 2 (italic gold)",
+      "default": "never use."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "We believe what's left out is just as important as what goes in. These ingredients are banned from every Senfa formula — not because regulations demand it, but because our standard demands it."
+    },
+    {
+      "type": "text",
+      "id": "promise_label",
+      "label": "Promise Badge Label",
+      "default": "Founder's Standard"
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Body Text",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Verdict Strip"
+    },
+    {
+      "type": "text",
+      "id": "verdict_text",
+      "label": "Verdict Text",
+      "info": "Use [gold] and [/gold] to make text italic and gold.",
+      "default": "A formula your skin [gold]deserves[/gold] — nothing it doesn't."
+    },
+    {
+      "type": "text",
+      "id": "verdict_meta",
+      "label": "Verdict Meta Text",
+      "default": "Senfa · Est. 2023"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 160, "step": 8, "default": 128, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 160, "step": 8, "default": 128, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "never_item",
+      "name": "Banned Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "ingredient_name",
+          "label": "Ingredient Name",
+          "default": "Sulphates"
+        },
+        {
+          "type": "textarea",
+          "id": "reason",
+          "label": "Why we exclude it",
+          "default": "Strip the skin's natural moisture barrier, causing dryness and irritation."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "What We Never Use",
+      "blocks": [
+        { "type": "never_item", "settings": { "ingredient_name": "Sulphates", "reason": "Strip the skin's natural moisture barrier, causing dryness, irritation, and long-term damage — especially on delicate skin." } },
+        { "type": "never_item", "settings": { "ingredient_name": "Parabens", "reason": "Synthetic preservatives linked to hormone disruption. We use natural alternatives that keep formulas fresh without the risk." } },
+        { "type": "never_item", "settings": { "ingredient_name": "Silicones", "reason": "Create an artificial smoothness that clogs pores over time. Our ingredients work with your skin, not over it." } },
+        { "type": "never_item", "settings": { "ingredient_name": "Artificial Fragrance", "reason": "Hidden chemical cocktails masked by a single label. Every scent in Senfa comes purely from the botanical extract itself." } },
+        { "type": "never_item", "settings": { "ingredient_name": "Mineral Oil", "reason": "A petroleum byproduct that suffocates skin and adds no active benefit. We use highly-absorbable plant-derived oils instead." } },
+        { "type": "never_item", "settings": { "ingredient_name": "Phthalates", "reason": "Used as plasticisers in synthetic fragrances. Associated with endocrine disruption — banned from all Senfa products." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,657 @@
+{% comment %}
+  SENFA — Family Cards Section (Premium Minimalist Editorial)
+  File: sections/senfa-family-cards.liquid
+{% endcomment %}
+
+<section id="senfa-family-{{ section.id }}" class="sfc" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --text-body: {{ section.settings.text_body }};
+  --accent-gold: {{ section.settings.accent_gold }};
+  --card-bg: {{ section.settings.card_bg }};
+">
+
+  {%- comment -%} Faint Background Thread (Extremely subtle) {%- endcomment -%}
+  <div class="sfc__bg-thread" aria-hidden="true">
+    <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1320,0 Q1350,160 1330,330 Q1310,500 1340,600" stroke="var(--accent-gold)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.05"/>
+      <path d="M120,0 Q95,155 110,320 Q125,485 105,600" stroke="var(--accent-gold)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.05"/>
+    </svg>
+  </div>
+
+  <div class="sfc__inner">
+
+    {%- comment -%} ── STANDARDIZED UTILITY HEADER ── {%- endcomment -%}
+    <div class="sfc__header-standard">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="sfc__eyebrow-centered">
+          <span>{{ section.settings.eyebrow }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.title_normal != blank -%}
+        <h2 class="sfc__heading-centered">
+          {{ section.settings.title_normal }}
+          {%- if section.settings.title_italic != blank -%}
+            <br><em>{{ section.settings.title_italic }}</em>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="sfc__body-centered">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ── CARDS GRID ── {%- endcomment -%}
+    <div class="sfc__grid">
+
+      {%- comment %} Card 1 — The Founder {% endcomment %}
+      <div class="sfc__card">
+        <div class="sfc__avatar">
+          {%- if section.settings.card1_image != blank -%}
+            <img src="{{ section.settings.card1_image | image_url: width: 160 }}" alt="{{ section.settings.card1_name }}" class="sfc__avatar-img" loading="lazy">
+          {%- else -%}
+            <span class="sfc__avatar-placeholder">{{ section.settings.card1_initial | default: 'A' }}</span>
+          {%- endif -%}
+        </div>
+        
+        <h3 class="sfc__card-name">{{ section.settings.card1_name | default: 'The Founder' }}</h3>
+        <p class="sfc__card-role">{{ section.settings.card1_role | default: 'Visionary · Son' }}</p>
+        
+        <div class="sfc__card-divider"></div>
+        
+        <p class="sfc__card-body">{{ section.settings.card1_quote | default:'Every time a bar of Senfa leaves our hands, I feel like I am finally finishing that conversation with my Dad.' }}</p>
+        
+        <span class="sfc__card-tag">{{ section.settings.card1_tag | default: 'Protector of the Legacy' }}</span>
+      </div>
+
+      {%- comment %} Card 2 — The Wife {% endcomment %}
+      <div class="sfc__card">
+        <div class="sfc__avatar">
+          {%- if section.settings.card2_image != blank -%}
+            <img src="{{ section.settings.card2_image | image_url: width: 160 }}" alt="{{ section.settings.card2_name }}" class="sfc__avatar-img" loading="lazy">
+          {%- else -%}
+            <span class="sfc__avatar-placeholder">{{ section.settings.card2_initial | default: 'W' }}</span>
+          {%- endif -%}
+        </div>
+        
+        <h3 class="sfc__card-name">{{ section.settings.card2_name | default: 'The Wife' }}</h3>
+        <p class="sfc__card-role">{{ section.settings.card2_role | default: 'Co-Formulator' }}</p>
+        
+        <div class="sfc__card-divider"></div>
+        
+        <p class="sfc__card-body">{{ section.settings.card2_text | default: 'She was there from the first formula as a partner who believed that a good product starts with an honest conversation.' }}</p>
+        
+        <span class="sfc__card-tag">{{ section.settings.card2_tag | default: 'Heart of the Brand' }}</span>
+      </div>
+
+      {%- comment %} Card 3 — Pratik {% endcomment %}
+      <div class="sfc__card">
+        <div class="sfc__avatar">
+          {%- if section.settings.card3_image != blank -%}
+            <img src="{{ section.settings.card3_image | image_url: width: 160 }}" alt="{{ section.settings.card3_name }}" class="sfc__avatar-img" loading="lazy">
+          {%- else -%}
+            <span class="sfc__avatar-placeholder">{{ section.settings.card3_initial | default: 'P' }}</span>
+          {%- endif -%}
+        </div>
+        
+        <h3 class="sfc__card-name">{{ section.settings.card3_name | default: 'Pratik' }}</h3>
+        <p class="sfc__card-role">{{ section.settings.card3_role | default: 'Operations' }}</p>
+        
+        <div class="sfc__card-divider"></div>
+        
+        <p class="sfc__card-body">{{ section.settings.card3_text | default: 'When Pratik finished his studies, he chose family. His job is to ensure no batch leaves without meeting the standard.' }}</p>
+        
+        <span class="sfc__card-tag">{{ section.settings.card3_tag | default: 'Guardian of the Standard' }}</span>
+      </div>
+
+    </div>
+
+    {%- comment -%} ── FOOTER NOTE ── {%- endcomment -%}
+    {%- if section.settings.footer_note != blank -%}
+      <div class="sfc__footer-note">
+        <span class="sfc__fn-line"></span>
+        <p class="sfc__fn-text">{{ section.settings.footer_note }}</p>
+        <span class="sfc__fn-line"></span>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — FAMILY CARDS (MINIMAL)
+════════════════════════════════ */
+
+.sfc {
+  background-color: var(--bg-color);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sfc__bg-thread {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.sfc__bg-thread svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sfc__inner {
+  max-width: 1400px; /* Slightly narrower for better reading length */
+  margin: 0 auto;
+  padding: 0 80px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+
+.sfc__header-standard {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 72px;
+  padding: 0 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: sfcFadeUp 0.8s ease forwards;
+}
+
+.sfc__eyebrow-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+.sfc__eyebrow-centered::before,
+.sfc__eyebrow-centered::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.sfc__heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 300;
+  color: var(--heading-color);
+  margin: 0 0 24px;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  line-height: 1.1;
+}
+
+.sfc__heading-centered em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 300;
+}
+
+.sfc__body-centered {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-body);
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ── GRID LAYOUT ── */
+.sfc__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* ── EDITORIAL CARD ── */
+.sfc__card {
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.03);
+  padding: 56px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease, border-color 0.5s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.sfc__card.sfc-in-view {
+  animation: sfcFadeUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+.sfc__card:nth-child(1).sfc-in-view { animation-delay: 0.1s; }
+.sfc__card:nth-child(2).sfc-in-view { animation-delay: 0.2s; }
+.sfc__card:nth-child(3).sfc-in-view { animation-delay: 0.3s; }
+
+.sfc__card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+  border-color: rgba(201,146,42,0.2); /* Faint gold border on hover */
+}
+
+/* Avatar */
+.sfc__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+  background: #F5F3EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201,146,42,0.15);
+}
+
+.sfc__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.sfc__avatar-placeholder {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--accent-gold);
+}
+
+/* Typography */
+.sfc__card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 8px;
+}
+
+.sfc__card-role {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  margin: 0 0 24px;
+  opacity: 0.7;
+}
+
+.sfc__card-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.3;
+  margin: 0 auto 24px;
+}
+
+.sfc__card-body {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0 0 32px;
+  flex-grow: 1;
+}
+
+.sfc__card-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+/* ── FOOTER NOTE ── */
+.sfc__footer-note {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 80px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.sfc__footer-note.sfc-in-view {
+  animation: sfcFadeUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.sfc__fn-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,146,42,0.3));
+}
+.sfc__fn-line:last-child {
+  background: linear-gradient(to left, transparent, rgba(201,146,42,0.3));
+}
+
+.sfc__fn-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--heading-color);
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@keyframes sfcFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .sfc__inner { padding: 0 40px; }
+  .sfc__card { padding: 40px 24px; }
+}
+
+/* ════════════════
+   MOBILE 768px (Horizontal Swipe Carousel)
+════════════════ */
+@media (max-width: 768px) {
+  .sfc { padding: 80px 0; }
+  
+  .sfc__inner { padding: 0; }
+
+  .sfc__header-standard {
+    padding: 0 24px;
+    margin-bottom: 40px;
+  }
+  
+  .sfc__heading-centered { font-size: 36px; }
+
+  /* Native CSS Swipe Slider */
+  .sfc__grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    gap: 16px;
+    padding: 0 24px 20px 24px;
+  }
+  .sfc__grid::-webkit-scrollbar { display: none; }
+
+  .sfc__card {
+    flex: 0 0 calc(100vw - 64px); 
+    max-width: 320px;
+    scroll-snap-align: center;
+    padding: 48px 32px;
+  }
+
+  .sfc__footer-note {
+    flex-direction: column;
+    margin-top: 48px;
+    padding: 0 24px;
+    gap: 16px;
+  }
+  .sfc__fn-line { display: none; }
+  .sfc__fn-text { white-space: normal; font-size: 18px; }
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .sfc__grid { padding: 0 16px 20px 16px; gap: 12px; }
+  .sfc__card { flex: 0 0 calc(100vw - 48px); }
+}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const section = document.getElementById('senfa-family-{{ section.id }}');
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('sfc-in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    section.querySelectorAll('.sfc__card, .sfc__footer-note').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "SENFA Family Cards",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Label",
+      "default": "The People Behind It"
+    },
+    {
+      "type": "text",
+      "id": "title_normal",
+      "label": "Title (normal)",
+      "default": "Three people. One kitchen table."
+    },
+    {
+      "type": "text",
+      "id": "title_italic",
+      "label": "Title (italic gold)",
+      "default": "One unbreakable pact."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Not a corporation. A family with a promise and the saffron fields to keep it."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Body Text",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "header",
+      "content": "Card 1 - The Founder"
+    },
+    {
+      "type": "image_picker",
+      "id": "card1_image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "card1_initial",
+      "label": "Fallback Initial (if no photo)",
+      "default": "A"
+    },
+    {
+      "type": "text",
+      "id": "card1_name",
+      "label": "Name",
+      "default": "The Founder"
+    },
+    {
+      "type": "text",
+      "id": "card1_role",
+      "label": "Role",
+      "default": "Visionary · Son"
+    },
+    {
+      "type": "textarea",
+      "id": "card1_quote",
+      "label": "Quote",
+      "default": "Every time a bar of Senfa leaves our hands, I feel like I am finally finishing that conversation with my Dad."
+    },
+    {
+      "type": "text",
+      "id": "card1_tag",
+      "label": "Bottom Tag",
+      "default": "Protector of the Legacy"
+    },
+    {
+      "type": "header",
+      "content": "Card 2 - The Wife"
+    },
+    {
+      "type": "image_picker",
+      "id": "card2_image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "card2_initial",
+      "label": "Fallback Initial",
+      "default": "W"
+    },
+    {
+      "type": "text",
+      "id": "card2_name",
+      "label": "Name",
+      "default": "The Wife"
+    },
+    {
+      "type": "text",
+      "id": "card2_role",
+      "label": "Role",
+      "default": "Co-Formulator"
+    },
+    {
+      "type": "textarea",
+      "id": "card2_text",
+      "label": "Body Text",
+      "default": "She was there from the first formula as a partner who believed that a good product starts with an honest conversation."
+    },
+    {
+      "type": "text",
+      "id": "card2_tag",
+      "label": "Bottom Tag",
+      "default": "Heart of the Brand"
+    },
+    {
+      "type": "header",
+      "content": "Card 3 - Pratik"
+    },
+    {
+      "type": "image_picker",
+      "id": "card3_image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "card3_initial",
+      "label": "Fallback Initial",
+      "default": "P"
+    },
+    {
+      "type": "text",
+      "id": "card3_name",
+      "label": "Name",
+      "default": "Pratik"
+    },
+    {
+      "type": "text",
+      "id": "card3_role",
+      "label": "Role",
+      "default": "Operations"
+    },
+    {
+      "type": "textarea",
+      "id": "card3_text",
+      "label": "Body Text",
+      "default": "When Pratik finished his studies, he chose family. His job is to ensure no batch leaves without meeting the standard."
+    },
+    {
+      "type": "text",
+      "id": "card3_tag",
+      "label": "Bottom Tag",
+      "default": "Guardian of the Standard"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_note",
+      "label": "Footer Note",
+      "default": "Three people. One farm. One standard. That is the entire company."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SENFA Family Cards"
+    }
+  ]
+}
+{% endschema %}

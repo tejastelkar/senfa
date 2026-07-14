@@ -1,0 +1,1063 @@
+{% comment %}
+  SENFA — Premium Bulk Order Form
+  File: sections/senfa-bulk-order.liquid
+  Emails sent FREE via FormSubmit.co — no app, no cost
+{% endcomment %}
+
+{% if section.settings.banner_image != blank %}
+  <div class="sbo-banner">
+    {{ section.settings.banner_image | image_url: width: 2000 | image_tag: class: 'sbo-banner-img', loading: 'lazy' }}
+  </div>
+{% endif %}
+
+<div class="sbo-section">
+  <div class="sbo-container">
+
+    <!-- Header -->
+    <div class="sbo-header">
+      <span class="sbo-eyebrow">{{ section.settings.eyebrow_text }}</span>
+      <h2 class="sbo-heading">{{ section.settings.heading }}</h2>
+      <p class="sbo-subheading">{{ section.settings.subheading }}</p>
+    </div>
+
+    <!-- Form -->
+    <form
+      action="https://formsubmit.co/{{ section.settings.email }}"
+      method="POST"
+      class="sbo-form"
+      id="sbo-bulk-form"
+    >
+      <!-- FormSubmit Config (hidden) -->
+      <input type="hidden" name="_subject" value="{{ section.settings.email_subject }}">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" style="display:none">
+
+      <!-- Contact Info -->
+      <div class="sbo-fieldset">
+        <legend class="sbo-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Contact Information
+        </legend>
+        <div class="sbo-grid sbo-grid-2">
+          <div class="sbo-field">
+            <label for="sbo-name">Full Name <span class="sbo-req">*</span></label>
+            <input type="text" id="sbo-name" name="Full Name" required placeholder="Your full name">
+          </div>
+          <div class="sbo-field">
+            <label for="sbo-company">Firm Name</label>
+            <input type="text" id="sbo-company" name="Firm Name" placeholder="Your firm/company name">
+          </div>
+        </div>
+        <div class="sbo-grid sbo-grid-2">
+          <div class="sbo-field">
+            <label for="sbo-email">Email <span class="sbo-req">*</span></label>
+            <input type="email" id="sbo-email" name="Email" required placeholder="you@example.com">
+          </div>
+          <div class="sbo-field">
+            <label for="sbo-phone">Phone No. <span class="sbo-req">*</span></label>
+            <input type="tel" id="sbo-phone" name="Phone" required placeholder="+91 XXXXX XXXXX">
+          </div>
+        </div>
+        <div class="sbo-field">
+          <label for="sbo-gst">GST Details</label>
+          <input type="text" id="sbo-gst" name="GST Details" placeholder="Enter GST Number (if applicable)">
+        </div>
+      </div>
+
+      <!-- Order Details -->
+      <div class="sbo-fieldset">
+        <legend class="sbo-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Order Details
+        </legend>
+
+        <div id="sbo-items-list">
+          <div class="sbo-item-row" data-index="1">
+            <div class="sbo-item-num">01</div>
+            <div class="sbo-item-fields">
+              <div class="sbo-grid sbo-grid-3">
+                <div class="sbo-field">
+                  <label>Product Name <span class="sbo-req">*</span></label>
+                  <input type="text" name="Product 1 - Name" required placeholder="e.g. Vitamin C Serum">
+                </div>
+                <div class="sbo-field">
+                  <label>Variant / Size</label>
+                  <input type="text" name="Product 1 - Variant" placeholder="e.g. 30ml">
+                </div>
+                <div class="sbo-field">
+                  <label>Quantity <span class="sbo-req">*</span></label>
+                  <select name="Product 1 - Quantity" required>
+                    <option value="" disabled selected>Select quantity</option>
+                    <option value="200 pcs">200 pcs</option>
+                    <option value="500 pcs">500 pcs</option>
+                    <option value="1000 pcs">1000 pcs</option>
+                    <option value="1000 and above">1000 and above</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="sbo-remove-item" title="Remove" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="button" class="sbo-add-btn" id="sbo-add-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add Another Product
+        </button>
+      </div>
+
+      <!-- Shipping & Additional Info -->
+      <div class="sbo-fieldset">
+        <legend class="sbo-legend">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Shipping & Purpose
+        </legend>
+        
+        <div class="sbo-grid sbo-grid-2">
+          <div class="sbo-field">
+            <label for="sbo-purpose">Purpose of Purchasing <span class="sbo-req">*</span></label>
+            <select id="sbo-purpose" name="Purpose of Purchasing" required>
+              <option value="" disabled selected>Select purpose</option>
+              <option value="Distributor">Distributor</option>
+              <option value="Wholesaler">Wholesaler</option>
+              <option value="Wedding gift">Wedding gift</option>
+              <option value="Corporate gifting">Corporate gifting</option>
+              <option value="Festive gifting">Festive gifting</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="sbo-field">
+            <label for="sbo-date">Expected Delivery Date <span class="sbo-req">*</span></label>
+            <input type="date" id="sbo-date" name="Expected Delivery Date" required>
+          </div>
+        </div>
+
+        <div class="sbo-field">
+          <label for="sbo-address">Delivery Address <span class="sbo-req">*</span></label>
+          <textarea id="sbo-address" name="Delivery Address" required rows="3" placeholder="Full shipping address"></textarea>
+        </div>
+        <div class="sbo-grid sbo-grid-2">
+          <div class="sbo-field">
+            <label for="sbo-city">City <span class="sbo-req">*</span></label>
+            <input type="text" id="sbo-city" name="City" required placeholder="City">
+          </div>
+          <div class="sbo-field">
+            <label for="sbo-pincode">PIN Code <span class="sbo-req">*</span></label>
+            <input type="text" id="sbo-pincode" name="PIN Code" required placeholder="Pincode">
+          </div>
+        </div>
+        <div class="sbo-field">
+          <label for="sbo-notes">Remark or Description</label>
+          <textarea id="sbo-notes" name="Remark or Description" rows="3" placeholder="Any specific requirements, comments, etc."></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="sbo-submit-btn" id="sbo-submit">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+        <span>Submit Bulk Order Request</span>
+      </button>
+
+      <p class="sbo-disclaimer">{{ section.settings.disclaimer_text }}</p>
+    </form>
+
+    <!-- Thank You State -->
+    <div class="sbo-thankyou" id="sbo-thankyou" style="display:none;">
+      <div class="sbo-thankyou-icon">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="28" class="sbo-check-circle"/>
+          <polyline points="20 33 28 41 44 25" class="sbo-check-mark"/>
+        </svg>
+      </div>
+      <h3 class="sbo-thankyou-heading">{{ section.settings.thankyou_heading }}</h3>
+      <p class="sbo-thankyou-text">{{ section.settings.thankyou_message }}</p>
+      <button type="button" class="sbo-thankyou-btn" id="sbo-new-order">Submit Another Enquiry</button>
+    </div>
+
+    <!-- Info Section -->
+    <div class="sbo-info">
+      <div class="sbo-info-contact">
+        <h4 class="sbo-info-label">Contact Details</h4>
+        <p class="sbo-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email: <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+        </p>
+        {% if section.settings.contact_phone != blank %}
+        <p class="sbo-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Phone: <a href="tel:{{ section.settings.contact_phone }}">{{ section.settings.contact_phone }}</a>
+        </p>
+        {% endif %}
+      </div>
+
+      <div class="sbo-info-divider"></div>
+
+      <div class="sbo-info-about">
+        <h3 class="sbo-info-heading">{{ section.settings.about_heading }}</h3>
+        <div class="sbo-info-text">{{ section.settings.about_description }}</div>
+      </div>
+
+      {% if section.settings.show_benefits %}
+      <div class="sbo-info-benefits">
+        <div class="sbo-benefit">
+          <div class="sbo-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 12V22H4V12"/><path d="M22 7H2V12H22V7Z"/><path d="M12 22V7"/><path d="M12 7H7.5C6.119 7 5 5.881 5 4.5C5 3.119 6.119 2 7.5 2C8.881 2 10 3.119 10 4.5C10 5.419 11 7 12 7Z"/><path d="M12 7H16.5C17.881 7 19 5.881 19 4.5C19 3.119 17.881 2 16.5 2C15.119 2 14 3.119 14 4.5C14 5.419 13 7 12 7Z"/></svg>
+          </div>
+          <h5 class="sbo-benefit-title">Corporate Gifting</h5>
+          <p class="sbo-benefit-desc">Premium skincare hampers for employees, clients & special occasions</p>
+        </div>
+        <div class="sbo-benefit">
+          <div class="sbo-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M16 8l-8 8"/><path d="M8.5 8H8.51"/><path d="M15.5 16H15.51"/></svg>
+          </div>
+          <h5 class="sbo-benefit-title">Best Wholesale Pricing</h5>
+          <p class="sbo-benefit-desc">Exclusive bulk discounts — the more you order, the more you save</p>
+        </div>
+        <div class="sbo-benefit">
+          <div class="sbo-benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h5 class="sbo-benefit-title">Pan-India Delivery</h5>
+          <p class="sbo-benefit-desc">Safe & secure shipping across India with real-time tracking</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* ════════════════════════════════
+   SENFA — BULK ORDER FORM
+════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
+
+.sbo-banner {
+  width: 100%;
+  display: block;
+}
+.sbo-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 500px;
+}
+
+.sbo-section {
+  padding: 80px 20px;
+  background: #FFFFFF;
+  font-family: 'Jost', sans-serif;
+  color: #1A1228;
+}
+
+.sbo-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.sbo-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.sbo-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #C9922A;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.sbo-eyebrow::before,
+.sbo-eyebrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 1px;
+  background: #C9922A;
+  opacity: 0.4;
+}
+.sbo-eyebrow::before { right: calc(100% + 16px); }
+.sbo-eyebrow::after { left: calc(100% + 16px); }
+
+.sbo-heading {
+  font-family: 'Jost', sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #1A1228;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.sbo-subheading {
+  font-size: 15px;
+  color: #777;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+}
+
+/* ── Form ── */
+.sbo-form {
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  padding: 48px;
+}
+
+/* ── Fieldset ── */
+.sbo-fieldset {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.sbo-fieldset:last-of-type {
+  border-bottom: none;
+  margin-bottom: 32px;
+  padding-bottom: 0;
+}
+
+.sbo-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin-bottom: 28px;
+  padding: 0;
+  border: none;
+}
+
+.sbo-legend svg {
+  width: 18px;
+  height: 18px;
+  color: #C9922A;
+}
+
+/* ── Grid ── */
+.sbo-grid {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.sbo-grid:last-child { margin-bottom: 0; }
+.sbo-grid-2 { grid-template-columns: 1fr 1fr; }
+.sbo-grid-3 { grid-template-columns: 2fr 1fr 1fr; }
+
+/* ── Fields ── */
+.sbo-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.sbo-field label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.sbo-req { color: #C9922A; }
+
+.sbo-field input,
+.sbo-field textarea,
+.sbo-field select {
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  color: #1A1228;
+  padding: 14px 16px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 4px;
+  background: #FAFAFA;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sbo-field input:focus,
+.sbo-field textarea:focus,
+.sbo-field select:focus {
+  border-color: #C9922A;
+  box-shadow: 0 0 0 3px rgba(201,146,42,0.08);
+  background: #FFFFFF;
+}
+
+.sbo-field input::placeholder,
+.sbo-field textarea::placeholder {
+  color: #BBB;
+  font-weight: 300;
+}
+
+.sbo-field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ── Dynamic Item Rows ── */
+.sbo-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #FAFAF8;
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 6px;
+  position: relative;
+  animation: sboSlideIn 0.3s ease;
+}
+
+@keyframes sboSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sbo-item-num {
+  width: 32px;
+  height: 32px;
+  background: #1A1228;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-top: 28px;
+}
+
+.sbo-item-fields {
+  flex: 1;
+}
+
+.sbo-item-fields .sbo-grid { margin-bottom: 0; }
+
+.sbo-remove-item {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #999;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.sbo-remove-item:hover {
+  background: #C9922A;
+  border-color: #C9922A;
+  color: #FFF;
+}
+
+.sbo-remove-item svg { width: 14px; height: 14px; }
+
+/* ── Add Button ── */
+.sbo-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 2px dashed rgba(0,0,0,0.12);
+  border-radius: 6px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #777;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.sbo-add-btn:hover {
+  border-color: #C9922A;
+  color: #C9922A;
+  background: rgba(201,146,42,0.03);
+}
+
+.sbo-add-btn svg { width: 16px; height: 16px; }
+
+/* ── Submit Button ── */
+.sbo-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 20px;
+  background: #1A1228;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.sbo-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,146,42,0.15), transparent);
+  transition: left 0.5s;
+}
+
+.sbo-submit-btn:hover {
+  background: #C9922A;
+}
+
+.sbo-submit-btn:hover::before {
+  left: 100%;
+}
+
+.sbo-submit-btn:active {
+  transform: scale(0.99);
+}
+
+.sbo-submit-btn svg { width: 18px; height: 18px; }
+
+.sbo-disclaimer {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin: 20px 0 0;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* ── Thank You State ── */
+.sbo-thankyou {
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  padding: 64px 48px;
+  text-align: center;
+  animation: sboFadeUp 0.6s ease;
+}
+
+@keyframes sboFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sbo-thankyou-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 32px;
+  color: #C9922A;
+}
+
+.sbo-thankyou-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sbo-check-circle {
+  stroke: #C9922A;
+  stroke-dasharray: 176;
+  stroke-dashoffset: 176;
+  animation: sboCircleDraw 0.8s ease 0.2s forwards;
+}
+
+.sbo-check-mark {
+  stroke: #C9922A;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: sboCheckDraw 0.4s ease 0.9s forwards;
+}
+
+@keyframes sboCircleDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes sboCheckDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.sbo-thankyou-heading {
+  font-family: 'Jost', sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #1A1228;
+  margin: 0 0 16px;
+}
+
+.sbo-thankyou-text {
+  font-size: 15px;
+  color: #777;
+  line-height: 1.7;
+  max-width: 460px;
+  margin: 0 auto 36px;
+  letter-spacing: 0.02em;
+}
+
+.sbo-thankyou-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 40px;
+  background: transparent;
+  border: 1px solid #1A1228;
+  border-radius: 4px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #1A1228;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.sbo-thankyou-btn:hover {
+  background: #1A1228;
+  color: #FFFFFF;
+}
+
+/* ── Submit Loading State ── */
+.sbo-submit-btn.is-loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.sbo-submit-btn.is-loading span {
+  display: none;
+}
+
+.sbo-submit-btn.is-loading svg {
+  display: none;
+}
+
+.sbo-submit-btn.is-loading::after {
+  content: 'Sending...';
+  letter-spacing: 0.2em;
+}
+
+/* ── Info Section ── */
+.sbo-info {
+  margin-top: 48px;
+}
+
+.sbo-info-contact {
+  margin-bottom: 32px;
+}
+
+.sbo-info-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1228;
+  margin: 0 0 16px;
+  letter-spacing: 0.03em;
+}
+
+.sbo-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.sbo-info-item:last-child { margin-bottom: 0; }
+
+.sbo-info-item svg {
+  width: 16px;
+  height: 16px;
+  color: #C9922A;
+  flex-shrink: 0;
+}
+
+.sbo-info-item a {
+  color: #1A1228;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.sbo-info-item a:hover { color: #C9922A; }
+
+.sbo-info-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 32px 0;
+}
+
+.sbo-info-heading {
+  font-family: 'Jost', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin: 0 0 20px;
+}
+
+.sbo-info-text {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+.sbo-info-text p { margin: 0 0 12px; }
+.sbo-info-text p:last-child { margin-bottom: 0; }
+
+/* ── Benefits Grid ── */
+.sbo-info-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.sbo-benefit {
+  text-align: center;
+}
+
+.sbo-benefit-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 16px;
+  color: #C9922A;
+}
+
+.sbo-benefit-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sbo-benefit-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin: 0 0 8px;
+}
+
+.sbo-benefit-desc {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ════════════════════════════════
+   MOBILE RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 768px) {
+  .sbo-section { padding: 48px 16px; }
+
+  .sbo-heading { font-size: 26px; }
+  .sbo-subheading { font-size: 14px; }
+  .sbo-header { margin-bottom: 36px; }
+
+  .sbo-form { padding: 24px 20px; }
+  .sbo-fieldset { margin-bottom: 28px; padding-bottom: 28px; }
+  .sbo-legend { font-size: 12px; margin-bottom: 20px; }
+
+  .sbo-grid-2,
+  .sbo-grid-3 { grid-template-columns: 1fr; }
+
+  .sbo-item-row { flex-direction: column; padding: 16px; }
+  .sbo-item-num { margin-top: 0; }
+  .sbo-item-fields { width: 100%; }
+  .sbo-remove-item { top: 8px; right: 8px; }
+
+  .sbo-submit-btn { padding: 18px; font-size: 13px; }
+
+  .sbo-eyebrow::before,
+  .sbo-eyebrow::after { width: 24px; }
+
+  .sbo-info { margin-top: 36px; }
+  .sbo-info-heading { font-size: 18px; }
+  .sbo-info-benefits { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 480px) {
+  .sbo-heading { font-size: 22px; letter-spacing: 0.05em; }
+  .sbo-form { padding: 20px 16px; }
+}
+</style>
+
+<script>
+(function() {
+  const list = document.getElementById('sbo-items-list');
+  const addBtn = document.getElementById('sbo-add-item');
+  let count = 1;
+
+  function updateNumbers() {
+    const rows = list.querySelectorAll('.sbo-item-row');
+    rows.forEach(function(row, i) {
+      row.dataset.index = i + 1;
+      row.querySelector('.sbo-item-num').textContent = String(i + 1).padStart(2, '0');
+      const inputs = row.querySelectorAll('input, select');
+      inputs[0].name = 'Product ' + (i + 1) + ' - Name';
+      inputs[1].name = 'Product ' + (i + 1) + ' - Variant';
+      inputs[2].name = 'Product ' + (i + 1) + ' - Quantity';
+      var removeBtn = row.querySelector('.sbo-remove-item');
+      removeBtn.style.display = rows.length > 1 ? 'flex' : 'none';
+    });
+    count = rows.length;
+  }
+
+  addBtn.addEventListener('click', function() {
+    count++;
+    var row = document.createElement('div');
+    row.className = 'sbo-item-row';
+    row.dataset.index = count;
+    row.innerHTML =
+      '<div class="sbo-item-num">' + String(count).padStart(2, '0') + '</div>' +
+      '<div class="sbo-item-fields">' +
+        '<div class="sbo-grid sbo-grid-3">' +
+          '<div class="sbo-field">' +
+            '<label>Product Name <span class="sbo-req">*</span></label>' +
+            '<input type="text" name="Product ' + count + ' - Name" required placeholder="e.g. Vitamin C Serum">' +
+          '</div>' +
+          '<div class="sbo-field">' +
+            '<label>Variant / Size</label>' +
+            '<input type="text" name="Product ' + count + ' - Variant" placeholder="e.g. 30ml">' +
+          '</div>' +
+          '<div class="sbo-field">' +
+            '<label>Quantity <span class="sbo-req">*</span></label>' +
+            '<select name="Product ' + count + ' - Quantity" required>' +
+              '<option value="" disabled selected>Select quantity</option>' +
+              '<option value="200 pcs">200 pcs</option>' +
+              '<option value="500 pcs">500 pcs</option>' +
+              '<option value="1000 pcs">1000 pcs</option>' +
+              '<option value="1000 and above">1000 and above</option>' +
+            '</select>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button type="button" class="sbo-remove-item" title="Remove">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>' +
+      '</button>';
+    list.appendChild(row);
+    updateNumbers();
+    row.querySelector('input').focus();
+  });
+
+  list.addEventListener('click', function(e) {
+    var btn = e.target.closest('.sbo-remove-item');
+    if (!btn) return;
+    var row = btn.closest('.sbo-item-row');
+    row.style.animation = 'none';
+    row.style.opacity = '0';
+    row.style.transform = 'translateY(-10px)';
+    row.style.transition = 'all 0.25s ease';
+    setTimeout(function() {
+      row.remove();
+      updateNumbers();
+    }, 250);
+  });
+
+  /* ── AJAX Form Submission ── */
+  var form = document.getElementById('sbo-bulk-form');
+  var thankyou = document.getElementById('sbo-thankyou');
+  var newOrderBtn = document.getElementById('sbo-new-order');
+  var submitBtn = document.getElementById('sbo-submit');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitBtn.classList.add('is-loading');
+
+    var formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(res) {
+      if (res.ok) {
+        form.style.display = 'none';
+        thankyou.style.display = 'block';
+        window.scrollTo({ top: thankyou.closest('.sbo-section').offsetTop - 40, behavior: 'smooth' });
+      } else {
+        alert('Something went wrong. Please try again or contact us directly.');
+      }
+      submitBtn.classList.remove('is-loading');
+    })
+    .catch(function() {
+      alert('Network error. Please check your connection and try again.');
+      submitBtn.classList.remove('is-loading');
+    });
+  });
+
+  newOrderBtn.addEventListener('click', function() {
+    form.reset();
+    var rows = list.querySelectorAll('.sbo-item-row');
+    for (var i = rows.length - 1; i > 0; i--) rows[i].remove();
+    updateNumbers();
+    thankyou.style.display = 'none';
+    form.style.display = 'block';
+    window.scrollTo({ top: form.closest('.sbo-section').offsetTop - 40, behavior: 'smooth' });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Bulk Order Form",
+  "tag": "section",
+  "class": "senfa-bulk-order",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🖼️ Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "header",
+      "content": "📧 Email Configuration"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Your Email Address",
+      "info": "All bulk order submissions will be sent to this email.",
+      "default": "orders@yourstore.com"
+    },
+    {
+      "type": "text",
+      "id": "email_subject",
+      "label": "Email Subject Line",
+      "default": "New Bulk Order Request"
+    },
+    {
+      "type": "header",
+      "content": "✏️ Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Text",
+      "default": "Wholesale & Bulk"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bulk Order Enquiry"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Planning a large order? Fill in the details below and our team will get back to you within 24 hours with the best pricing."
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer_text",
+      "label": "Disclaimer Text",
+      "default": "By submitting this form, you agree to be contacted regarding your bulk order enquiry. We typically respond within 24 business hours."
+    },
+    {
+      "type": "header",
+      "content": "✅ Thank You Message"
+    },
+    {
+      "type": "text",
+      "id": "thankyou_heading",
+      "label": "Thank You Heading",
+      "default": "Thank You for Your Enquiry!"
+    },
+    {
+      "type": "textarea",
+      "id": "thankyou_message",
+      "label": "Thank You Message",
+      "default": "We have received your bulk order request and our team will review it carefully. Expect a response with the best pricing within 24 business hours."
+    },
+    {
+      "type": "header",
+      "content": "📋 Info Section (Below Form)"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact Email",
+      "default": "orders@senfa.in"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Contact Phone (optional)"
+    },
+    {
+      "type": "text",
+      "id": "about_heading",
+      "label": "About Section Heading",
+      "default": "About the Bulk Order"
+    },
+    {
+      "type": "richtext",
+      "id": "about_description",
+      "label": "About Section Description",
+      "default": "<p>Claim your savings by buying in bulk with SENFA. Create personalised collections for every occasion \u2014 festival hampers, corporate gifts, wedding tokens, and more. With our bulk buying option, elevate your gifting game with premium skincare that leaves a lasting impression.</p><p>Whether you're a business looking to stock up or planning a special event, SENFA offers unbeatable wholesale pricing with the same commitment to quality and luxury that defines our brand.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_benefits",
+      "label": "Show Benefits Grid",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bulk Order Form"
+    }
+  ]
+}
+{% endschema %}

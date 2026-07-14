@@ -1,0 +1,208 @@
+{% comment %}
+  Senfa — Hyper Premium Trust Bar
+  File: sections/senfa-trustbar.liquid
+{% endcomment %}
+
+<style>
+  .senfa-trust {
+    background: {{ section.settings.bg_color }};
+    border-top: 1px solid rgba(201, 146, 42, 0.15); /* Faint Senfa Gold border */
+    border-bottom: 1px solid rgba(201, 146, 42, 0.15);
+    padding: 24px 0;
+  }
+
+  .senfa-trust__inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  .senfa-trust__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    padding: 0 32px;
+  }
+
+  /* Elegant Gold Dot Divider */
+  .senfa-trust__item + .senfa-trust__item::before {
+    content: '•';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: {{ section.settings.accent_color }};
+    font-size: 14px;
+    opacity: 0.5;
+  }
+
+  .senfa-trust__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: {{ section.settings.accent_color }};
+  }
+
+  .senfa-trust__icon svg {
+    width: 100%;
+    height: 100%;
+    stroke-width: 1.2px; /* Ultra-thin luxury stroke */
+  }
+
+  .senfa-trust__text {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Emphasized text uses editorial serif */
+  .senfa-trust__text strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: {{ section.settings.highlight_color }};
+  }
+
+  /* ════════════════
+     MOBILE 989px
+  ════════════════ */
+  @media (max-width: 989px) {
+    .senfa-trust {
+      padding: 16px 0;
+    }
+    .senfa-trust__inner {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding: 0 24px;
+      gap: 32px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .senfa-trust__inner::-webkit-scrollbar {
+      display: none; /* Safari/Chrome */
+    }
+    .senfa-trust__item {
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .senfa-trust__item + .senfa-trust__item::before {
+      display: block;
+      left: -18px;
+    }
+  }
+</style>
+
+<div class="senfa-trust">
+  <div class="senfa-trust__inner">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'trust_item' -%}
+        <div class="senfa-trust__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.svg_code != blank -%}
+            <span class="senfa-trust__icon">{{ block.settings.svg_code }}</span>
+          {%- endif -%}
+          <span class="senfa-trust__text">{{ block.settings.text }}</span>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Senfa Trust Bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Supporting Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight Text Color (Serif)",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Icon & Divider Accent Color",
+      "default": "#C9922A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "html",
+          "id": "svg_code",
+          "label": "Icon SVG Code",
+          "info": "Paste pure SVG code here. It will automatically inherit the Accent Color and size."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "info": "Wrap text in <strong> tags to make it italicized Cormorant Garamond.",
+          "default": "<strong>Free shipping</strong> above ₹999"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Trust Bar",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z\"/><line x1=\"16\" y1=\"8\" x2=\"2\" y2=\"22\"/></svg>",
+            "text": "<strong>Free shipping</strong> above ₹999"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\"/><path d=\"M3 3v5h5\"/></svg>",
+            "text": "<strong>Easy returns</strong> within 7 days"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/></svg>",
+            "text": "<strong>Secure payment</strong> UPI · Cards · COD"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

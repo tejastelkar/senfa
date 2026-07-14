@@ -1,0 +1,841 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "senfa_hero_slideshow_BaTFdj": {
+      "type": "senfa-hero-slideshow",
+      "blocks": {
+        "slide_Ga4bM9": {
+          "type": "slide",
+          "settings": {
+            "video": "shopify://files/videos/download (6).mp4",
+            "video_mobile": "shopify://files/videos/hf_20260626_111618_6a727bf3-60f1-4d1a-a639-e4bdfca05704.mp4",
+            "overlay_opacity": 20,
+            "color_theme": "light",
+            "text_position_y": "bottom",
+            "text_position_x": "left",
+            "show_text_box": true,
+            "subheading": "The Saffron Collection",
+            "heading": "Nature's Rarest Luxury",
+            "button_label": "Shop the Soap",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "slide_Ga4bM9"
+      ],
+      "name": "Senfa Hero Slideshow",
+      "settings": {
+        "desktop_height": 85,
+        "mobile_height": 80,
+        "enable_autoplay": true,
+        "autoplay_speed": 5
+      }
+    },
+    "senfa_taskbar_rccraU": {
+      "type": "senfa-taskbar",
+      "blocks": {
+        "stat_imeEph": {
+          "type": "stat",
+          "settings": {
+            "number_display": "50",
+            "number_target": "50",
+            "decimals": "0",
+            "suffix": "+",
+            "show_star": false,
+            "label": "Years of Heritage",
+            "sublabel": "Himalayan Origin"
+          }
+        },
+        "stat_RfFKeP": {
+          "type": "stat",
+          "settings": {
+            "number_display": "0",
+            "number_target": "0",
+            "decimals": "0",
+            "suffix": "%",
+            "show_star": false,
+            "label": "Sulphate · Paraben · SLS",
+            "sublabel": "Zero Harsh Chemicals"
+          }
+        },
+        "stat_cNaCRj": {
+          "type": "stat",
+          "settings": {
+            "number_display": "100",
+            "number_target": "100",
+            "decimals": "0",
+            "suffix": "%",
+            "show_star": false,
+            "label": "Vegan Formula",
+            "sublabel": "No Animal Testing"
+          }
+        },
+        "stat_nWaUYt": {
+          "type": "stat",
+          "settings": {
+            "number_display": "10",
+            "number_target": "10",
+            "decimals": "0",
+            "suffix": "K+",
+            "show_star": false,
+            "label": "Happy Customers",
+            "sublabel": "Worldwide"
+          }
+        }
+      },
+      "block_order": [
+        "stat_imeEph",
+        "stat_RfFKeP",
+        "stat_cNaCRj",
+        "stat_nWaUYt"
+      ],
+      "name": "Senfa Stats Bar",
+      "settings": {
+        "bg_color": "#ffffff",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_yMjxf7": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<div class=\"senfa-ticker\">\n  <div class=\"senfa-ticker__track\">\n    <!-- Set 1 -->\n    <span class=\"senfa-ticker__item\">HAND-HARVESTED SAFFRON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">100% VEGAN FORMULA <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">HIMALAYAN ORIGIN <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">0% SULPHATE · PARABEN · SILICON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">CLEANSE. SOOTHE. GLOW. <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">SIMPLY BEYOND <span class=\"senfa-ticker__dot\">✦</span></span>\n    <!-- Set 2 -->\n    <span class=\"senfa-ticker__item\">HAND-HARVESTED SAFFRON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">100% VEGAN FORMULA <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">HIMALAYAN ORIGIN <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">0% SULPHATE · PARABEN · SILICON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">CLEANSE. SOOTHE. GLOW. <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">SIMPLY BEYOND <span class=\"senfa-ticker__dot\">✦</span></span>\n    <!-- Set 3 -->\n    <span class=\"senfa-ticker__item\">HAND-HARVESTED SAFFRON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">100% VEGAN FORMULA <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">HIMALAYAN ORIGIN <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">0% SULPHATE · PARABEN · SILICON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">CLEANSE. SOOTHE. GLOW. <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">SIMPLY BEYOND <span class=\"senfa-ticker__dot\">✦</span></span>\n    <!-- Set 4 -->\n    <span class=\"senfa-ticker__item\">HAND-HARVESTED SAFFRON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">100% VEGAN FORMULA <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">HIMALAYAN ORIGIN <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">0% SULPHATE · PARABEN · SILICON <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">CLEANSE. SOOTHE. GLOW. <span class=\"senfa-ticker__dot\">✦</span></span>\n    <span class=\"senfa-ticker__item\">SIMPLY BEYOND <span class=\"senfa-ticker__dot\">✦</span></span>\n  </div>\n</div>\n\n<style>\n.senfa-ticker {\n  background: linear-gradient(90deg, #2D1B4E 0%, #3D2468 50%, #2D1B4E 100%);\n  overflow: hidden;\n  width: 100%;\n  padding: 14px 0;\n  position: relative;\n}\n\n.senfa-ticker__track {\n  display: flex;\n  align-items: center;\n  width: max-content;\n  animation: senfa-ticker 28s linear infinite;\n  gap: 0;\n}\n\n.senfa-ticker__item {\n  font-family: 'Jost', sans-serif;\n  font-size: 10px;\n  font-weight: 400;\n  letter-spacing: 3px;\n  text-transform: uppercase;\n  color: #FAFAF7;\n  white-space: nowrap;\n  padding: 0 32px;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.senfa-ticker__dot {\n  color: #B8922A;\n  font-size: 10px;\n  flex-shrink: 0;\n}\n\n.senfa-ticker:hover .senfa-ticker__track {\n  animation-play-state: paused;\n}\n\n@keyframes senfa-ticker {\n  0%   { transform: translateX(0); }\n  100% { transform: translateX(-25%); }\n}\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "senfa_trustbar_QMeLYD": {
+      "type": "senfa-trustbar",
+      "blocks": {
+        "trust_item_caqJrW": {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"1\" y=\"3\" width=\"15\" height=\"13\" rx=\"1\"></rect>\n  <polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon>\n  <circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle>\n  <circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle>\n</svg>",
+            "text": "Free shipping above ₹999"
+          }
+        },
+        "trust_item_zCNMzP": {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <polyline points=\"9 14 4 9 9 4\"></polyline>\n  <path d=\"M20 20v-7a4 4 0 0 0-4-4H4\"></path>\n</svg>",
+            "text": "Easy returns within 7 days"
+          }
+        },
+        "trust_item_jtRAgq": {
+          "type": "trust_item",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"></rect>\n  <path d=\"M7 11V7a5 5 0 0 1 10 0v4\"></path>\n</svg>",
+            "text": "Secure payment - UPI · Cards · COD"
+          }
+        }
+      },
+      "block_order": [
+        "trust_item_caqJrW",
+        "trust_item_zCNMzP",
+        "trust_item_jtRAgq"
+      ],
+      "name": "Senfa Trust Bar",
+      "settings": {
+        "bg_color": "#ffffff",
+        "text_color": "#382b62",
+        "highlight_color": "#382b62",
+        "accent_color": "#c9922a"
+      }
+    },
+    "senfa_concerns_VLph99": {
+      "type": "senfa-concerns",
+      "blocks": {
+        "concern_card_mrQxA8": {
+          "type": "concern_card",
+          "settings": {
+            "eyebrow": "",
+            "title": "Skin Ageing",
+            "description": "Fine lines, wrinkles, and loss of elasticity.",
+            "btn_label": "Explore",
+            "link": "",
+            "image": "shopify://shop_images/skin.webp"
+          }
+        },
+        "concern_card_aNBNBX": {
+          "type": "concern_card",
+          "settings": {
+            "eyebrow": "",
+            "title": "Dryness",
+            "description": "Flaky, dehydrated skin needing deep moisture.",
+            "btn_label": "Explore",
+            "link": "",
+            "image": "shopify://shop_images/dry.png"
+          }
+        },
+        "concern_card_8nGDgi": {
+          "type": "concern_card",
+          "settings": {
+            "eyebrow": "",
+            "title": "Acne",
+            "description": "Inflammation, redness, and frequent breakouts.",
+            "btn_label": "Explore",
+            "link": "",
+            "image": "shopify://shop_images/acne.png"
+          }
+        }
+      },
+      "block_order": [
+        "concern_card_mrQxA8",
+        "concern_card_aNBNBX",
+        "concern_card_8nGDgi"
+      ],
+      "name": "Senfa Shop By Concern",
+      "settings": {
+        "heading": "Shop now",
+        "heading_italic": "",
+        "body": "Targeted Ayurvedic rituals for your specific skin needs.",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "text_body": "#666666",
+        "card_bg": "#f5f3ee",
+        "card_text": "#1a1228",
+        "padding_top": 104,
+        "padding_bottom": 104
+      }
+    },
+    "senfa_transformation_6jP8BX": {
+      "type": "senfa-transformation",
+      "name": "Senfa Transformation",
+      "settings": {
+        "eyebrow": "",
+        "heading": "The",
+        "heading_italic": "Transformation",
+        "subheading": "94% of users noticed visible skin improvement within 30 days.",
+        "day1_label": "Day 1",
+        "day1_result": "Deep Cleanse Begins",
+        "day1_detail": "Saffron and cold-pressed oils penetrate deeply from the very first lather, removing impurities without stripping moisture.",
+        "day1_image": "shopify://shop_images/1st.png",
+        "day2_label": "Day 15",
+        "day2_result": "Radiance Awakens",
+        "day2_detail": "Natural crocin in Himalayan Saffron visibly brightens your skin tone, reducing dark spots and uneven patches.",
+        "day2_image": "shopify://shop_images/2nd.png",
+        "day3_label": "Day 30",
+        "day3_result": "Total Transformation",
+        "day3_detail": "94% of users report visibly brighter, smoother, and more even skin — the Senfa glow, earned naturally.",
+        "day3_image": "shopify://shop_images/3rd.png",
+        "cta_label": "Shop the Soap",
+        "cta_url": "",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "body_color": "#4a4a4a",
+        "image_bg": "#ebe8e0",
+        "autoplay_speed": 4,
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "senfa_testimonials_j7qmkb": {
+      "type": "senfa-testimonials",
+      "blocks": {
+        "testimonial_FgWrYy": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I've been using this saffron soap for a week, and my skin feels incredibly soft. The fragrance is luxurious but not overpowering.",
+            "author_name": "Priya Sharma"
+          }
+        },
+        "testimonial_643Dpp": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Absolutely love it! You can tell it's made with high-quality ingredients. My skin looks brighter and feels so clean.",
+            "author_name": "Rohan Mehta"
+          }
+        },
+        "testimonial_7zAewX": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The lather is so rich and creamy. I have sensitive skin, but this soap has been completely gentle. Definitely buying again.",
+            "author_name": "Anjali Desai"
+          }
+        },
+        "testimonial_fwcpMN": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "A truly premium bathing experience. The saffron scent is authentic and stays with you faintly throughout the day.",
+            "author_name": "Vikram Singh"
+          }
+        },
+        "testimonial_erzbtN": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I switched to this because it's sulphate-free. Not only is it safe, but it also leaves my skin glowing. Highly recommended!",
+            "author_name": "Neha Gupta"
+          }
+        },
+        "testimonial_MQzEz8": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Beautiful packaging and a fantastic product inside. It feels like a spa treatment every time I use it in the shower.",
+            "author_name": "Kavita Rao"
+          }
+        },
+        "testimonial_3t9GFN": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I was skeptical about saffron soaps, but this one changed my mind. The texture and the way it cleanses are just top-notch.",
+            "author_name": "Rahul Verma"
+          }
+        },
+        "testimonial_QVPQfL": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Perfect for everyday luxury. My skin texture has noticeably improved since I started using it.",
+            "author_name": "Simran Kaur"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_FgWrYy",
+        "testimonial_643Dpp",
+        "testimonial_7zAewX",
+        "testimonial_fwcpMN",
+        "testimonial_erzbtN",
+        "testimonial_MQzEz8",
+        "testimonial_3t9GFN",
+        "testimonial_QVPQfL"
+      ],
+      "name": "Senfa Testimonials",
+      "settings": {
+        "heading": "What Our Customers",
+        "heading_italic": "Are Saying",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "text_body": "#4a4a4a",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "watch_and_shop_nipH4m": {
+      "type": "watch-and-shop",
+      "blocks": {
+        "video_card_73EFWM": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a63be1870df54d36aaeaf14a08914c98.mp4",
+            "thumb_bg_color": "#2d1b69",
+            "discount_label": "40% discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        },
+        "video_card_NcdV8E": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/561f8070225c401ea35ab61071652a56.mp4",
+            "thumb_bg_color": "#2d1b69",
+            "discount_label": "40% discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        },
+        "video_card_njXXM9": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/22f5d3dbcd7a410684991cbaef58583f.mp4",
+            "thumb_bg_color": "#2d1b69",
+            "discount_label": "40 % discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        },
+        "video_card_8f3tDM": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a4026d298baf4699bc3d069a008c9ddf.mp4",
+            "thumb_bg_color": "#2d1b69",
+            "discount_label": "40 % discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        },
+        "video_card_NibXRw": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a63be1870df54d36aaeaf14a08914c98.mp4",
+            "thumb_bg_color": "#2d1b69",
+            "discount_label": "40 % discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        },
+        "video_card_ptUfrN": {
+          "type": "video_card",
+          "settings": {
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/deee27f7e168486a951901824b597adc.mp4",
+            "thumb_bg_color": "#2d1b4e",
+            "discount_label": "40% discount",
+            "views_count": "500 views",
+            "product": "saffron-soap",
+            "manual_product_name": "",
+            "manual_price": "",
+            "manual_compare_price": "",
+            "manual_product_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_card_73EFWM",
+        "video_card_NcdV8E",
+        "video_card_njXXM9",
+        "video_card_8f3tDM",
+        "video_card_NibXRw",
+        "video_card_ptUfrN"
+      ],
+      "name": "Watch and Shop",
+      "settings": {
+        "eyebrow_text": "",
+        "title": "Watch and",
+        "italic_word": "Shop",
+        "title_color": "#111111",
+        "accent_color": "#6b21a8",
+        "bg_color": "#ffffff",
+        "button_bg": "#3d2b6b",
+        "button_text_color": "#ffffff",
+        "button_label": "Buy Now",
+        "discount_tag_bg": "#000000",
+        "discount_tag_color": "#ffffff",
+        "price_color": "#111111",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "benefits_6eA7xB": {
+      "type": "benefits",
+      "blocks": {
+        "benefit_amFXry": {
+          "type": "benefit",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83\"></path>\n  <circle cx=\"12\" cy=\"12\" r=\"4\"></circle>\n</svg>",
+            "title": "Skin Brightening",
+            "description": "Saffron's natural crocin evens skin tone and reduces dark spots with daily use."
+          }
+        },
+        "benefit_TbhXb7": {
+          "type": "benefit",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z\"></path>\n</svg>",
+            "title": "Deep Hydration",
+            "description": "Rich emollients lock moisture in. No more dry, tight skin after washing."
+          }
+        },
+        "benefit_Qkegja": {
+          "type": "benefit",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z\"></path>\n  <path d=\"M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12\"></path>\n</svg>",
+            "title": "Gentle Cleanse",
+            "description": "No sulphates, no harsh chemicals. Safe for all skin types, including sensitive."
+          }
+        },
+        "benefit_Rjj34P": {
+          "type": "benefit",
+          "settings": {
+            "svg_code": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n  <path d=\"M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z\"></path>\n</svg>",
+            "title": "Natural Glow",
+            "description": "Ancient Himalayani beauty secret, now available in your daily ritual."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_amFXry",
+        "benefit_TbhXb7",
+        "benefit_Qkegja",
+        "benefit_Rjj34P"
+      ],
+      "name": "Senfa Benefits",
+      "settings": {
+        "heading": "What It Does",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "text_dark": "#2d1b4e",
+        "text_light": "#666666",
+        "show_strip": true,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "senfa_ingredients_a38UCP": {
+      "type": "senfa-ingredients",
+      "blocks": {
+        "ingredient_EzVGW7": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Himalayani Saffron Strands",
+            "description": "Hand-picked at dawn. Rich in crocin and antioxidants for natural brightening and glow."
+          }
+        },
+        "ingredient_hGNwh9": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Coconut-Derived Surfactants",
+            "description": "Ultra-gentle, sulphate-free cleansing agents that respect your skin barrier."
+          }
+        },
+        "ingredient_EQe8xN": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Natural Perfume",
+            "description": "Delicate floral accord that lingers without irritating sensitive skin."
+          }
+        },
+        "ingredient_QHWUjt": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Skin-Loving Emollients",
+            "description": "Cocamidopropyl Betaine and Glycol — deep moisture, no greasy residue."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_EzVGW7",
+        "ingredient_hGNwh9",
+        "ingredient_EQe8xN",
+        "ingredient_QHWUjt"
+      ],
+      "name": "Senfa Ingredients",
+      "settings": {
+        "bg_color": "#382b62",
+        "heading_color": "#fefcf8",
+        "accent_gold": "#c9922a",
+        "text_body": "#ffffff",
+        "text_muted": "#a09ba6",
+        "heading": "What Goes",
+        "heading_italic": "Inside Matters",
+        "body": "Every ingredient in Senfa's bath soap is chosen with intention. No fillers, no shortcuts — only what your skin truly needs.",
+        "bg_word": "PURE",
+        "stat1_value": "0%",
+        "stat1_target": "0",
+        "stat1_suffix": "%",
+        "stat1_label": "Sulphates",
+        "stat2_value": "100%",
+        "stat2_target": "100",
+        "stat2_suffix": "%",
+        "stat2_label": "Vegan",
+        "stat3_value": "4+",
+        "stat3_target": "4",
+        "stat3_suffix": "+",
+        "stat3_label": "Key Actives",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "senfa_commitments_fizPe7": {
+      "type": "senfa-commitments",
+      "blocks": {
+        "commitment_tkXi4C": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 2v6l-4.5 9A2 2 0 0 0 6.2 20h11.6a2 2 0 0 0 1.7-2.9L15 8V2\"></path><line x1=\"7\" y1=\"2\" x2=\"17\" y2=\"2\"></line><path d=\"M12 18v-5\"></path><path d=\"M12 15c-1.5 0-2.5-1-2.5-2.5S10.5 10 12 10\"></path><path d=\"M12 13c1.5 0 2.5-1 2.5-2.5S13.5 10 12 10\"></path></svg>",
+            "title": "Clean Formulations",
+            "subtitle": "Sulphate & Paraben Free"
+          }
+        },
+        "commitment_XVWfgR": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 16a3 3 0 0 1 2.24 5\"></path><path d=\"M18 12h.01\"></path><path d=\"M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3\"></path></svg>",
+            "title": "Always Vegan",
+            "subtitle": "Vegan & Cruelty Free"
+          }
+        },
+        "commitment_86TpRz": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z\"></path><circle cx=\"12\" cy=\"10\" r=\"3\"></circle><path d=\"M12 13v4\"></path><path d=\"M9 15h6\"></path></svg>",
+            "title": "Made in India",
+            "subtitle": "Made Locally Served Globally"
+          }
+        },
+        "commitment_NFWxCA": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22c0-4-3-8-8-8 0 4 3 8 8 8z\"></path><path d=\"M12 22c0-5 4-10 10-10 0 5-4 10-10 10z\"></path><path d=\"M12 22v-5\"></path></svg>",
+            "title": "Sustainable Sourcing",
+            "subtitle": "Ingredients of Natural Origin"
+          }
+        },
+        "commitment_hxqr67": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z\"></path><path d=\"M8.21 13.89L7 23l5-3 5 3-1.21-9.12\"></path><path d=\"M9 8l2 2 4-4\"></path></svg>",
+            "title": "IFRA Certified",
+            "subtitle": "Natural Extracts, Safe Fragrances"
+          }
+        },
+        "commitment_tLRMVb": {
+          "type": "commitment",
+          "settings": {
+            "svg_code": "<svg width=\"48\" height=\"48\" viewbox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 2v14a3 3 0 0 0 6 0V2\"></path><path d=\"M7 2h10\"></path><path d=\"M9 8h6\"></path><circle cx=\"19\" cy=\"19\" r=\"5\" fill=\"#FFFFFF\"></circle><path d=\"M17 19l1.5 1.5L21 18\"></path></svg>",
+            "title": "Gentle on Skin",
+            "subtitle": "Suitable For Every Skin Type"
+          }
+        }
+      },
+      "block_order": [
+        "commitment_tkXi4C",
+        "commitment_XVWfgR",
+        "commitment_86TpRz",
+        "commitment_NFWxCA",
+        "commitment_hxqr67",
+        "commitment_tLRMVb"
+      ],
+      "name": "Senfa Commitments",
+      "settings": {
+        "bg_color": "#ffffff",
+        "title": "Thoughtful Commitments",
+        "subtitle": "A yes to conscious choices. Our commitment extends to People, Planet, & Pets, driving every decision we make.",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "senfa_story_section_UVBUkq": {
+      "type": "senfa-story-section",
+      "name": "Story Section",
+      "settings": {
+        "tagline": "The Story Behind the Soap",
+        "heading_line1": "A son's promise.",
+        "heading_line2_normal": "A father's",
+        "heading_line2_italic": "dream of purity.",
+        "body_text": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy. He dreamed of a soap that didn't just smell like a memory — but actually carried the living benefit of the saffron he loved so much.",
+        "quote": "Every time a bar of Senfa leaves our hands, I feel like I'm finally finishing that conversation with my Dad.",
+        "body_text_2": "In 2023, that dream became our inheritance. From rich Himalayan saffron fields to your morning ritual — this is the purity he always wanted you to have.",
+        "cta_label": "Read the Complete Story",
+        "cta_url": "shopify://pages/our-story",
+        "image": "shopify://shop_images/kashmir.jpg",
+        "caption": "Abhay Manik Birla · 1940–2013",
+        "stat_number": "50+",
+        "stat_label": "Years of Heritage"
+      }
+    },
+    "heritage_section_cVgMTb": {
+      "type": "heritage-section",
+      "blocks": {
+        "feature_M6aLPb": {
+          "type": "feature",
+          "settings": {
+            "icon": "🌿",
+            "title": "Farm to Skin",
+            "description": "Directly sourced from our own Himalayan farms — no middlemen, no compromise."
+          }
+        },
+        "feature_B7mdNd": {
+          "type": "feature",
+          "settings": {
+            "icon": "✦",
+            "title": "Hand-Crafted",
+            "description": "Cold processed in small batches to preserve every nutrient and strand."
+          }
+        },
+        "feature_YVgYgQ": {
+          "type": "feature",
+          "settings": {
+            "icon": "🌱",
+            "title": "100% Vegan",
+            "description": "No animal testing. No animal ingredients. Just pure, conscious beauty."
+          }
+        },
+        "feature_EUznbE": {
+          "type": "feature",
+          "settings": {
+            "icon": "🏔",
+            "title": "Himalayan Purity",
+            "description": "Crafted at altitude for altitude — where the air and water are pristine."
+          }
+        }
+      },
+      "block_order": [
+        "feature_M6aLPb",
+        "feature_B7mdNd",
+        "feature_YVgYgQ",
+        "feature_EUznbE"
+      ],
+      "disabled": true,
+      "name": "Heritage Section",
+      "settings": {
+        "image": "shopify://shop_images/kashmir.jpg",
+        "image_caption": "Saffron Valleys, Himalayan",
+        "stat_number": "50+",
+        "stat_label": "Years of Cultivation",
+        "tagline": "Our Heritage",
+        "heading": "Born in the",
+        "heading_italic": "Fields of Himalayan",
+        "body_1": "Nestled in the high-altitude valleys of Himalayan, our family has cultivated saffron for generations. Each crimson thread is hand-picked at dawn — the only moment these precious flowers reveal their fragrance.",
+        "body_2": "From farm to formula, Senfa's Himalayan Saffron Bath Soap carries the essence of Himalayan's finest harvest — gently purifying, deeply nourishing, and leaving your skin with a radiant, natural glow.",
+        "margin_top": 40,
+        "margin_bottom": 40
+      }
+    },
+    "senfa_highlights_8L8GtD": {
+      "type": "senfa-highlights",
+      "blocks": {
+        "highlight_card_djgR7f": {
+          "type": "highlight_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-18_at_11.07.17_1.jpg",
+            "eyebrow": "VOGUE BEAUTY FESTIVAL",
+            "title": "BEST FACIAL SOAP",
+            "subtitle": "HIMALAYAN SAFFRON ELIXIR",
+            "btn_label": "DISCOVER",
+            "btn_url": "shopify://collections/soap-collection"
+          }
+        },
+        "highlight_card_nJEPfw": {
+          "type": "highlight_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-18_at_11.07.17.jpg",
+            "eyebrow": "GRAZIA AWARDS",
+            "title": "MOST LOVED BRAND",
+            "subtitle": "SAFFRON SOAP DUO",
+            "btn_label": "DISCOVER",
+            "btn_url": "shopify://collections/soap-collection"
+          }
+        },
+        "highlight_card_xNeUxq": {
+          "type": "highlight_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-18_at_11.07.18_1.jpg",
+            "eyebrow": "ELLE BEAUTY AWARDS",
+            "title": "BEST BODY SOAP",
+            "subtitle": "ROSE & GOLD COLLECTION",
+            "btn_label": "DISCOVER",
+            "btn_url": "shopify://collections/soap-collection"
+          }
+        },
+        "highlight_card_VNKTRn": {
+          "type": "highlight_card",
+          "settings": {
+            "image": "shopify://shop_images/WhatsApp_Image_2026-04-18_at_11.07.17.jpg",
+            "eyebrow": "NYKAA HIGHLIGHTS",
+            "title": "BEST DAILY SOAP",
+            "subtitle": "SANDALWOOD SERIES",
+            "btn_label": "DISCOVER",
+            "btn_url": "shopify://collections/soap-collection"
+          }
+        }
+      },
+      "block_order": [
+        "highlight_card_djgR7f",
+        "highlight_card_nJEPfw",
+        "highlight_card_xNeUxq",
+        "highlight_card_VNKTRn"
+      ],
+      "name": "Senfa Highlights Grid",
+      "settings": {
+        "heading": "Senfa In Focus",
+        "heading_italic": "",
+        "body": "",
+        "footer_btn_label": "VIEW ALL COLLECTIONS",
+        "footer_btn_url": "",
+        "footer_btn_bg": "#2d1b4e",
+        "footer_btn_text": "#ffffff",
+        "footer_btn_hover_bg": "#c9922a",
+        "footer_btn_hover_text": "#ffffff",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "text_body": "#666666",
+        "btn_bg": "#382b62",
+        "btn_text": "#ffffff",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "senfa_hero_banner_XTM6Jf": {
+      "type": "senfa-hero-banner",
+      "name": "Senfa Hero Banner",
+      "settings": {
+        "eyebrow": "Cleanse. Soothe. Glow.",
+        "heading_line1": "Experience the",
+        "heading_italic": "Luxury",
+        "heading_line2": "of Himalayan in Every Shower",
+        "btn_label": "Shop Now",
+        "btn_url": "",
+        "btn_subtext": "",
+        "bg_color_start": "#2d1b4e",
+        "bg_color_end": "#4a2d78",
+        "overlay_opacity": 65,
+        "eyebrow_color": "#b8922a",
+        "heading_color": "#f4f1ec",
+        "italic_color": "#b8922a",
+        "btn_bg_color": "#b8922a",
+        "btn_text_color": "#ffffff",
+        "btn_hover_bg": "#c9922a",
+        "btn_hover_text": "#ffffff",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "slideshow_K3BBMa": {
+      "type": "slideshow",
+      "disabled": true,
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow about our brand"
+      }
+    }
+  },
+  "order": [
+    "senfa_hero_slideshow_BaTFdj",
+    "senfa_taskbar_rccraU",
+    "custom_liquid_yMjxf7",
+    "senfa_trustbar_QMeLYD",
+    "senfa_concerns_VLph99",
+    "senfa_transformation_6jP8BX",
+    "senfa_testimonials_j7qmkb",
+    "watch_and_shop_nipH4m",
+    "benefits_6eA7xB",
+    "senfa_ingredients_a38UCP",
+    "senfa_commitments_fizPe7",
+    "senfa_story_section_UVBUkq",
+    "heritage_section_cVgMTb",
+    "senfa_highlights_8L8GtD",
+    "senfa_hero_banner_XTM6Jf",
+    "slideshow_K3BBMa"
+  ]
+}

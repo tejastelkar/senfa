@@ -1,0 +1,532 @@
+{% comment %}
+  Section: senfa-ingredients-hero (v4)
+  File: sections/senfa-ingredients-hero.liquid
+  Right column horizontally centered.
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+<style>
+  #sih-{{ section.id }} {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2D1B4E 0%, #4A2D78 45%, #3D2468 75%, #2D1B4E 100%);
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Jost', sans-serif;
+    z-index: 0;
+    isolation: isolate; 
+  }
+
+  /* ── Grain overlay ── */
+  #sih-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+  }
+
+  /* ── Gold radial glow left ── */
+  #sih-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    top: -10%; left: -5%;
+    width: 55%; height: 120%;
+    background: radial-gradient(ellipse at 25% 40%, rgba(201,146,42,0.09), transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Bottom shimmer line ── */
+  .sih-shimmer-{{ section.id }} {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent 0%,
+      rgba(201,146,42,0.5) 30%,
+      rgba(224,184,78,0.35) 50%,
+      rgba(201,146,42,0.5) 70%,
+      transparent 100%
+    );
+    z-index: 6;
+  }
+
+  /* ── 1600px centered wrapper ── */
+  .sih-wrap-{{ section.id }} {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px; 
+    align-items: center;
+    position: relative;
+    z-index: 4;
+    padding: 0 80px; 
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+
+  /* ── Vertical center divider ── */
+  .sih-divider-{{ section.id }} {
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(201,146,42,0.2) 20%,
+      rgba(201,146,42,0.2) 80%,
+      transparent 100%
+    );
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  /* ════════════════════════════
+     LEFT PANEL
+  ════════════════════════════ */
+  .sih-left-{{ section.id }} {
+    padding: 140px 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .sih-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 9px;
+    letter-spacing: 4.5px;
+    text-transform: uppercase;
+    color: #E0B84E;
+    font-weight: 400;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: sihUp 0.8s 0.2s forwards;
+  }
+  .sih-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: #C9922A;
+    flex-shrink: 0;
+  }
+
+  .sih-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 5.2vw, 86px);
+    font-weight: 300;
+    line-height: 0.95;
+    color: #FEFCF8;
+    margin: 0;
+    letter-spacing: -1.5px;
+    white-space: nowrap;
+    opacity: 0;
+    animation: sihUp 1s 0.4s forwards;
+  }
+  .sih-h1-italic {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(64px, 6vw, 98px);
+    font-weight: 300;
+    color: #E0B84E;
+    line-height: 1.05;
+    padding-left: 52px;
+    letter-spacing: -1px;
+    white-space: nowrap;
+    opacity: 0;
+    animation: sihUp 1s 0.55s forwards;
+  }
+
+  .sih-body {
+    margin-top: 36px;
+    max-width: 440px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.38);
+    font-weight: 300;
+    letter-spacing: 0.2px;
+    opacity: 0;
+    animation: sihUp 0.9s 0.75s forwards;
+  }
+
+  .sih-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    opacity: 0;
+    animation: sihUp 0.9s 0.9s forwards;
+  }
+  .sih-meta-line { width: 22px; height: 1px; background: rgba(201,146,42,0.4); flex-shrink: 0; }
+  .sih-meta-text { font-size: 9px; letter-spacing: 2.5px; color: rgba(255,255,255,0.26); font-weight: 300; }
+
+  .sih-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 36px;
+    opacity: 0;
+    animation: sihUp 0.9s 1.05s forwards;
+  }
+  .sih-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border: 1px solid rgba(201,146,42,0.22);
+    background: rgba(201,146,42,0.05);
+    font-size: 8.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .sih-pill:hover {
+    border-color: rgba(201,146,42,0.45);
+    background: rgba(201,146,42,0.1);
+  }
+  .sih-pill-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #C9922A;
+    flex-shrink: 0;
+    animation: sihPulse 2.8s ease-in-out infinite;
+  }
+
+  .sih-scroll {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 52px;
+    opacity: 0;
+    animation: sihFade 1s 1.4s forwards;
+  }
+  .sih-scroll-line { width: 44px; height: 1px; background: linear-gradient(to right, #C9922A, transparent); }
+  .sih-scroll-text { font-size: 8px; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+  .sih-scroll-circle {
+    width: 24px; height: 24px;
+    border: 1px solid rgba(201,146,42,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    animation: sihBounce 2.2s ease-in-out infinite;
+  }
+
+  /* ════════════════════════════
+     RIGHT PANEL
+  ════════════════════════════ */
+  .sih-right-{{ section.id }} {
+    padding: 140px 0; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* CHANGED: Horizontally centers the stack */
+    gap: 20px;
+    position: relative;
+  }
+
+  /* Founder card — top */
+  .sih-founder-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,146,42,0.2);
+    padding: 22px 26px;
+    width: 100%;
+    max-width: 420px;
+    opacity: 0;
+    animation: sihUp 0.9s 0.65s forwards;
+  }
+  .sih-founder-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #E0B84E;
+    margin-bottom: 10px;
+  }
+  .sih-founder-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #FEFCF8;
+    font-weight: 300;
+    margin: 0 0 5px;
+  }
+  .sih-founder-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* Stats grid */
+  .sih-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    width: 100%;
+    max-width: 420px;
+    opacity: 0;
+    animation: sihUp 0.9s 0.8s forwards;
+  }
+  .sih-stat {
+    background: rgba(45,27,78,0.55);
+    border: 1px solid rgba(201,146,42,0.14);
+    padding: 20px 22px;
+  }
+  .sih-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    color: #E0B84E;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .sih-stat-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+  }
+
+  /* Pillars strip */
+  .sih-pillars {
+    display: flex;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(201,146,42,0.15);
+    opacity: 0;
+    animation: sihUp 0.9s 0.95s forwards;
+  }
+  .sih-pillar {
+    flex: 1;
+    padding: 16px 18px;
+    border-right: 1px solid rgba(201,146,42,0.1);
+  }
+  .sih-pillar:last-child { border-right: none; }
+  .sih-pillar-name {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+    margin-bottom: 5px;
+  }
+  .sih-pillar-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #E0B84E;
+  }
+
+  /* Source badge */
+  .sih-source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border: 1px solid rgba(201,146,42,0.28);
+    background: rgba(201,146,42,0.07);
+    width: fit-content;
+    align-self: center; /* Ensures just the badge centers if the column logic breaks */
+    opacity: 0;
+    animation: sihUp 0.9s 1.1s forwards;
+  }
+  .sih-source-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #E0B84E;
+    animation: sihPulse 2.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .sih-source-text {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #E0B84E;
+  }
+
+  /* ════════════════════════════
+     KEYFRAMES
+  ════════════════════════════ */
+  @keyframes sihUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes sihFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes sihBounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(5px); }
+  }
+  @keyframes sihPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(1.5); }
+  }
+
+  /* ════════════════════════════
+     MOBILE
+  ════════════════════════════ */
+  @media (max-width: 989px) {
+    .sih-wrap-{{ section.id }} {
+      grid-template-columns: 1fr;
+      padding: 0 40px;
+      gap: 40px;
+      min-height: auto;
+    }
+    .sih-divider-{{ section.id }} { display: none; }
+    .sih-left-{{ section.id }} {
+      padding: 100px 0 0;
+    }
+    .sih-h1 { white-space: normal; font-size: clamp(44px, 11vw, 68px); }
+    .sih-h1-italic { white-space: normal; padding-left: 24px; font-size: clamp(50px, 12vw, 76px); }
+    .sih-right-{{ section.id }} {
+      padding: 0 0 60px;
+    }
+    .sih-founder-card,
+    .sih-stats,
+    .sih-pillars { max-width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .sih-wrap-{{ section.id }} { padding: 0 20px; }
+    .sih-h1 { font-size: clamp(38px, 12vw, 58px); }
+    .sih-h1-italic { font-size: clamp(44px, 13vw, 64px); padding-left: 16px; }
+    .sih-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<section id="sih-{{ section.id }}" aria-label="{{ section.settings.eyebrow_text }}">
+  <div class="sih-shimmer-{{ section.id }}" aria-hidden="true"></div>
+
+  <div class="sih-wrap-{{ section.id }}">
+    <div class="sih-divider-{{ section.id }}" aria-hidden="true"></div>
+
+    <div class="sih-left-{{ section.id }}">
+
+      <div class="sih-eyebrow">{{ section.settings.eyebrow_text }}</div>
+
+      <h1 class="sih-h1">{{ section.settings.title_line1 }}</h1>
+      <span class="sih-h1-italic">{{ section.settings.title_line2 }}</span>
+
+      {% if section.settings.body_text != blank %}
+        <p class="sih-body">{{ section.settings.body_text }}</p>
+      {% endif %}
+
+      <div class="sih-meta">
+        <div class="sih-meta-line"></div>
+        <span class="sih-meta-text">{{ section.settings.meta_text }}</span>
+      </div>
+
+      <div class="sih-pills">
+        {% if section.settings.pill_1 != blank %}
+          <div class="sih-pill"><div class="sih-pill-dot"></div>{{ section.settings.pill_1 }}</div>
+        {% endif %}
+        {% if section.settings.pill_2 != blank %}
+          <div class="sih-pill"><div class="sih-pill-dot"></div>{{ section.settings.pill_2 }}</div>
+        {% endif %}
+        {% if section.settings.pill_3 != blank %}
+          <div class="sih-pill"><div class="sih-pill-dot"></div>{{ section.settings.pill_3 }}</div>
+        {% endif %}
+        {% if section.settings.pill_4 != blank %}
+          <div class="sih-pill"><div class="sih-pill-dot"></div>{{ section.settings.pill_4 }}</div>
+        {% endif %}
+      </div>
+
+      <div class="sih-scroll">
+        <div class="sih-scroll-line"></div>
+        <span class="sih-scroll-text">{{ section.settings.scroll_label }}</span>
+        <div class="sih-scroll-circle" aria-hidden="true">
+          <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
+            <path d="M5 1L5 9M2 6L5 9L8 6" stroke="#E0B84E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sih-right-{{ section.id }}">
+
+      <div class="sih-source-badge">
+        <div class="sih-source-dot"></div>
+        <span class="sih-source-text">{{ section.settings.badge_text }}</span>
+      </div>
+
+      <div class="sih-founder-card">
+        <div class="sih-founder-label">{{ section.settings.card1_label }}</div>
+        <div class="sih-founder-name">{{ section.settings.card1_name }}</div>
+        <div class="sih-founder-sub">{{ section.settings.card1_sub }}</div>
+      </div>
+
+      <div class="sih-stats">
+        <div class="sih-stat">
+          <div class="sih-stat-num">{{ section.settings.stat1_num }}</div>
+          <div class="sih-stat-label">{{ section.settings.stat1_label }}</div>
+        </div>
+        <div class="sih-stat">
+          <div class="sih-stat-num">{{ section.settings.stat2_num }}</div>
+          <div class="sih-stat-label">{{ section.settings.stat2_label }}</div>
+        </div>
+      </div>
+
+      <div class="sih-pillars">
+        <div class="sih-pillar">
+          <div class="sih-pillar-name">Purity</div>
+          <div class="sih-pillar-val">Uncompromised</div>
+        </div>
+        <div class="sih-pillar">
+          <div class="sih-pillar-name">Origin</div>
+          <div class="sih-pillar-val">Himalayan Grown</div>
+        </div>
+        <div class="sih-pillar">
+          <div class="sih-pillar-name">Standard</div>
+          <div class="sih-pillar-val">Father's Promise</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredients Hero",
+  "tag": "section",
+  "class": "senfa-ingredients-hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow Label", "default": "Pure by Design" },
+    { "type": "text", "id": "title_line1", "label": "Title Line 1 (normal white)", "default": "What goes in," },
+    { "type": "text", "id": "title_line2", "label": "Title Line 2 (italic gold)", "default": "matters." },
+    { "type": "textarea", "id": "body_text", "label": "Body copy", "default": "Every ingredient in Senfa is chosen for a reason. Sourced from Himalayan's own soil, formulated without compromise, and tested against a single standard — would Abhay Manik Birla approve?" },
+    { "type": "text", "id": "meta_text", "label": "Meta text", "default": "Himalayan · Pune · Est. 2023" },
+    { "type": "text", "id": "pill_1", "label": "Trust Pill 1", "default": "0% Sulphate" },
+    { "type": "text", "id": "pill_2", "label": "Trust Pill 2", "default": "0% Paraben" },
+    { "type": "text", "id": "pill_3", "label": "Trust Pill 3", "default": "100% Vegan" },
+    { "type": "text", "id": "pill_4", "label": "Trust Pill 4", "default": "Gentle Care" },
+    { "type": "text", "id": "scroll_label", "label": "Scroll cue label", "default": "Explore ingredients" },
+    { "type": "text", "id": "badge_text", "label": "Right panel badge", "default": "Sourced from Himalayan" },
+    { "type": "text", "id": "card1_label", "label": "Founder card label", "default": "Primary Ingredient" },
+    { "type": "text", "id": "card1_name", "label": "Founder card name", "default": "Crocus Sativus" },
+    { "type": "text", "id": "card1_sub", "label": "Founder card subtitle", "default": "Himalayani Saffron · Grade A" },
+    { "type": "text", "id": "stat1_num", "label": "Stat 1 number", "default": "50+" },
+    { "type": "text", "id": "stat1_label", "label": "Stat 1 label", "default": "Years of Heritage" },
+    { "type": "text", "id": "stat2_num", "label": "Stat 2 number", "default": "4" },
+    { "type": "text", "id": "stat2_label", "label": "Stat 2 label", "default": "Key Active Ingredients" }
+  ],
+  "presets": [{ "name": "Ingredients Hero" }]
+}
+{% endschema %}

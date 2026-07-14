@@ -1,0 +1,278 @@
+{% comment %}
+  SENFA — Luxury Collections List
+{% endcomment %}
+
+<div class="senfa-collections-wrapper page-width">
+  <div class="senfa-collections-header">
+    <h1 class="senfa-collections-title">{{ section.settings.title | default: 'ALL COLLECTIONS' }}</h1>
+  </div>
+
+  {%- liquid
+    case section.settings.sort
+      when 'products_high', 'products_low'
+        assign collections = collections | sort: 'all_products_count'
+      when 'date', 'date_reversed'
+        assign collections = collections | sort: 'published_at'
+    endcase
+
+    if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+      assign collections = collections | reverse
+    endif
+
+    assign moduloResult = 28 | modulo: section.settings.columns_desktop
+    assign paginate_by = 30
+    if moduloResult == 0
+      assign paginate_by = 28
+    endif
+  -%}
+  
+  {%- paginate collections by paginate_by -%}
+    <div class="senfa-grid" style="--desktop-cols: {{ section.settings.columns_desktop }}; --mobile-cols: {{ section.settings.columns_mobile }};">
+      {%- for collection in collections -%}
+        <a href="{{ collection.url }}" class="senfa-collection-card">
+          
+          <div class="senfa-card-media {% if section.settings.image_ratio == 'portrait' %}ratio-portrait{% elsif section.settings.image_ratio == 'square' %}ratio-square{% else %}ratio-square{% endif %}">
+            {% if collection.featured_image != blank %}
+              <img src="{{ collection.featured_image | image_url: width: 1200 }}" alt="{{ collection.title | escape }}" loading="lazy" class="senfa-card-img">
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'senfa-card-placeholder' }}
+            {% endif %}
+          </div>
+
+          <div class="senfa-card-info">
+            <h3 class="senfa-card-heading">{{ collection.title }}</h3>
+          </div>
+          
+        </a>
+      {%- endfor -%}
+    </div>
+    
+    {% render 'pagination', paginate: paginate %}
+  {%- endpaginate -%}
+</div>
+
+<style>
+/* ══════════════════════════════════════════════
+   SENFA — LUXURY COLLECTIONS GRID
+══════════════════════════════════════════════ */
+
+.senfa-collections-wrapper {
+  padding-top: 60px;
+  padding-bottom: 80px;
+  font-family: 'Jost', sans-serif;
+}
+
+/* Header Styling */
+.senfa-collections-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.senfa-collections-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin: 0;
+}
+
+/* CSS Grid Layout */
+.senfa-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--desktop-cols), 1fr);
+  gap: 40px 32px;
+}
+
+/* Collection Card Container */
+.senfa-collection-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  text-decoration: none;
+}
+
+/* Aspect Ratios */
+.senfa-card-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #FAFAFA;
+  border-radius: 4px;
+}
+.senfa-card-media.ratio-square { aspect-ratio: 1 / 1; }
+.senfa-card-media.ratio-portrait { aspect-ratio: 4 / 5; }
+
+/* Image Styling & Hover Zoom */
+.senfa-card-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.senfa-collection-card:hover .senfa-card-img {
+  transform: scale(1.04);
+}
+
+.senfa-card-placeholder {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  fill: #CCC;
+  background: #EBEBEB;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+}
+
+.senfa-collection-card:hover .senfa-card-placeholder {
+  transform: scale(1.04);
+}
+
+/* Text Layout (Below Image) */
+.senfa-card-info {
+  text-align: center;
+  padding: 0 10px;
+}
+
+.senfa-card-heading {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1A1228;
+  margin: 0;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+/* Gold text on hover */
+.senfa-collection-card:hover .senfa-card-heading {
+  color: #C9922A;
+}
+
+/* Mobile Responsive Adjustments */
+@media screen and (max-width: 990px) {
+  .senfa-collections-wrapper {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+  .senfa-collections-header {
+    margin-bottom: 40px;
+  }
+  .senfa-collections-title {
+    font-size: 18px;
+    letter-spacing: 0.2em;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .senfa-grid {
+    grid-template-columns: repeat(var(--mobile-cols), 1fr);
+    gap: 32px 16px;
+  }
+  .senfa-collection-card {
+    gap: 16px;
+  }
+  .senfa-card-heading {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "t:sections.main-list-collections.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.main-list-collections.settings.title.label",
+      "default": "ALL COLLECTIONS"
+    },
+    {
+      "type": "select",
+      "id": "sort",
+      "options": [
+        {
+          "value": "alphabetical",
+          "label": "t:sections.main-list-collections.settings.sort.options__1.label"
+        },
+        {
+          "value": "alphabetical_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__2.label"
+        },
+        {
+          "value": "date_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__3.label"
+        },
+        {
+          "value": "date",
+          "label": "t:sections.main-list-collections.settings.sort.options__4.label"
+        },
+        {
+          "value": "products_high",
+          "label": "t:sections.main-list-collections.settings.sort.options__5.label"
+        },
+        {
+          "value": "products_low",
+          "label": "t:sections.main-list-collections.settings.sort.options__6.label"
+        }
+      ],
+      "default": "alphabetical",
+      "label": "t:sections.main-list-collections.settings.sort.label"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "t:sections.main-list-collections.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-list-collections.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.main-list-collections.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.main-list-collections.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.main-list-collections.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.main-list-collections.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "1",
+      "label": "t:sections.main-list-collections.settings.columns_mobile.label"
+    }
+  ]
+}
+{% endschema %}

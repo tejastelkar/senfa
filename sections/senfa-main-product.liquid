@@ -1,0 +1,1024 @@
+{% comment %}
+  Section: Senfa Main Product (v7 - Dynamic UI Ready)
+  File: sections/senfa-main-product.liquid
+  Kimirica-style layout: Customizable Backgrounds to match Header.
+{% endcomment %}
+
+
+
+<style>
+  .smp-section {
+    background-color: {{ section.settings.bg_color }};
+    font-family: 'Jost', sans-serif;
+    color: #000000;
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+
+  .smp-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: grid;
+    grid-template-columns: 55% 40%;
+    gap: 5%;
+    align-items: flex-start;
+  }
+
+  /* ════════════════════════
+     LEFT: MEDIA GALLERY
+  ════════════════════════ */
+  .smp-media-gallery {
+    display: flex;
+    gap: 24px;
+    position: sticky;
+    top: 40px;
+  }
+
+  .smp-thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 85px;
+    flex-shrink: 0;
+  }
+
+  .smp-thumb {
+    width: 85px;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
+    overflow: hidden;
+    background: {{ section.settings.media_bg }};
+    transition: border-color 0.2s;
+    border-radius: 2px;
+  }
+  .smp-thumb.is-active {
+    border-color: #000000; 
+    border-width: 2px;
+  }
+  .smp-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+
+  .smp-main-image-wrapper {
+    flex-grow: 1;
+    background: {{ section.settings.media_bg }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 4px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  .smp-main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ════════════════════════
+     RIGHT: PRODUCT INFO
+  ════════════════════════ */
+  .smp-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+  }
+
+  /* Typography */
+  .smp-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #C9922A; 
+    margin: 0 0 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .smp-collection-link {
+    color: #C9922A;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  .smp-collection-link:hover {
+    opacity: 0.7;
+  }
+
+  .smp-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 3.5vw, 46px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: #000000; 
+    margin: 0 0 12px 0;
+  }
+
+  .smp-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    color: #1A1228;
+    margin: 0 0 28px 0;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .smp-subtitle p {
+    margin: 0;
+  }
+
+  /* Price Block */
+  .smp-price-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 6px 0;
+  }
+  .smp-price {
+    font-family: 'Jost', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000; 
+  }
+  .smp-compare {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    text-decoration: line-through;
+    color: #666666;
+  }
+  .smp-discount {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #C9922A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .smp-rating {
+    margin-left: auto;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Variant / Net Vol */
+  .smp-variant-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000000; 
+    margin-bottom: 24px;
+    display: block;
+  }
+  .smp-variant-label span {
+    font-weight: 400;
+    color: #333333;
+  }
+
+  /* Action Row (Qty + Button) */
+  .smp-action-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .smp-qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 2px;
+    height: 54px;
+    width: 130px;
+    justify-content: space-between;
+  }
+  .smp-qty-btn {
+    background: none;
+    border: none;
+    width: 44px;
+    height: 100%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000000; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .smp-qty-input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000; 
+    -moz-appearance: textfield;
+  }
+  .smp-qty-input::-webkit-outer-spin-button,
+  .smp-qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .smp-add-btn {
+    flex-grow: 1;
+    height: 54px;
+    background: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_text_color }};
+    border: none;
+    border-radius: 2px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .smp-add-btn:hover {
+    background: #1A1228; 
+    transform: translateY(-2px);
+  }
+
+  /* Trust Texts & Promos */
+  .smp-trust-text {
+    font-size: 14px;
+    color: #1A1228;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .smp-trust-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .smp-promo-img {
+    width: 100%;
+    height: auto;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 24px;
+    border-radius: 2px;
+  }
+
+  /* ════════════════════════
+     ACCORDIONS (Global)
+  ════════════════════════ */
+  .smp-accordion-wrap {
+    margin-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.15);
+  }
+  .smp-accordion {
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+  }
+  .smp-accordion summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0 12px 0;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000; 
+    list-style: none;
+  }
+  .smp-accordion summary::-webkit-details-marker {
+    display: none; 
+  }
+  .smp-accordion-icon {
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000; 
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  .smp-accordion-icon::before { content: '+'; }
+  .smp-accordion.is-open .smp-accordion-icon { transform: rotate(180deg); }
+  .smp-accordion.is-open .smp-accordion-icon::before { content: '−'; }
+
+  .smp-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+  .smp-accordion-inner {
+    padding-bottom: 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 15.5px;
+    line-height: 2.0;
+    color: #1A1228;
+    font-weight: 400;
+  }
+  .smp-accordion-inner .metafield-rich_text_field {
+    margin: 0;
+  }
+  .smp-accordion-inner .metafield-rich_text_field p:first-child {
+    margin-top: 0;
+  }
+  .smp-accordion-inner .metafield-rich_text_field p:last-child {
+    margin-bottom: 0;
+  }
+  .smp-accordion-inner .metafield-multi_line_text_field {
+    margin: 0;
+  }
+  .smp-accordion-inner ul {
+    padding-left: 20px;
+    margin-top: 12px;
+  }
+  .smp-accordion-inner li {
+    margin-bottom: 10px;
+  }
+
+  /* ════════════════════════
+     INNER TABS (Inside Accordion)
+  ════════════════════════ */
+  .smp-inner-tabs-wrap {
+    display: block;
+    width: 100%;
+  }
+  .smp-inner-tabs-nav {
+    display: flex;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    gap: 24px;
+  }
+  .smp-inner-tab-btn {
+    background: none;
+    border: none;
+    padding: 0 0 12px 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .smp-inner-tab-btn.is-active {
+    color: #000000;
+  }
+  .smp-inner-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: #000000;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  .smp-inner-tab-btn.is-active::after {
+    transform: scaleX(1);
+  }
+  .smp-inner-tab-pane {
+    display: none;
+    animation: smpFadeIn 0.4s ease;
+  }
+  .smp-inner-tab-pane.is-active {
+    display: block;
+  }
+  @keyframes smpFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Footer Info */
+  .smp-footer-info {
+    margin-top: 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ════════════════════════
+     STICKY HEADER CART
+  ════════════════════════ */
+  .smp-sticky-bar {
+    position: fixed;
+    top: var(--header-height, 60px); left: 0; right: 0;
+    background: {{ section.settings.bg_color }};
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 12px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 998; /* intentionally below header z-index: 1000 */
+    transform: translateY(-200%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  }
+  .smp-sticky-bar.is-visible {
+    transform: translateY(0);
+  }
+  .smp-sticky-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .smp-sticky-img {
+    width: 44px; height: 44px; object-fit: contain; background: {{ section.settings.media_bg }}; border-radius: 2px;
+  }
+  .smp-sticky-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 500; color: #000000;
+  }
+  .smp-sticky-price {
+    font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 600; color: #000000; margin-left: 16px;
+  }
+  .smp-sticky-btn {
+    padding: 0 40px;
+    height: 48px;
+    background: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_text_color }};
+    border: none;
+    border-radius: 2px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .smp-sticky-btn:hover { background: #1A1228; }
+
+  /* ════════════════════════
+     MOBILE ADJUSTMENTS
+  ════════════════════════ */
+  @media (max-width: 1024px) {
+    .smp-container {
+      grid-template-columns: 1fr;
+      padding: 0 40px;
+      gap: 40px;
+    }
+    .smp-media-gallery {
+      position: relative;
+      top: 0;
+      flex-direction: column-reverse;
+    }
+    .smp-thumbnails {
+      flex-direction: row;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .smp-main-image-wrapper {
+      min-height: 500px;
+    }
+    .smp-sticky-bar {
+      padding: 12px 24px;
+    }
+    .smp-sticky-title { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .smp-container { padding: 0 20px; }
+    .smp-title { font-size: 32px; }
+    .smp-main-image-wrapper { aspect-ratio: 1 / 1; }
+    .smp-action-row { flex-direction: column; }
+    .smp-qty { width: 100%; }
+    .smp-inner-tabs-nav { gap: 12px; overflow-x: auto; white-space: nowrap; }
+    .smp-inner-tab-btn { font-size: 11px; padding: 0 0 8px 0; }
+    /* Bug #15: Hide sticky bar on mobile to avoid doubling up on ATC */
+    .smp-sticky-bar { display: none !important; }
+  }
+</style>
+
+<section class="smp-section">
+  <div class="smp-container">
+
+    <div class="smp-media-gallery">
+      <div class="smp-thumbnails" id="smp-thumbnails-{{ section.id }}">
+        {% for media in product.media %}
+          <div class="smp-thumb {% if forloop.first %}is-active{% endif %}" data-media-id="{{ media.id }}" onclick="smpChangeMedia_{{ section.id | replace: '-', '_' }}(this, '{{ media | image_url: width: 1200 }}')">
+            <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" loading="lazy">
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="smp-main-image-wrapper">
+        {% assign first_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+        <img id="smp-main-img-{{ section.id }}" class="smp-main-image" src="{{ first_media | image_url: width: 1200 }}" alt="{{ first_media.alt | escape }}">
+      </div>
+    </div>
+
+    <div class="smp-info">
+      
+      {%- form 'product', product, id: 'smp-product-form', class: 'smp-form' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            
+            {% when 'eyebrow' %}
+              <div class="smp-eyebrow" {{ block.shopify_attributes }}>
+                <span>
+                  {% if block.settings.text != blank %}
+                    {{ block.settings.text }}
+                  {% else %}
+                    {{ product.vendor }}
+                  {% endif %}
+                </span>
+                {% if block.settings.show_collection and product.collections.size > 0 %}
+                  <a href="{{ product.collections.first.url }}" class="smp-collection-link">{{ product.collections.first.title }}</a>
+                {% endif %}
+              </div>
+
+            {% when 'title' %}
+              <h1 class="smp-title" {{ block.shopify_attributes }}>
+                {% if block.settings.custom_title != blank %}
+                  {{ block.settings.custom_title }}
+                {% else %}
+                  {{ product.title }}
+                {% endif %}
+              </h1>
+
+            {% when 'subtitle' %}
+              {% assign subtitle_text = block.settings.text %}
+              {% if product.metafields.custom.subtitle != blank %}
+                {% assign subtitle_text = product.metafields.custom.subtitle %}
+              {% endif %}
+              {% if subtitle_text != blank %}
+                <div class="smp-subtitle" {{ block.shopify_attributes }}>
+                  {{ subtitle_text }}
+                </div>
+              {% endif %}
+
+            {% when 'price' %}
+              <div class="smp-price-wrap" {{ block.shopify_attributes }}>
+                <span class="smp-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+                {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+                  <span class="smp-compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+                  {% assign saving = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100 | divided_by: product.selected_or_first_available_variant.compare_at_price %}
+                  <span class="smp-discount">{{ saving }}% Off</span>
+                {% endif %}
+                
+                {% if block.settings.show_rating %}
+                  <div class="smp-rating">
+                    {{ block.settings.rating_value }}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#C9922A"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    ({{ block.settings.review_count }})
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Judge.me Preview Badge -->
+              <div style="margin-bottom: 24px;">
+                <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'></div>
+              </div>
+
+            {% when 'variant_label' %}
+              {% assign net_vol = block.settings.custom_net_vol %}
+              {% if product.metafields.custom.net_volume != blank %}
+                {% assign net_vol = product.metafields.custom.net_volume %}
+              {% endif %}
+              {% if product.variants.size > 1 or net_vol != blank %}
+                <div class="smp-variant-label" {{ block.shopify_attributes }}>
+                  {% if product.variants.size > 1 %}
+                    Variant: <span>{{ product.selected_or_first_available_variant.title }}</span>
+                  {% else %}
+                    Net Vol: <span>{{ net_vol }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+            {% when 'buy_buttons' %}
+              <div class="smp-action-row" id="smp-add-to-cart-wrapper" {{ block.shopify_attributes }}>
+                <div class="smp-qty">
+                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id | replace: '-', '_' }}(-1)">−</button>
+                  <input type="number" name="quantity" id="smp-qty-input-{{ section.id }}" class="smp-qty-input" value="1" min="1">
+                  <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id | replace: '-', '_' }}(1)">+</button>
+                </div>
+                <button type="submit" class="smp-add-btn">
+                  {% if product.selected_or_first_available_variant.available %}
+                    Add to Cart
+                  {% else %}
+                    Sold Out
+                  {% endif %}
+                </button>
+              </div>
+
+            {% when 'trust_text' %}
+              {% if block.settings.text != blank %}
+                <div class="smp-trust-text" {{ block.shopify_attributes }}>
+                  {% if block.settings.custom_svg != blank %}
+                    <span class="smp-trust-icon">{{ block.settings.custom_svg }}</span>
+                  {% endif %}
+                  {{ block.settings.text }}
+                </div>
+              {% endif %}
+
+            {% when 'promo_image' %}
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 800 }}" class="smp-promo-img" alt="Promo" loading="lazy" {{ block.shopify_attributes }}>
+              {% endif %}
+
+          {% endcase %}
+        {% endfor %}
+      {%- endform -%}
+
+      <div class="smp-accordion-wrap">
+        {% for block in section.blocks %}
+          
+          {% if block.type == 'accordion' %}
+            {% assign block_content = block.settings.content %}
+            {% if block.settings.heading == 'Ingredients:' and product.metafields.custom.ingredients != blank %}
+              {% assign block_content = product.metafields.custom.ingredients | metafield_tag %}
+              {% if block_content == blank %}{% assign block_content = product.metafields.custom.ingredients | escape | newline_to_br %}{% endif %}
+            {% elsif block.settings.heading == 'How to use:' and product.metafields.custom.how_to_use != blank %}
+              {% assign block_content = product.metafields.custom.how_to_use | metafield_tag %}
+              {% if block_content == blank %}{% assign block_content = product.metafields.custom.how_to_use | escape | newline_to_br %}{% endif %}
+            {% elsif block.settings.heading == 'Claims:' and product.metafields.custom.claims != blank %}
+              {% assign block_content = product.metafields.custom.claims | metafield_tag %}
+              {% if block_content == blank %}{% assign block_content = product.metafields.custom.claims | escape | newline_to_br %}{% endif %}
+            {% elsif block.settings.heading == 'Reasons to Love:' and product.description != blank %}
+              {% assign block_content = product.description %}
+            {% endif %}
+
+            <details class="smp-accordion {% if block.settings.open_by_default %}is-open{% endif %}" {{ block.shopify_attributes }}>
+              <summary>
+                {{ block.settings.heading }}
+                <span class="smp-accordion-icon"></span>
+              </summary>
+              <div class="smp-accordion-content" {% if block.settings.open_by_default %}style="max-height: 2000px; opacity: 1;"{% endif %}>
+                <div class="smp-accordion-inner">
+                  {{ block_content }}
+                </div>
+              </div>
+            </details>
+          {% endif %}
+
+          {% if block.type == 'accordion_tabs' %}
+            <details class="smp-accordion {% if block.settings.open_by_default %}is-open{% endif %}" {{ block.shopify_attributes }}>
+              <summary>
+                {{ block.settings.heading }}
+                <span class="smp-accordion-icon"></span>
+              </summary>
+              <div class="smp-accordion-content" {% if block.settings.open_by_default %}style="max-height: 2000px; opacity: 1;"{% endif %}>
+                <div class="smp-accordion-inner">
+                  
+                  <div class="smp-inner-tabs-wrap">
+                    <div class="smp-inner-tabs-nav">
+                      {% if block.settings.tab_1_title != blank %}
+                        <button type="button" class="smp-inner-tab-btn is-active" data-target="tab-1-{{ block.id }}">{{ block.settings.tab_1_title }}</button>
+                      {% endif %}
+                      {% if block.settings.tab_2_title != blank %}
+                        <button type="button" class="smp-inner-tab-btn" data-target="tab-2-{{ block.id }}">{{ block.settings.tab_2_title }}</button>
+                      {% endif %}
+                      {% if block.settings.tab_3_title != blank %}
+                        <button type="button" class="smp-inner-tab-btn" data-target="tab-3-{{ block.id }}">{{ block.settings.tab_3_title }}</button>
+                      {% endif %}
+                    </div>
+                    
+                    <div class="smp-inner-tabs-content">
+                      {% if block.settings.tab_1_title != blank %}
+                        <div class="smp-inner-tab-pane is-active" id="tab-1-{{ block.id }}">
+                          {% assign tab_1_content = block.settings.tab_1_content %}
+                          {% if product.metafields.custom.tab_1_content != blank %}
+                            {% assign tab_1_content = product.metafields.custom.tab_1_content | metafield_tag %}
+                            {% if tab_1_content == blank %}{% assign tab_1_content = product.metafields.custom.tab_1_content | escape | newline_to_br %}{% endif %}
+                          {% endif %}
+                          {{ tab_1_content }}
+                        </div>
+                      {% endif %}
+                      {% if block.settings.tab_2_title != blank %}
+                        <div class="smp-inner-tab-pane" id="tab-2-{{ block.id }}">
+                          {% assign tab_2_content = block.settings.tab_2_content %}
+                          {% if product.metafields.custom.tab_2_content != blank %}
+                            {% assign tab_2_content = product.metafields.custom.tab_2_content | metafield_tag %}
+                            {% if tab_2_content == blank %}{% assign tab_2_content = product.metafields.custom.tab_2_content | escape | newline_to_br %}{% endif %}
+                          {% endif %}
+                          {{ tab_2_content }}
+                        </div>
+                      {% endif %}
+                      {% if block.settings.tab_3_title != blank %}
+                        <div class="smp-inner-tab-pane" id="tab-3-{{ block.id }}">
+                          {% assign tab_3_content = block.settings.tab_3_content %}
+                          {% if product.metafields.custom.tab_3_content != blank %}
+                            {% assign tab_3_content = product.metafields.custom.tab_3_content | metafield_tag %}
+                            {% if tab_3_content == blank %}{% assign tab_3_content = product.metafields.custom.tab_3_content | escape | newline_to_br %}{% endif %}
+                          {% endif %}
+                          {{ tab_3_content }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </details>
+          {% endif %}
+
+        {% endfor %}
+      </div>
+
+      {% for block in section.blocks %}
+        {% if block.type == 'text_line' %}
+          <div class="smp-footer-info" {{ block.shopify_attributes }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            {{ block.settings.text }}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{%- assign sticky_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+<div class="smp-sticky-bar" id="smp-sticky-bar-{{ section.id }}">
+  <div class="smp-sticky-left">
+    <img src="{{ sticky_media | image_url: width: 100 }}" class="smp-sticky-img" alt="Thumb">
+    <div class="smp-sticky-title">{{ product.title | truncate: 35 }}</div>
+    <div class="smp-sticky-price">{{ product.selected_or_first_available_variant.price | money }}</div>
+  </div>
+  <button type="button" class="smp-sticky-btn" onclick="document.getElementById('smp-product-form').submit();">Add to Cart</button>
+</div>
+
+<script>
+  // Gallery Logic — namespaced per section to avoid conflicts
+  function smpChangeMedia_{{ section.id | replace: '-', '_' }}(element, imageUrl) {
+    var mainImage = document.getElementById('smp-main-img-{{ section.id }}');
+    mainImage.style.opacity = 0;
+    setTimeout(function() {
+      mainImage.src = imageUrl;
+      mainImage.style.opacity = 1;
+    }, 150);
+
+    var thumbs = document.querySelectorAll('#smp-thumbnails-{{ section.id }} .smp-thumb');
+    thumbs.forEach(function(t) { t.classList.remove('is-active'); });
+    element.classList.add('is-active');
+  }
+
+  // Quantity Logic — scoped to this section
+  function smpUpdateQty_{{ section.id | replace: '-', '_' }}(change) {
+    var input = document.getElementById('smp-qty-input-{{ section.id }}');
+    var newVal = parseInt(input.value) + change;
+    if(newVal >= 1) input.value = newVal;
+  }
+
+  // Smooth Accordion & Tabs Logic
+  (function() {
+    const sectionEl = document.getElementById('shopify-section-{{ section.id }}') || document;
+    const accordions = sectionEl.querySelectorAll('.smp-accordion');
+    
+    accordions.forEach(acc => {
+      // Prevent multiple listeners if re-initialized
+      if (acc.dataset.initialized) return;
+      acc.dataset.initialized = "true";
+
+      const summary = acc.querySelector('summary');
+      const content = acc.querySelector('.smp-accordion-content');
+      
+      if(acc.classList.contains('is-open')){
+        acc.setAttribute('open', '');
+      }
+
+      summary.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        
+        if (acc.classList.contains('is-open')) {
+          acc.classList.remove('is-open');
+          content.style.maxHeight = '0px';
+          content.style.opacity = '0';
+          setTimeout(() => { 
+            acc.removeAttribute('open'); 
+          }, 400); 
+        } else {
+          acc.setAttribute('open', '');
+          acc.classList.add('is-open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          content.style.opacity = '1';
+        }
+      });
+    });
+
+    // Inner Tabs Logic
+    sectionEl.querySelectorAll('.smp-inner-tabs-wrap').forEach(wrap => {
+      if (wrap.dataset.initialized) return;
+      wrap.dataset.initialized = "true";
+
+      const btns = wrap.querySelectorAll('.smp-inner-tab-btn');
+      const panes = wrap.querySelectorAll('.smp-inner-tab-pane');
+      
+      btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Reset
+          btns.forEach(b => b.classList.remove('is-active'));
+          panes.forEach(p => p.classList.remove('is-active'));
+          
+          // Set Active
+          btn.classList.add('is-active');
+          const targetId = btn.getAttribute('data-target');
+          const pane = wrap.querySelector('#' + targetId);
+          if (pane) pane.classList.add('is-active');
+        });
+      });
+    });
+
+    // Sticky Cart Logic
+    var stickyBar = document.getElementById('smp-sticky-bar-{{ section.id }}');
+    var triggerEl = document.getElementById('smp-add-to-cart-wrapper');
+    
+    if(stickyBar && triggerEl && !stickyBar.dataset.initialized) {
+      stickyBar.dataset.initialized = "true";
+      window.addEventListener('scroll', function() {
+        var triggerRect = triggerEl.getBoundingClientRect();
+        if (triggerRect.bottom < 0) {
+          stickyBar.classList.add('is-visible');
+        } else {
+          stickyBar.classList.remove('is-visible');
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Senfa Main Product",
+  "tag": "section",
+  "class": "senfa-main-product",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "media_bg",
+      "label": "Image Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background Color",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0, "max": 120, "step": 4, "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow Text",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Custom Text (Dynamic Source ready)" },
+        { "type": "checkbox", "id": "show_collection", "label": "Show clickable Collection on right", "default": true }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Product Title",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "custom_title", "label": "Custom Title (Dynamic Source ready)", "info": "Leave blank to use default product title" }
+      ]
+    },
+    {
+      "type": "subtitle",
+      "name": "Subtitle / Short Desc",
+      "limit": 1,
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text (Dynamic Source ready)", "default": "<p>Citrus fragrance of orange rind & cedar</p>" }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price & Rating",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_rating", "label": "Show static rating", "default": true },
+        { "type": "text", "id": "rating_value", "label": "Rating Value", "default": "10" },
+        { "type": "text", "id": "review_count", "label": "Review Count", "default": "120" }
+      ]
+    },
+    {
+      "type": "variant_label",
+      "name": "Net Vol / Variant Label",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "custom_net_vol", "label": "Static Net Vol text", "default": "150g" }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons (Form)",
+      "limit": 1
+    },
+    {
+      "type": "trust_text",
+      "name": "Trust Text line",
+      "settings": [
+        { "type": "html", "id": "custom_svg", "label": "Icon (SVG HTML)", "info": "Paste SVG code here." },
+        { "type": "text", "id": "text", "label": "Text", "default": "Earn points on this purchase ⓘ" }
+      ]
+    },
+    {
+      "type": "promo_image",
+      "name": "Promo Banner",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Banner Image" }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Standard Accordion",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Reasons to Love:" },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Write your details here.</p>" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Open by default", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_tabs",
+      "name": "Accordion with Tabs",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Accordion Heading", "default": "Product Details" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Open by default", "default": true },
+        { "type": "header", "content": "Tab 1" },
+        { "type": "text", "id": "tab_1_title", "label": "Tab 1 Title", "default": "What it is" },
+        { "type": "richtext", "id": "tab_1_content", "label": "Tab 1 Content", "default": "<p>Content for what it is.</p>" },
+        { "type": "header", "content": "Tab 2" },
+        { "type": "text", "id": "tab_2_title", "label": "Tab 2 Title", "default": "What it does" },
+        { "type": "richtext", "id": "tab_2_content", "label": "Tab 2 Content", "default": "<p>Content for what it does.</p>" },
+        { "type": "header", "content": "Tab 3" },
+        { "type": "text", "id": "tab_3_title", "label": "Tab 3 Title", "default": "How it does" },
+        { "type": "richtext", "id": "tab_3_content", "label": "Tab 3 Content", "default": "<p>Content for how it does.</p>" }
+      ]
+    },
+    {
+      "type": "text_line",
+      "name": "Footer Info Text",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Country of Origin: India" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Main Product",
+      "blocks": [
+        { "type": "eyebrow", "settings": { "text": "Himalayan Saffron", "show_collection": true } },
+        { "type": "title" },
+        { "type": "subtitle", "settings": { "text": "<p>Hand-harvested Himalayani saffron, cold-pressed into a soap that cleanses, soothes, and transforms.</p>" } },
+        { "type": "price" },
+        { "type": "variant_label" },
+        { "type": "buy_buttons" },
+        { "type": "trust_text", "settings": { "custom_svg": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"></path></svg>", "text": "Earn upto 350 Points on this purchase ⓘ" } },
+        { "type": "trust_text", "settings": { "custom_svg": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"1\" y=\"3\" width=\"15\" height=\"13\" rx=\"1\"></rect><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"></polygon><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"></circle><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"></circle><line x1=\"1\" y1=\"11\" x2=\"3\" y2=\"11\"></line></svg>", "text": "Your order will be shipped within 24 to 48 hours." } },
+        { "type": "accordion_tabs", "settings": { "heading": "Product Details", "open_by_default": true, "tab_1_title": "What it is", "tab_1_content": "<p>A luxurious, cold-pressed soap crafted with 100% genuine Himalayani Saffron. Formulated to provide deep nourishment while retaining the skin's natural moisture barrier.</p>", "tab_2_title": "What it does", "tab_2_content": "<ul><li>Brightens and evens skin tone</li><li>Cleanses without stripping essential oils</li><li>Leaves a lasting, elegant fragrance</li></ul>", "tab_3_title": "How it does", "tab_3_content": "<p>Utilizes the natural antioxidant properties of Crocus Sativus, combined with gentle, coconut-derived surfactants to ensure a smooth, hydrating cleanse.</p>" } },
+        { "type": "accordion", "settings": { "heading": "Ingredients" , "content": "<p>Top Notes - Bitter Orange & Blossom Flower<br>Middle Notes - Rose, Neroli & Pine<br>Base Notes - Fir, Hay, Cedar</p>"} },
+        { "type": "accordion", "settings": { "heading": "How to use:", "content": "<p>Lather the required amount into the palm and massage gently over hands or body, until absorbed.</p>" } },
+        { "type": "text_line", "settings": { "text": "Country of Origin: India" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

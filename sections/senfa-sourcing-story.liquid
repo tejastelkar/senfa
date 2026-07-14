@@ -1,0 +1,473 @@
+{% comment %}
+  Section: senfa-sourcing-story (v2)
+  File: sections/senfa-sourcing-story.liquid
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+
+<style>
+  #sss-{{ section.id }} {
+    background: linear-gradient(135deg, #2D1B4E 0%, #4A2D78 50%, #2D1B4E 100%);
+    padding: 60px 0;
+    font-family: 'Jost', sans-serif;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    isolation: isolate;
+  }
+
+  #sss-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(201,146,42,0.5) 30%, rgba(224,184,78,0.35) 50%, rgba(201,146,42,0.5) 70%, transparent 100%);
+    z-index: 6;
+  }
+
+  #sss-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    top: -10%; right: -5%;
+    width: 50%; height: 120%;
+    background: radial-gradient(ellipse at 75% 40%, rgba(201,146,42,0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .sss-inner-{{ section.id }} {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    padding: 0 80px;
+    box-sizing: border-box;
+    align-items: stretch;
+    position: relative;
+    z-index: 4;
+    min-height: 720px;
+  }
+
+  .sss-left-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    min-height: 560px;
+    border-radius: 8px;
+  }
+
+  .sss-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .sss-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(45,27,78,0.15) 0%, transparent 40%, transparent 60%, rgba(45,27,78,0.55) 100%);
+    z-index: 2;
+  }
+
+  .sss-img-bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(45,27,78,0.4), transparent);
+    z-index: 3;
+  }
+
+  .sss-img-stat {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    z-index: 4;
+    background: rgba(45,27,78,0.82);
+    border: 1px solid rgba(201,146,42,0.28);
+    padding: 16px 20px;
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 55%;
+  }
+  .sss-img-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: #E0B84E;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .sss-img-stat-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.4;
+  }
+
+  .sss-img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #3D2468 0%, #5A3888 50%, #3D2468 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sss-placeholder-svg {
+    opacity: 0.18;
+    width: 60%;
+    max-width: 280px;
+  }
+
+  .sss-right-{{ section.id }} {
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    z-index: 4;
+  }
+
+  .sss-right-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 15%; bottom: 15%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,146,42,0.25) 25%, rgba(201,146,42,0.25) 75%, transparent);
+  }
+
+  .sss-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 9px;
+    letter-spacing: 4.5px;
+    text-transform: uppercase;
+    color: #E0B84E;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+  .sss-eyebrow::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: #C9922A;
+    flex-shrink: 0;
+  }
+
+  .sss-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 4vw, 68px);
+    font-weight: 300;
+    line-height: 0.95;
+    color: #FEFCF8;
+    margin: 0 0 4px;
+    letter-spacing: -1px;
+  }
+  .sss-heading-italic {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(48px, 4.5vw, 76px);
+    font-weight: 300;
+    color: #E0B84E;
+    line-height: 1.05;
+    letter-spacing: -0.8px;
+    margin-bottom: 40px;
+  }
+
+  .sss-body {
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.38);
+    font-weight: 300;
+    max-width: 460px;
+    margin: 0 0 36px;
+    letter-spacing: 0.2px;
+  }
+
+  .sss-quote {
+    border-left: 2px solid rgba(201,146,42,0.4);
+    padding: 18px 0 18px 24px;
+    margin: 0 0 36px;
+  }
+  .sss-quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    margin: 0 0 10px;
+  }
+  .sss-quote-attr {
+    font-size: 8.5px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(201,146,42,0.55);
+  }
+
+  .sss-mini-stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(201,146,42,0.15);
+    border-radius: 6px;
+    margin-bottom: 36px;
+  }
+  .sss-mini-stat {
+    flex: 1;
+    padding: 18px 20px;
+    border-right: 1px solid rgba(201,146,42,0.1);
+    position: relative;
+  }
+  .sss-mini-stat:last-child { border-right: none; }
+  .sss-mini-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 300;
+    color: #E0B84E;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .sss-mini-stat-label {
+    font-size: 8px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    line-height: 1.5;
+  }
+
+  .sss-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #E0B84E;
+    text-decoration: none;
+    padding: 14px 28px;
+    border: 1px solid rgba(201,146,42,0.35);
+    background: rgba(201,146,42,0.07);
+    border-radius: 4px;
+    width: fit-content;
+    transition: background 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .sss-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(201,146,42,0.07);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .sss-cta:hover::after { transform: translateX(0); }
+  .sss-cta:hover { border-color: rgba(201,146,42,0.6); }
+  .sss-cta-arrow {
+    width: 18px; height: 1px;
+    background: #C9922A;
+    position: relative;
+    flex-shrink: 0;
+    transition: width 0.3s;
+  }
+  .sss-cta:hover .sss-cta-arrow { width: 26px; }
+  .sss-cta-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -3px;
+    width: 6px; height: 6px;
+    border-right: 1px solid #C9922A;
+    border-top: 1px solid #C9922A;
+    transform: rotate(45deg);
+  }
+
+  /* ── 989px ── */
+  @media (max-width: 989px) {
+    .sss-inner-{{ section.id }} {
+      grid-template-columns: 1fr;
+      padding: 0 40px;
+      gap: 40px;
+      min-height: auto;
+    }
+    .sss-left-{{ section.id }} {
+      min-height: 340px;
+    }
+    .sss-right-{{ section.id }} {
+      padding: 20px 0 60px;
+    }
+    .sss-right-{{ section.id }}::before { display: none; }
+    .sss-heading { font-size: clamp(36px, 9vw, 56px); }
+    .sss-heading-italic { font-size: clamp(40px, 10vw, 62px); }
+    .sss-mini-stats { flex-wrap: wrap; }
+    .sss-mini-stat { min-width: 40%; }
+    .sss-img-stat {
+      bottom: 16px;
+      left: 16px;
+      padding: 12px 16px;
+      max-width: 50%;
+    }
+    .sss-img-stat-num {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+    .sss-img-stat-label {
+      font-size: 7px;
+      letter-spacing: 1.5px;
+    }
+  }
+
+  /* ── 480px ── */
+  @media (max-width: 480px) {
+    .sss-inner-{{ section.id }} {
+      padding: 0 20px;
+      gap: 30px;
+    }
+    .sss-left-{{ section.id }} {
+      min-height: 260px;
+    }
+    .sss-right-{{ section.id }} { padding: 0 0 40px; }
+    .sss-heading-italic { padding-left: 0; }
+    .sss-mini-stats { flex-direction: column; }
+    .sss-mini-stat { border-right: none; border-bottom: 1px solid rgba(201,146,42,0.1); }
+    .sss-mini-stat:last-child { border-bottom: none; }
+    .sss-img-stat {
+      bottom: 12px;
+      left: 12px;
+      padding: 10px 14px;
+      max-width: 48%;
+      border-radius: 4px;
+    }
+    .sss-img-stat-num {
+      font-size: 24px;
+      margin-bottom: 3px;
+    }
+    .sss-img-stat-label {
+      font-size: 6.5px;
+      letter-spacing: 1.2px;
+    }
+  }
+</style>
+
+<section id="sss-{{ section.id }}" aria-label="{{ section.settings.eyebrow_text }}">
+  <div class="sss-inner-{{ section.id }}">
+
+    <div class="sss-left-{{ section.id }}">
+      {% if section.settings.farm_image != blank %}
+        <img
+          src="{{ section.settings.farm_image | image_url: width: 900 }}"
+          alt="{{ section.settings.image_alt }}"
+          class="sss-img"
+          loading="lazy"
+          width="900"
+          height="720"
+        >
+      {% else %}
+        <div class="sss-img-placeholder">
+          <svg class="sss-placeholder-svg" viewBox="0 0 320 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M160,10 Q180,90 165,180 Q150,270 168,360 Q160,380 160,400" stroke="#C9922A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M110,30 Q125,108 115,195 Q105,282 120,365" stroke="#E0B84E" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.4"/>
+            <path d="M215,22 Q228,100 218,188 Q208,276 222,360" stroke="#C9922A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.35"/>
+            <path d="M70,55 Q80,130 74,215 Q68,300 78,375" stroke="#E0B84E" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.2"/>
+            <path d="M260,44 Q268,120 262,204 Q256,288 268,368" stroke="#C9922A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.2"/>
+            <circle cx="160" cy="8" r="8" fill="#E8A020" opacity="0.8"/>
+            <circle cx="110" cy="28" r="6" fill="#E8A020" opacity="0.55"/>
+            <circle cx="215" cy="20" r="6" fill="#E8A020" opacity="0.5"/>
+            <circle cx="70"  cy="52" r="4" fill="#E8A020" opacity="0.3"/>
+            <circle cx="260" cy="42" r="4" fill="#E8A020" opacity="0.3"/>
+            <line x1="20" y1="390" x2="300" y2="390" stroke="rgba(201,146,42,0.2)" stroke-width="1"/>
+            <path d="M0,340 Q80,260 160,300 Q240,260 320,340 L320,400 L0,400Z" fill="rgba(45,27,78,0.5)"/>
+          </svg>
+        </div>
+      {% endif %}
+
+      <div class="sss-img-overlay" aria-hidden="true"></div>
+      <div class="sss-img-bottom" aria-hidden="true"></div>
+
+      <div class="sss-img-stat">
+        <div class="sss-img-stat-num">{{ section.settings.hero_stat_num }}</div>
+        <div class="sss-img-stat-label">{{ section.settings.hero_stat_label }}</div>
+      </div>
+    </div>
+
+    <div class="sss-right-{{ section.id }}">
+
+      <div class="sss-eyebrow">{{ section.settings.eyebrow_text }}</div>
+
+      <h2 class="sss-heading">{{ section.settings.title_line1 }}</h2>
+      <span class="sss-heading-italic">{{ section.settings.title_line2 }}</span>
+
+      {% if section.settings.body_text != blank %}
+        <p class="sss-body">{{ section.settings.body_text }}</p>
+      {% endif %}
+
+      {% if section.settings.quote_text != blank %}
+      <div class="sss-quote">
+        <p class="sss-quote-text">{{ section.settings.quote_text }}</p>
+        {% if section.settings.quote_attr != blank %}
+          <div class="sss-quote-attr">— {{ section.settings.quote_attr }}</div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="sss-mini-stats">
+        <div class="sss-mini-stat">
+          <div class="sss-mini-stat-num">{{ section.settings.mini_stat1_num }}</div>
+          <div class="sss-mini-stat-label">{{ section.settings.mini_stat1_label }}</div>
+        </div>
+        <div class="sss-mini-stat">
+          <div class="sss-mini-stat-num">{{ section.settings.mini_stat2_num }}</div>
+          <div class="sss-mini-stat-label">{{ section.settings.mini_stat2_label }}</div>
+        </div>
+        <div class="sss-mini-stat">
+          <div class="sss-mini-stat-num">{{ section.settings.mini_stat3_num }}</div>
+          <div class="sss-mini-stat-label">{{ section.settings.mini_stat3_label }}</div>
+        </div>
+      </div>
+
+      {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+      <a href="{{ section.settings.cta_link }}" class="sss-cta">
+        {{ section.settings.cta_text }}
+        <span class="sss-cta-arrow" aria-hidden="true"></span>
+      </a>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sourcing Story",
+  "tag": "section",
+  "class": "senfa-sourcing-story",
+  "settings": [
+    { "type": "image_picker", "id": "farm_image", "label": "Farm / Source Image (left panel)" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Himalayani saffron fields" },
+    { "type": "text", "id": "hero_stat_num", "label": "Floating stat — number", "default": "50+" },
+    { "type": "text", "id": "hero_stat_label", "label": "Floating stat — label", "default": "Acres of Himalayan Saffron Farms" },
+    { "type": "text", "id": "eyebrow_text", "label": "Eyebrow Label", "default": "Where It Begins" },
+    { "type": "text", "id": "title_line1", "label": "Title Line 1 (white)", "default": "Grown in the" },
+    { "type": "text", "id": "title_line2", "label": "Title Line 2 (italic gold)", "default": "valley itself." },
+    { "type": "textarea", "id": "body_text", "label": "Body copy", "default": "Our saffron doesn't travel through middlemen or markets. It's sourced directly from the Pampore saffron belt in Himalayan — the only region in the world where Crocus Sativus produces threads of this quality and potency.\n\nAbhay Manik Birla believed in knowing exactly where each ingredient came from. That principle drives every sourcing decision we make." },
+    { "type": "text", "id": "quote_text", "label": "Pull quote (blank to hide)", "default": "If you cannot trace an ingredient back to its soil, you cannot call it pure." },
+    { "type": "text", "id": "quote_attr", "label": "Quote attribution", "default": "Abhay Manik Birla" },
+    { "type": "text", "id": "mini_stat1_num", "label": "Mini stat 1 — number", "default": "50+" },
+    { "type": "text", "id": "mini_stat1_label", "label": "Mini stat 1 — label", "default": "Years of Heritage" },
+    { "type": "text", "id": "mini_stat2_num", "label": "Mini stat 2 — number", "default": "100%" },
+    { "type": "text", "id": "mini_stat2_label", "label": "Mini stat 2 — label", "default": "Direct Source" },
+    { "type": "text", "id": "mini_stat3_num", "label": "Mini stat 3 — number", "default": "0" },
+    { "type": "text", "id": "mini_stat3_label", "label": "Mini stat 3 — label", "default": "Middlemen" },
+    { "type": "text", "id": "cta_text", "label": "CTA button text", "default": "Shop the collection" },
+    { "type": "url", "id": "cta_link", "label": "CTA button link" }
+  ],
+  "presets": [{ "name": "Sourcing Story" }]
+}
+{% endschema %}

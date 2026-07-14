@@ -1,0 +1,170 @@
+{% comment %}
+  Section: Senfa Commitments
+  File: sections/senfa-commitments.liquid
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  .sc-section {
+    background-color: {{ section.settings.bg_color }};
+    font-family: 'Jost', sans-serif;
+    color: #000000;
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  }
+
+  .sc-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 80px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .sc-header {
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 3.5vw, 46px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #000000;
+    margin: 0 0 16px 0;
+  }
+
+  .sc-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.7);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .sc-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 30px;
+    align-items: start;
+  }
+
+  .sc-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .sc-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    height: 50px;
+  }
+
+  .sc-icon-wrap svg {
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 50px;
+  }
+
+  .sc-item-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #000000;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    min-height: 2.8em; /* Ensures alignment across grid items */
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .sc-item-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.6);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1200px) { .sc-grid { grid-template-columns: repeat(3, 1fr); gap: 40px; } }
+  @media (max-width: 1024px) { .sc-container { padding: 0 40px; } }
+  @media (max-width: 768px) {
+    .sc-container { padding: 0 20px; }
+    .sc-title { font-size: 32px; }
+    .sc-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 20px; }
+  }
+</style>
+
+<section class="sc-section">
+  <div class="sc-container">
+    <div class="sc-header">
+      {% if section.settings.title != blank %}<h2 class="sc-title">{{ section.settings.title }}</h2>{% endif %}
+      {% if section.settings.subtitle != blank %}<p class="sc-subtitle">{{ section.settings.subtitle }}</p>{% endif %}
+    </div>
+    <div class="sc-grid">
+      {% for block in section.blocks %}
+        <div class="sc-item" {{ block.shopify_attributes }}>
+          {% if block.settings.svg_code != blank %}<div class="sc-icon-wrap">{{ block.settings.svg_code }}</div>{% endif %}
+          <h3 class="sc-item-title">{{ block.settings.title }}</h3>
+          {% if block.settings.subtitle != blank %}<p class="sc-item-subtitle">{{ block.settings.subtitle }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Senfa Commitments",
+  "tag": "section",
+  "class": "senfa-commitments",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FFFFFF" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Thoughtful Commitments" },
+    { "type": "textarea", "id": "subtitle", "label": "Subheading", "default": "A yes to conscious choices. Our commitment extends to People, Planet, & Pets, driving every decision we make." },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding Top", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding Bottom", "default": 80 }
+  ],
+  "blocks": [
+    {
+      "type": "commitment",
+      "name": "Commitment Block",
+      "settings": [
+        { "type": "html", "id": "svg_code", "label": "Icon (SVG Code)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Clean Formulations" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Sulphate & Paraben Free" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Commitments",
+      "blocks": [
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 2v6l-4.5 9A2 2 0 0 0 6.2 20h11.6a2 2 0 0 0 1.7-2.9L15 8V2\"></path><line x1=\"7\" y1=\"2\" x2=\"17\" y2=\"2\"></line><path d=\"M12 18v-5\"></path><path d=\"M12 15c-1.5 0-2.5-1-2.5-2.5S10.5 10 12 10\"></path><path d=\"M12 13c1.5 0 2.5-1 2.5-2.5S13.5 10 12 10\"></path></svg>", "title": "Clean Formulations", "subtitle": "Sulphate & Paraben Free" } },
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 16a3 3 0 0 1 2.24 5\"></path><path d=\"M18 12h.01\"></path><path d=\"M18 21h-8a4 4 0 0 1-4-4 7 7 0 0 1 7-7h.2L9.6 6.4a1 1 0 1 1 2.8-2.8L15.8 7h.2c3.3 0 6 2.7 6 6v1a2 2 0 0 1-2 2h-1a3 3 0 0 0-3 3\"></path></svg>", "title": "Always Vegan", "subtitle": "Vegan & Cruelty Free" } },
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z\"></path><circle cx=\"12\" cy=\"10\" r=\"3\"></circle><path d=\"M12 13v4\"></path><path d=\"M9 15h6\"></path></svg>", "title": "Made in India", "subtitle": "Made Locally Served Globally" } },
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 22c0-4-3-8-8-8 0 4 3 8 8 8z\"></path><path d=\"M12 22c0-5 4-10 10-10 0 5-4 10-10 10z\"></path><path d=\"M12 22v-5\"></path></svg>", "title": "Sustainable Sourcing", "subtitle": "Ingredients of Natural Origin" } },
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14z\"></path><path d=\"M8.21 13.89L7 23l5-3 5 3-1.21-9.12\"></path><path d=\"M9 8l2 2 4-4\"></path></svg>", "title": "IFRA Certified", "subtitle": "Natural Extracts, Safe Fragrances" } },
+        { "type": "commitment", "settings": { "svg_code": "<svg width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#000000\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 2v14a3 3 0 0 0 6 0V2\"></path><path d=\"M7 2h10\"></path><path d=\"M9 8h6\"></path><circle cx=\"19\" cy=\"19\" r=\"5\" fill=\"#FFFFFF\"></circle><path d=\"M17 19l1.5 1.5L21 18\"></path></svg>", "title": "Gentle on Skin", "subtitle": "Suitable For Every Skin Type" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

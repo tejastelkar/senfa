@@ -1,0 +1,595 @@
+{% comment %}
+  SENFA — Certifications Section (Premium Floating Editorial)
+  File: sections/senfa-certifications.liquid
+{% endcomment %}
+
+<section id="scert-{{ section.id }}" class="senfa-certifications" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --text-body: {{ section.settings.text_body }};
+  --accent-gold: {{ section.settings.accent_gold }};
+">
+  <div class="scert-container">
+
+    {%- comment -%} ── STANDARDIZED UTILITY HEADER ── {%- endcomment -%}
+    <header class="scert-header-standard">
+      {%- if section.settings.eyebrow_text != blank -%}
+        <div class="scert-eyebrow-centered">
+          <span>{{ section.settings.eyebrow_text }}</span>
+        </div>
+      {%- endif -%}
+
+      <h2 class="scert-heading-centered">
+        {{ section.settings.title_line1 }}
+        {%- if section.settings.title_line2 != blank -%}
+          <br><em>{{ section.settings.title_line2 }}</em>
+        {%- endif -%}
+      </h2>
+    </header>
+
+    {%- comment -%} ── FLOATING CERTIFICATIONS GRID ── {%- endcomment -%}
+    <div class="scert-grid" role="list">
+      {% for block in section.blocks %}
+        {% if block.type == 'cert' %}
+          <div class="scert-item" role="listitem" {{ block.shopify_attributes }}>
+            
+            <div class="scert-icon-wrap" aria-hidden="true">
+              {% case forloop.index %}
+                {% when 1 %}
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 3C16 3 6 8.5 6 18C6 23.5 10.5 28 16 28C21.5 28 26 23.5 26 18C26 8.5 16 3 16 3Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 28V14" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                    <path d="M16 20C16 20 12 17 9 13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+                  </svg>
+                {% when 2 %}
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4L5 9V16C5 21.89 10.05 27.32 16 28C21.95 27.32 27 21.89 27 16V9L16 4Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11 16L14.5 19.5L21 12.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% when 3 %}
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4C16 4 7 12 7 19C7 23.97 11.03 28 16 28C20.97 28 25 23.97 25 19C25 12 16 4 16 4Z" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+                    <path d="M12 21C13.5 22.5 17.5 22.5 19 19.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+                  </svg>
+                {% when 4 %}
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 3L18.79 12.21L28 15L18.79 17.79L16 27L13.21 17.79L4 15L13.21 12.21L16 3Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% else %}
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1"/>
+                    <path d="M11 16L14.5 19.5L21 12.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+              {% endcase %}
+            </div>
+
+            <h3 class="scert-title">{{ block.settings.cert_title }}</h3>
+            <span class="scert-sub">{{ block.settings.cert_sub }}</span>
+            <div class="scert-divider"></div>
+            <p class="scert-desc">{{ block.settings.cert_desc }}</p>
+
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {%- comment -%} ── BOTTOM BAR (WHISPER FOOTER) ── {%- endcomment -%}
+    <div class="scert-bar">
+      <div class="scert-bar-inner">
+        {%- if section.settings.bar_item1 != blank -%}
+          <span class="scert-bar-item">{{ section.settings.bar_item1 }}</span>
+        {%- endif -%}
+        
+        {%- if section.settings.bar_item2 != blank -%}
+          <span class="scert-bar-diamond"></span>
+          <span class="scert-bar-item">{{ section.settings.bar_item2 }}</span>
+        {%- endif -%}
+        
+        {%- if section.settings.bar_item3 != blank -%}
+          <span class="scert-bar-diamond"></span>
+          <span class="scert-bar-item">{{ section.settings.bar_item3 }}</span>
+        {%- endif -%}
+        
+        {%- if section.settings.bar_item4 != blank -%}
+          <span class="scert-bar-diamond"></span>
+          <span class="scert-bar-item">{{ section.settings.bar_item4 }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — CERTIFICATIONS (EDITORIAL)
+════════════════════════════════ */
+
+.senfa-certifications {
+  background-color: var(--bg-color);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Subtle top and bottom borders for section separation */
+.senfa-certifications::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201,146,42,0.15) 30%, rgba(201,146,42,0.15) 70%, transparent);
+}
+
+.senfa-certifications::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.04) 30%, rgba(0,0,0,0.04) 70%, transparent);
+}
+
+.scert-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+
+.scert-header-standard {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: scertFadeUp 0.8s ease forwards;
+}
+
+.scert-eyebrow-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.scert-eyebrow-centered::before,
+.scert-eyebrow-centered::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.scert-heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+  line-height: 1.1;
+}
+
+.scert-heading-centered em {
+  font-style: italic;
+  color: var(--accent-gold);
+  font-weight: 400;
+}
+
+/* ── FLOATING GRID ── */
+.scert-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+/* ── ITEM ARCHITECTURE ── */
+.scert-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+}
+
+.scert-item.scert-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scert-item:hover {
+  transform: translateY(-6px);
+}
+
+/* Icon */
+.scert-icon-wrap {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+  margin-bottom: 32px;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.scert-icon-wrap svg {
+  width: 32px;
+  height: 32px;
+  z-index: 2;
+  position: relative;
+}
+
+/* Subtle glowing aura behind icon on hover */
+.scert-icon-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,146,42,0.1) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.6s ease;
+}
+
+.scert-item:hover .scert-icon-wrap {
+  transform: scale(1.05);
+}
+
+.scert-item:hover .scert-icon-wrap::before {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+/* Typography */
+.scert-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+
+.scert-sub {
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 20px;
+}
+
+.scert-divider {
+  width: 24px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.4;
+  margin: 0 auto 20px;
+  transition: width 0.4s ease;
+}
+
+.scert-item:hover .scert-divider {
+  width: 40px;
+}
+
+.scert-desc {
+  font-family: 'Jost', sans-serif;
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0;
+  max-width: 280px;
+}
+
+/* ── BOTTOM BAR (WHISPER FOOTER) ── */
+.scert-bar {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+}
+
+.scert-bar.scert-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scert-bar-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 24px 64px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.scert-bar-item {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  opacity: 0.7;
+}
+
+.scert-bar-diamond {
+  width: 4px; 
+  height: 4px;
+  background: var(--accent-gold);
+  transform: rotate(45deg);
+  opacity: 0.5;
+}
+
+@keyframes scertFadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .scert-container { padding: 0 48px; }
+  .scert-grid { grid-template-columns: repeat(2, 1fr); gap: 64px 40px; }
+  .scert-bar-inner { padding: 24px 32px; }
+}
+
+/* ════════════════
+   MOBILE 768px (Horizontal Swipe or Stack)
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-certifications { padding: 80px 0; }
+  
+  .scert-container { padding: 0; }
+
+  .scert-header-standard {
+    padding: 0 24px;
+    margin-bottom: 56px;
+  }
+  
+  .scert-heading-centered { font-size: 36px; }
+
+  /* Native CSS Swipe Slider */
+  .scert-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    gap: 16px;
+    padding: 0 24px 20px 24px;
+  }
+  
+  .scert-grid::-webkit-scrollbar { display: none; }
+
+  .scert-item {
+    flex: 0 0 calc(85vw - 48px); 
+    max-width: 280px;
+    scroll-snap-align: center;
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 40px 24px;
+    border-radius: 4px;
+  }
+  
+  /* Give active items a slight background on mobile to frame them */
+  .scert-item { background: #FAFAFA; }
+
+  .scert-bar {
+    margin-top: 64px;
+    padding: 0 24px;
+  }
+
+  .scert-bar-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 0;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+  }
+  
+  .scert-bar-diamond { display: none; } /* Hide separators when stacked */
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .scert-grid { padding: 0 16px 20px 16px; gap: 12px; }
+  .scert-item { flex: 0 0 calc(100vw - 48px); }
+}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const section = document.getElementById('scert-{{ section.id }}');
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('scert-item')) {
+            setTimeout(() => {
+              entry.target.classList.add('scert-visible');
+            }, index * 100);
+          } else {
+            entry.target.classList.add('scert-visible');
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    section.querySelectorAll('.scert-item, .scert-bar').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Certifications Bar",
+  "tag": "section",
+  "class": "senfa-certifications-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Label",
+      "default": "Our Standards"
+    },
+    {
+      "type": "text",
+      "id": "title_line1",
+      "label": "Heading Line 1",
+      "default": "Certified by"
+    },
+    {
+      "type": "text",
+      "id": "title_line2",
+      "label": "Heading Line 2 (italic gold)",
+      "default": "conscience."
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "text_body",
+      "label": "Body Text",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "header",
+      "content": "Bottom Bar Strip"
+    },
+    {
+      "type": "text",
+      "id": "bar_item1",
+      "label": "Item 1",
+      "default": "Batch tested before every release"
+    },
+    {
+      "type": "text",
+      "id": "bar_item2",
+      "label": "Item 2",
+      "default": "No compromise on sourcing"
+    },
+    {
+      "type": "text",
+      "id": "bar_item3",
+      "label": "Item 3",
+      "default": "Formulated in India"
+    },
+    {
+      "type": "text",
+      "id": "bar_item4",
+      "label": "Item 4",
+      "default": "Est. 2023 · Pune"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 160, "step": 8, "default": 120, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cert",
+      "name": "Certification",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cert_title",
+          "label": "Title",
+          "default": "100% Vegan"
+        },
+        {
+          "type": "text",
+          "id": "cert_sub",
+          "label": "Subtitle / badge",
+          "default": "Plant Derived"
+        },
+        {
+          "type": "textarea",
+          "id": "cert_desc",
+          "label": "Description",
+          "default": "No animal-derived ingredients. No animal testing. Every Senfa formula is certified vegan from ingredient to packaging."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Certifications Bar",
+      "blocks": [
+        { "type": "cert", "settings": { "cert_title": "100% Vegan", "cert_sub": "Plant Derived", "cert_desc": "No animal-derived ingredients. No animal testing. Every Senfa formula is certified vegan from ingredient to packaging." } },
+        { "type": "cert", "settings": { "cert_title": "Gentle Care", "cert_sub": "Safe for Sensitive Skin", "cert_desc": "Each product is crafted to be gentle and safe for all skin types, including sensitive skin." } },
+        { "type": "cert", "settings": { "cert_title": "0% Sulphate", "cert_sub": "Barrier Safe", "cert_desc": "Formulated without any sulphate compounds. Your skin's natural moisture barrier stays intact — always." } },
+        { "type": "cert", "settings": { "cert_title": "Cruelty Free", "cert_sub": "Ethically Made", "cert_desc": "Never tested on animals at any stage of development. From Himalayan's farms to your skin — no harm done." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

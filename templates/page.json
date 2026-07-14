@@ -1,0 +1,178 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "senfa_story_banner_jYTLBE": {
+      "type": "senfa-story-banner",
+      "name": "Senfa Story Banner",
+      "settings": {
+        "image": "shopify://shop_images/our_story.jpg"
+      }
+    },
+    "senfa_story_began_XGRMFa": {
+      "type": "senfa-story-began",
+      "name": "Story Chapter Intro",
+      "settings": {
+        "chapter_number": "",
+        "section_tag": "Where It Began",
+        "headline_normal": "They say when you lose someone you love, you spend the rest of your life",
+        "headline_italic": "looking for ways to keep talking to them.",
+        "para_1": "For me, that conversation happens every time we harvest a flower on our farm.",
+        "para_2": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy of purity. He had a vision of taking the soul of that flower and infusing it into something that could touch people's lives every single morning.",
+        "para_3": "He dreamed of a soap that didn't just 'smell' like a memory — but actually carried the living benefit of the saffron he loved so much.",
+        "para_closing_italic": "In 2023, when he passed away, that dream became my inheritance."
+      }
+    },
+    "senfa_story_cta_fLQ8GE": {
+      "type": "senfa-story-cta",
+      "name": "Story Quote",
+      "settings": {
+        "quote_text": "I realized that if I was going to do this, it couldn't be 'just another soap.' It had to be a <em>standard of integrity</em> that my father would be proud of.",
+        "attribution": "— The Founder, Senfa",
+        "attribution_sub": "Pune, Maharashtra · Est. 2023"
+      }
+    },
+    "senfa_story_blocks_dtTaUD": {
+      "type": "senfa-story-blocks",
+      "name": "Story Blocks",
+      "settings": {
+        "b1_tag": "The Inheritance",
+        "b1_heading": "A weight that no business plan",
+        "b1_heading_em": "could describe.",
+        "b1_para1": "I remember sitting in my office, looking at the saffron threads from our own soil. There was grief. There was love. And there was a question I couldn't shake — what do you do with a dream that isn't yours yet?",
+        "b1_pull": "\"If I was going to do this, it couldn't be 'just another soap.' It had to be a standard of integrity that my father would be proud of.\"",
+        "b1_para2": "I realised that the saffron in our fields wasn't just a raw material. It was a promise he had already made to every person who would one day hold a bar of Senfa in their hands.",
+        "b2_tag": "The Family Mission",
+        "b2_heading_em": "I couldn't do it alone.",
+        "b2_heading": "And I didn't have to.",
+        "b2_para1": "I brought my wife into the heart of the formulation. We sat with my Mama, discussing how to make it as pure as the earth it came from. There were late nights. There were disagreements. There was love holding all of it together.",
+        "b2_para2": "And when my cousin Pratik finished his studies, he didn't just join a company. He joined a family mission to protect a name — the name of a man we all loved and wanted to honour.",
+        "b2_pull": "\"He didn't join a company. He joined a family mission to protect a name.\"",
+        "b3_image": "shopify://shop_images/senfa-soap.jpg",
+        "b3_tag": "The Standard",
+        "b3_heading": "Months of obsession.",
+        "b3_heading_em": "Zero shortcuts.",
+        "b3_para1": "We spent months obsessing over the Senfa standard. We refused the shortcuts that make manufacturing easy but make the product hollow.",
+        "b3_para2": "We wanted a lather so creamy and an infusion so deep that you could feel the honesty in the water.",
+        "b3_pull": "\"We refused the shortcuts that make manufacturing easy but make the product hollow.\"",
+        "b3_para3": "If a batch didn't meet the standard — every letter of S-E-N-F-A — it never left our doors. Not once. Not ever."
+      }
+    },
+    "senfa_story_acronym_ExjqHa": {
+      "type": "senfa-story-acronym",
+      "name": "SENFA Acronym",
+      "settings": {
+        "eyebrow": "The Five-Letter Promise",
+        "title_normal": "Not just a name.",
+        "title_italic": "A guarantee.",
+        "subtitle": "I looked at the saffron from our family fields and realised that for a soap to be worthy of my father's name, it had to be more than a product. It had to be a S·E·N·F·A.",
+        "bg_color": "#382b62",
+        "bg_gradient": "linear-gradient(89deg, rgba(56, 43, 98, 1) 7%, rgba(148, 88, 255, 1) 94%)",
+        "heading_color": "#ffffff",
+        "accent_gold": "#c9922a",
+        "text_body": "#ffffff",
+        "s_word": "affron Soap",
+        "s_desc": "Not 'saffron-scented.' Saffron-Infused. We took the threads from our own soil and put the soul of the flower into the bar. You don't smell our saffron. You feel it.",
+        "e_word": "ssential Only",
+        "e_desc": "We stripped away the Silicon and Triclosan. We kept only what is Essential for your skin to breathe and heal. Zero sulphate. Zero paraben. Zero compromise.",
+        "n_word": "atural Herbs",
+        "n_desc": "We didn't stop at saffron. We blended it with Natural Herbs to ensure the benefit isn't just on the surface — but deep within. Skin that heals, not just skin that shines.",
+        "f_word": "reshness",
+        "f_desc": "Because we source directly from the harvest, you feel the Freshness of the farm — not the staleness of a warehouse. From our field to your shower in the shortest time possible.",
+        "a_word": "roma",
+        "a_desc": "Not a chemical perfume, but the honest, earthy scent of a promise kept. The Aroma of Senfa is the smell of integrity — of a family that refused to cut a single corner.",
+        "footer_text": "Most brands give you a name. We give you our word, spelled out in five letters.",
+        "padding_top": 128,
+        "padding_bottom": 112
+      }
+    },
+    "senfa_story_family_cards_KF7mhg": {
+      "type": "senfa-story-family-cards",
+      "name": "SENFA Family Cards",
+      "settings": {
+        "eyebrow": "The People Behind It",
+        "title_normal": "Three people. One kitchen table.",
+        "title_italic": "One unbreakable pact.",
+        "subtitle": "Not a corporation. A family with a promise — and the saffron fields to keep it.",
+        "bg_color": "#ffffff",
+        "card_bg": "#ffffff",
+        "heading_color": "#1a1228",
+        "text_body": "#4a4a4a",
+        "accent_gold": "#c9922a",
+        "card1_initial": "A",
+        "card1_name": "The Founder",
+        "card1_role": "Visionary · Son · Protector of the Legacy",
+        "card1_quote": "Every time a bar of Senfa leaves our hands, I feel like I'm finally finishing that conversation with my Dad. I'm telling him — look, we did it. We kept the saffron pure. We kept the promise.",
+        "card1_tag": "Son of Abhay Manik Birla",
+        "card2_initial": "W",
+        "card2_name": "The Wife",
+        "card2_role": "Co-Formulator · Heart of the Brand",
+        "card2_text": "She was there from the first formula — as a partner who believed that a good product starts with an honest conversation. She helped make every batch worthy of that honesty.",
+        "card2_tag": "Formulation & Soul",
+        "card3_initial": "P",
+        "card3_name": "Pratik",
+        "card3_role": "Cousin · Operations · Guardian of the Standard",
+        "card3_text": "When Pratik finished his studies, he had offers. He chose family. He chose the mission. His job every day is to ensure no batch leaves without meeting all five letters of SENFA.",
+        "card3_tag": "Operations & Standard",
+        "footer_note": "Three people. One farm. One standard. That is the entire company.",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "senfa_story_closing_GntCXx": {
+      "type": "senfa-story-closing",
+      "name": "SENFA Closing Promise",
+      "settings": {
+        "section_tag": "The Promise, Kept",
+        "promise_text": "We don't just source saffron.|We grow it.|We don't just make soap.|We fulfil a dream.",
+        "body_text": "From our family's fields to your home — this is the purity my father always wanted you to have. Not luxury as a marketing word. Luxury as a moral obligation to never compromise on what goes into your hands every morning.",
+        "italic_line": "Every bar is an unfinished conversation, finally completed.",
+        "sig_name": "The Birla Family",
+        "sig_label": "Founders, Senfa · Pune, Maharashtra",
+        "badge_number": "50+",
+        "badge_label": "Years of Heritage",
+        "badge_sublabel": "Himalayan, India"
+      }
+    },
+    "senfa_story_finalquote_hFw66J": {
+      "type": "senfa-story-finalquote",
+      "name": "SENFA Final Quote",
+      "settings": {
+        "quote_text": "Most brands give you a name.|We give you our word, spelled out in five letters.|From our family's hands to your home — this is Senfa.",
+        "attribution": "— S · E · N · F · A",
+        "bg_color": "#ffffff",
+        "quote_color": "#1a1228",
+        "accent_gold": "#c9922a",
+        "attr_color": "#666666",
+        "padding_top": 160,
+        "padding_bottom": 160
+      }
+    }
+  },
+  "order": [
+    "main",
+    "senfa_story_banner_jYTLBE",
+    "senfa_story_began_XGRMFa",
+    "senfa_story_cta_fLQ8GE",
+    "senfa_story_blocks_dtTaUD",
+    "senfa_story_acronym_ExjqHa",
+    "senfa_story_family_cards_KF7mhg",
+    "senfa_story_closing_GntCXx",
+    "senfa_story_finalquote_hFw66J"
+  ]
+}

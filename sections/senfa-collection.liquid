@@ -1,0 +1,917 @@
+{% comment %}
+  Senfa — Shop By Collection Section (Standardized + Mobile Optimized)
+  File: sections/senfa-collection.liquid
+{% endcomment %}
+
+<section class="sbc" id="sbc-{{ section.id }}" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --heading-color: {{ section.settings.heading_color }};
+  --tab-text: {{ section.settings.tab_text_color }};
+  --tab-bg-active: {{ section.settings.tab_bg_active }};
+  --tab-text-active: {{ section.settings.tab_text_active }};
+  --accent-gold: {{ section.settings.accent_gold }};
+  --card-bg: {{ section.settings.card_bg }};
+  --card-img-bg: {{ section.settings.card_img_bg }};
+  --card-text: {{ section.settings.card_text_color }};
+  --btn-bg: {{ section.settings.btn_bg }};
+  --btn-text: {{ section.settings.btn_text }};
+  --strip-border: {{ section.settings.accent_gold | color_modify: 'alpha', 0.2 }};
+  --footer-btn-bg: {{ section.settings.footer_btn_bg }};
+  --footer-btn-text: {{ section.settings.footer_btn_text }};
+">
+
+  {%- comment -%} ── STANDARDIZED UTILITY HEADER (Clean & Centered) ── {%- endcomment -%}
+  <div class="sbc__header-standard">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sbc__heading-centered">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Collection Filter Tabs {%- endcomment -%}
+  <div class="sbc__tabs" role="tablist">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'collection_tab' -%}
+        <button
+          class="sbc__tab{% if forloop.first %} sbc__tab--active{% endif %}"
+          data-tab-index="{{ forloop.index0 }}"
+          data-section-id="{{ section.id }}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          {{ block.shopify_attributes }}>
+          {{ block.settings.tab_label }}
+        </button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} Tab Panels {%- endcomment -%}
+  <div class="sbc__panels">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'collection_tab' -%}
+        {%- assign collection = collections[block.settings.collection] -%}
+        <div
+          class="sbc__panel{% if forloop.first %} sbc__panel--active{% endif %}"
+          data-panel-index="{{ forloop.index0 }}"
+          role="tabpanel"
+          data-collection-url="{{ collection.url }}">
+
+          <div class="sbc__panel-inner">
+
+            {%- comment -%} Left Hero Image (Hidden on Mobile) {%- endcomment -%}
+            <div class="sbc__hero">
+              {%- if block.settings.hero_image != blank -%}
+                <img
+                  src="{{ block.settings.hero_image | image_url: width: 700 }}"
+                  alt="{{ block.settings.hero_image.alt | default: block.settings.tab_label }}"
+                  class="sbc__hero-img"
+                  loading="lazy"
+                  width="700"
+                  height="700">
+              {%- else -%}
+                <div class="sbc__hero-placeholder">
+                  <span>{{ block.settings.tab_label }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- comment -%} Right: Product Carousel {%- endcomment -%}
+            <div class="sbc__carousel-wrap">
+
+              <button class="sbc__arrow sbc__arrow--prev" aria-label="Previous products">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 18l-6-6 6-6"/>
+                </svg>
+              </button>
+
+              <div class="sbc__carousel">
+                <div class="sbc__track">
+                  {%- if collection != blank -%}
+                    {%- for product in collection.products limit: block.settings.products_limit -%}
+                      {%- assign first_image = product.featured_image -%}
+                      {%- assign second_image = product.images[1] | default: product.featured_image -%}
+                      <div class="sbc__card">
+                        <a href="{{ product.url }}" class="sbc__card-link" aria-label="{{ product.title }}">
+                          <div class="sbc__card-img-wrap">
+                            <img
+                              src="{{ first_image | image_url: width: 600 }}"
+                              alt="{{ first_image.alt | default: product.title }}"
+                              class="sbc__card-img sbc__card-img--primary"
+                              loading="lazy"
+                              width="600"
+                              height="600">
+                            <img
+                              src=""
+                              data-src="{{ second_image | image_url: width: 600 }}"
+                              alt="{{ second_image.alt | default: product.title }}"
+                              class="sbc__card-img sbc__card-img--hover"
+                              loading="lazy"
+                              width="600"
+                              height="600">
+                          </div>
+                        </a>
+
+                        <div class="sbc__card-body">
+                          {%- if block.settings.show_collection_tag -%}
+                            <p class="sbc__card-collection">{{ block.settings.tab_label }}</p>
+                          {%- endif -%}
+
+                          <p class="sbc__card-title">{{ product.title | upcase | truncate: 42 }}</p>
+
+                          {%- if product.metafields.custom.scent != blank -%}
+                            <p class="sbc__card-scent">{{ product.metafields.custom.scent }}</p>
+                          {%- elsif product.product_type != blank -%}
+                            <p class="sbc__card-scent">{{ product.product_type }}</p>
+                          {%- endif -%}
+
+                          <div class="sbc__card-pricing">
+                            <span class="sbc__card-price">{{ product.price | money }}</span>
+                            {%- if product.compare_at_price > product.price -%}
+                              <span class="sbc__card-compare">{{ product.compare_at_price | money }}</span>
+                              {%- assign savings = product.compare_at_price | minus: product.price -%}
+                              {%- assign pct = savings | times: 100 | divided_by: product.compare_at_price -%}
+                              <span class="sbc__card-badge">{{ pct }}% off</span>
+                            {%- endif -%}
+                          </div>
+
+                          <form action="/cart/add" method="post">
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <button type="submit" class="sbc__card-btn" {% unless product.available %}disabled{% endunless %}>
+                              {%- if product.available -%}
+                                {{ block.settings.cart_btn_label | default: 'ADD TO CART' }}
+                              {%- else -%}
+                                SOLD OUT
+                              {%- endif -%}
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    {%- else -%}
+                      {%- for i in (1..3) -%}
+                        <div class="sbc__card sbc__card--placeholder">
+                          <div class="sbc__card-img-wrap">
+                            <div class="sbc__card-img-ph">{{ block.settings.tab_label }}</div>
+                          </div>
+                          <div class="sbc__card-body">
+                            <p class="sbc__card-collection">{{ block.settings.tab_label }}</p>
+                            <p class="sbc__card-title">SENFA PRODUCT NAME</p>
+                            <p class="sbc__card-scent">Saffron & Rose</p>
+                            <div class="sbc__card-pricing">
+                              <span class="sbc__card-price">₹599</span>
+                              <span class="sbc__card-compare">₹699</span>
+                              <span class="sbc__card-badge">15% off</span>
+                            </div>
+                            <button class="sbc__card-btn">ADD TO CART</button>
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- for i in (1..3) -%}
+                      <div class="sbc__card sbc__card--placeholder">
+                        <div class="sbc__card-img-wrap">
+                          <div class="sbc__card-img-ph">{{ block.settings.tab_label }}</div>
+                        </div>
+                        <div class="sbc__card-body">
+                          <p class="sbc__card-collection">{{ block.settings.tab_label }}</p>
+                          <p class="sbc__card-title">SENFA PRODUCT NAME</p>
+                          <p class="sbc__card-scent">Saffron & Rose</p>
+                          <div class="sbc__card-pricing">
+                            <span class="sbc__card-price">₹599</span>
+                            <span class="sbc__card-compare">₹699</span>
+                            <span class="sbc__card-badge">15% off</span>
+                          </div>
+                          <button class="sbc__card-btn">ADD TO CART</button>
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  {%- endif -%}
+                </div>
+              </div>
+
+              <button class="sbc__arrow sbc__arrow--next" aria-label="Next products">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
+
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} ── GLOBAL SECTION FOOTER BUTTON (Dynamic to Tab) ── {%- endcomment -%}
+  {%- if section.settings.footer_btn_label != blank -%}
+    <div class="sbc__footer">
+      <a href="#" class="sbc__view-all-btn" id="sbc-dynamic-btn-{{ section.id }}">
+        <span>{{ section.settings.footer_btn_label }}</span>
+        <svg class="sbc__btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — SHOP BY COLLECTION
+   Layout: max 1600px, 80px gutters
+════════════════════════════════ */
+
+.sbc {
+  padding: 100px 0 110px;
+  background: var(--bg-color);
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════
+   STANDARDIZED CENTERED HEADER
+══════════════════════════════════════════════ */
+
+.sbc__header-standard {
+  text-align: center;
+  max-width: 1600px;
+  margin: 0 auto 48px;
+  padding: 0 40px;
+}
+
+.sbc__heading-centered {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 400;
+  color: var(--heading-color);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-transform: none !important;
+}
+
+/* ── Tabs ── */
+.sbc__tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 1600px;
+  margin: 0 auto 56px;
+  padding: 0 80px;
+}
+
+.sbc__tab {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--tab-text);
+  background: transparent;
+  border: 1px solid var(--tab-bg-active);
+  border-right: none;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.22s ease, color 0.22s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+.sbc__tab:last-child { border-right: 1px solid var(--tab-bg-active); }
+.sbc__tab--active { background: var(--tab-bg-active); color: var(--tab-text-active); }
+.sbc__tab:not(.sbc__tab--active):hover { background: rgba(0,0,0,0.03); }
+
+/* ── Panels ── */
+.sbc__panel { display: none; }
+.sbc__panel--active { display: block; }
+
+.sbc__panel-inner {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 0;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ── Hero ── */
+.sbc__hero { position: relative; overflow: hidden; }
+.sbc__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 1 / 1;
+  transition: transform 0.6s ease;
+}
+.sbc__hero:hover .sbc__hero-img { transform: scale(1.02); }
+.sbc__hero-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--card-img-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+/* ── Carousel Wrapper ── */
+.sbc__carousel-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  min-width: 0;
+  background: transparent;
+}
+.sbc__carousel { flex: 1; overflow: hidden; min-width: 0; }
+.sbc__track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+  height: 100%;
+}
+
+/* ── Arrows ── */
+.sbc__arrow {
+  flex-shrink: 0;
+  width: 44px;
+  background: var(--bg-color);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.22s ease;
+  padding: 0;
+  align-self: stretch;
+}
+.sbc__arrow--prev { margin-right: 12px; }
+.sbc__arrow--next { margin-left: 12px; }
+.sbc__arrow svg { width: 16px; height: 16px; color: var(--tab-bg-active); transition: color 0.22s ease; }
+.sbc__arrow:hover { background: var(--tab-bg-active); }
+.sbc__arrow:hover svg { color: var(--tab-text-active); }
+.sbc__arrow:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+/* ── Product Card ── */
+.sbc__card {
+  flex: 0 0 calc((100% - 48px) / 3);
+  min-width: 0;
+  box-sizing: border-box;
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+}
+.sbc__card-link { display: block; text-decoration: none; }
+
+.sbc__card-img-wrap {
+  position: relative;
+  width: 100%;
+  background: var(--card-img-bg);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+.sbc__card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.45s ease;
+  display: block;
+}
+.sbc__card-img--primary { opacity: 1; z-index: 1; }
+.sbc__card-img--hover   { opacity: 0; z-index: 2; }
+.sbc__card-img-wrap:hover .sbc__card-img--primary { opacity: 0; }
+.sbc__card-img-wrap:hover .sbc__card-img--hover   { opacity: 1; }
+
+.sbc__card-img-ph {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--card-img-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+.sbc__card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+
+.sbc__card-collection {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+.sbc__card-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--card-text);
+  margin: 0 0 6px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+.sbc__card-scent {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: #777;
+  font-weight: 400;
+  margin: 0 0 16px;
+}
+.sbc__card-scent::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.5;
+  margin-top: 12px;
+}
+.sbc__card-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.sbc__card-price { font-family: 'Jost', sans-serif; font-size: 18px; font-weight: 500; color: var(--card-text); letter-spacing: 0.02em; }
+.sbc__card-compare { font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 300; color: #A0A0A0; text-decoration: line-through; }
+.sbc__card-badge { font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 600; color: var(--accent-gold); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.sbc__card-btn {
+  width: 100%;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 16px 0;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  display: block;
+  margin-top: auto;
+}
+.sbc__card-btn:hover { background: var(--accent-gold); }
+.sbc__card-btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ── GLOBAL SECTION FOOTER BUTTON ── */
+.sbc__footer {
+  margin-top: 64px;
+  display: flex;
+  justify-content: center;
+}
+
+.sbc__view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 48px;
+  background: var(--footer-btn-bg);
+  color: var(--footer-btn-text);
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--footer-btn-bg);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sbc__view-all-btn .sbc__btn-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sbc__view-all-btn:hover {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 146, 42, 0.2);
+}
+
+.sbc__view-all-btn:hover .sbc__btn-arrow {
+  transform: translateX(6px);
+}
+
+/* ════════════════
+   TABLET 1200px
+════════════════ */
+@media (max-width: 1200px) {
+  .sbc__tabs,
+  .sbc__panel-inner { padding-left: 48px; padding-right: 48px; }
+  .sbc__panel-inner { grid-template-columns: 300px 1fr; }
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .sbc__tabs,
+  .sbc__panel-inner { padding-left: 32px; padding-right: 32px; }
+  .sbc__panel-inner { grid-template-columns: 260px 1fr; }
+  .sbc__track { gap: 20px; }
+  .sbc__card { flex: 0 0 calc((100% - 20px) / 2); }
+}
+
+/* ════════════════
+   MOBILE 768px
+════════════════ */
+@media (max-width: 768px) {
+  .sbc { padding: 64px 0 80px; }
+
+  .sbc__header-standard {
+    padding: 0 24px;
+    margin-bottom: 32px;
+  }
+  .sbc__heading-centered {
+    font-size: 36px;
+  }
+
+  /* Horizontally Scrollable Tabs */
+  .sbc__tabs {
+    padding: 0 24px 16px 24px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 24px;
+  }
+  .sbc__tabs::-webkit-scrollbar { display: none; }
+  .sbc__tab { padding: 12px 20px; flex-shrink: 0; }
+
+  .sbc__panel-inner { grid-template-columns: 1fr; padding: 0; gap: 0; }
+  
+  /* Hide Hero Image on Mobile entirely */
+  .sbc__hero { display: none; }
+  
+  /* Fluid CSS Swipe Carousel for Mobile */
+  .sbc__carousel { overflow: visible; }
+  .sbc__track { 
+    gap: 16px; 
+    padding: 0 24px; 
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sbc__track::-webkit-scrollbar { display: none; }
+  
+  /* Cards peek in from the right */
+  .sbc__card { 
+    flex: 0 0 calc(100vw - 64px); 
+    scroll-snap-align: center;
+  }
+  
+  .sbc__card-body { padding: 20px; }
+  .sbc__arrow { display: none; } /* Hide JS arrows on mobile */
+
+  .sbc__footer {
+    margin-top: 40px;
+    padding: 0 24px;
+  }
+  .sbc__view-all-btn {
+    width: 100%;
+  }
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .sbc__card { flex: 0 0 calc(100vw - 48px); }
+  .sbc__tabs { padding: 0 16px 16px 16px; }
+  .sbc__track { padding: 0 16px; }
+}
+</style>
+
+<script>
+(function() {
+  function initSection(sectionId) {
+    var section = document.getElementById('sbc-' + sectionId);
+    if (!section) return;
+
+    var tabs   = section.querySelectorAll('.sbc__tab');
+    var panels = section.querySelectorAll('.sbc__panel');
+    var dynamicBtn = document.getElementById('sbc-dynamic-btn-' + sectionId);
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var idx = parseInt(this.dataset.tabIndex);
+        
+        // Remove active state from all
+        tabs.forEach(function(t) { t.classList.remove('sbc__tab--active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(function(p) { p.classList.remove('sbc__panel--active'); });
+        
+        // Add active state to clicked
+        this.classList.add('sbc__tab--active');
+        this.setAttribute('aria-selected', 'true');
+        panels[idx].classList.add('sbc__panel--active');
+        
+        // Reset Carousel
+        var track = panels[idx].querySelector('.sbc__track');
+        if (track) { track.dataset.offset = '0'; track.style.transform = 'translateX(0)'; updateArrows(panels[idx]); }
+
+        // Update dynamic button link
+        if(dynamicBtn) {
+          var collUrl = panels[idx].dataset.collectionUrl;
+          if(collUrl) {
+            dynamicBtn.href = collUrl;
+            dynamicBtn.style.display = 'inline-flex';
+          } else {
+            dynamicBtn.style.display = 'none';
+          }
+        }
+      });
+    });
+
+    // Set initial button link on load
+    if(dynamicBtn && panels.length > 0) {
+       var firstUrl = panels[0].dataset.collectionUrl;
+       if(firstUrl) dynamicBtn.href = firstUrl;
+    }
+
+    // Carousel Logic
+    panels.forEach(function(panel) {
+      var track = panel.querySelector('.sbc__track');
+      var prev  = panel.querySelector('.sbc__arrow--prev');
+      var next  = panel.querySelector('.sbc__arrow--next');
+      if (!track || !prev || !next) return;
+      track.dataset.offset = '0';
+
+      function slide(dir) {
+        var wrap  = track.parentElement;
+        var wrapW = wrap.getBoundingClientRect().width;
+        var gap   = window.innerWidth <= 768 ? 16 : window.innerWidth <= 1024 ? 20 : 24;
+        var current = parseFloat(track.dataset.offset) || 0;
+        var max = Math.max(0, track.scrollWidth - wrapW);
+        var next_ = Math.min(Math.max(current + dir * (wrapW + gap), 0), max);
+        track.dataset.offset = next_;
+        track.style.transform = 'translateX(-' + next_ + 'px)';
+        updateArrows(panel);
+      }
+
+      prev.addEventListener('click', function() { slide(-1); });
+      next.addEventListener('click', function() { slide(1); });
+      setTimeout(function() { updateArrows(panel); }, 100);
+    });
+
+    function updateArrows(panel) {
+      var track = panel.querySelector('.sbc__track');
+      var prev  = panel.querySelector('.sbc__arrow--prev');
+      var next  = panel.querySelector('.sbc__arrow--next');
+      if (!track || !prev || !next) return;
+      var wrap    = track.parentElement;
+      var wrapW   = wrap ? wrap.getBoundingClientRect().width : 0;
+      var current = parseFloat(track.dataset.offset) || 0;
+      var max     = Math.max(0, track.scrollWidth - wrapW);
+      prev.disabled = current <= 0;
+      next.disabled = current >= (max - 2);
+    }
+
+    /* ── Bug #8: Lazy-load hover images on first hover ── */
+    section.querySelectorAll('.sbc__card-img-wrap').forEach(function(wrap) {
+      var hoverImg = wrap.querySelector('.sbc__card-img--hover');
+      if (!hoverImg || !hoverImg.dataset.src) return;
+      var loaded = false;
+      function loadHover() {
+        if (loaded) return;
+        loaded = true;
+        hoverImg.src = hoverImg.dataset.src;
+        hoverImg.removeAttribute('data-src');
+      }
+      wrap.addEventListener('mouseenter', loadHover, { once: true });
+      wrap.addEventListener('touchstart', loadHover, { once: true, passive: true });
+    });
+
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        panels.forEach(function(panel) {
+          var track = panel.querySelector('.sbc__track');
+          if (track) { track.dataset.offset = '0'; track.style.transform = 'translateX(0)'; updateArrows(panel); }
+        });
+      }, 200);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('[id^="sbc-"]').forEach(function(el) { initSection(el.id.replace('sbc-', '')); });
+    });
+  } else {
+    document.querySelectorAll('[id^="sbc-"]').forEach(function(el) { initSection(el.id.replace('sbc-', '')); });
+  }
+
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.detail && e.detail.sectionId) initSection(e.detail.sectionId);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Shop By Collection",
+  "tag": "section",
+  "class": "senfa-collection-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop By Collection"
+    },
+    {
+      "type": "header",
+      "content": "Global Footer Button"
+    },
+    {
+      "type": "text",
+      "id": "footer_btn_label",
+      "label": "Button Label",
+      "default": "VIEW COLLECTION"
+    },
+    {
+      "type": "color",
+      "id": "footer_btn_bg",
+      "label": "Button Background",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "color",
+      "id": "footer_btn_text",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Theme Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab Text (Inactive)",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "color",
+      "id": "tab_bg_active",
+      "label": "Tab Background (Active)",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_active",
+      "label": "Tab Text (Active)",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Gold Accents",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Product Card Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_img_bg",
+      "label": "Product Image Background",
+      "default": "#F5F3EE"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Product Text",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Add to Cart Button",
+      "default": "#2D1B4E"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Add to Cart Button Text",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "Collection Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab Label",
+          "default": "Himalayan Saffron"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "hero_image",
+          "label": "Hero Image (left panel)"
+        },
+        {
+          "type": "range",
+          "id": "products_limit",
+          "label": "Max Products to Show",
+          "min": 3,
+          "max": 12,
+          "step": 1,
+          "default": 8
+        },
+        {
+          "type": "checkbox",
+          "id": "show_collection_tag",
+          "label": "Show Collection Tag on Cards",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Show Star Rating",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "cart_btn_label",
+          "label": "Add to Cart Button Text",
+          "default": "ADD TO CART"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Collection",
+      "blocks": [
+        {
+          "type": "collection_tab",
+          "settings": { "tab_label": "Himalayan Saffron", "products_limit": 8 }
+        },
+        {
+          "type": "collection_tab",
+          "settings": { "tab_label": "Rose & Gold", "products_limit": 8 }
+        },
+        {
+          "type": "collection_tab",
+          "settings": { "tab_label": "Sandalwood", "products_limit": 8 }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

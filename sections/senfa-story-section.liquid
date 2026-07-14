@@ -1,0 +1,514 @@
+{% comment %}
+  Senfa — Premium Story Section (Editorial & Minimalist)
+  File: sections/senfa-story.liquid
+{% endcomment %}
+
+<section class="senfa-story">
+
+  <div class="senfa-story__inner">
+
+    <div class="senfa-story__left">
+
+      <div class="senfa-story__tagline">
+        <div class="senfa-story__tagline-line"></div>
+        <span>{{ section.settings.tagline }}</span>
+      </div>
+
+      <h2 class="senfa-story__heading">
+        {{ section.settings.heading_line1 }}<br>
+        {{ section.settings.heading_line2_normal }} <em>{{ section.settings.heading_line2_italic }}</em>
+      </h2>
+
+      <p class="senfa-story__body">{{ section.settings.body_text }}</p>
+
+      {%- if section.settings.quote != blank -%}
+        <blockquote class="senfa-story__quote">
+          <span class="senfa-story__quote-mark">"</span>
+          {{ section.settings.quote }}
+        </blockquote>
+      {%- endif -%}
+
+      {%- if section.settings.body_text_2 != blank -%}
+        <p class="senfa-story__body senfa-story__body--2">{{ section.settings.body_text_2 }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url }}" class="senfa-story__cta">
+          {{ section.settings.cta_label }} 
+          <svg class="senfa-story__cta-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+    </div>
+
+    <div class="senfa-story__right">
+
+      <div class="senfa-story__img-wrapper">
+
+        <div class="senfa-story__img-frame">
+
+          {%- if section.settings.image != blank -%}
+            <img
+              src="{{ section.settings.image | image_url: width: 900 }}"
+              alt="{{ section.settings.image.alt | default: section.settings.heading_line1 }}"
+              width="{{ section.settings.image.width | default: 900 }}"
+              height="{{ section.settings.image.height | default: 700 }}"
+              class="senfa-story__img"
+              loading="lazy">
+          {%- else -%}
+            <div class="senfa-story__img-placeholder">
+              <span class="senfa-story__placeholder-text">Senfa Image Placeholder</span>
+            </div>
+          {%- endif -%}
+
+        </div>
+
+        {%- if section.settings.caption != blank -%}
+          <div class="senfa-story__caption">
+            <span class="senfa-story__caption-line"></span>
+            <span>{{ section.settings.caption }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.stat_number != blank -%}
+          <div class="senfa-story__stat">
+            <p class="senfa-story__stat-number">{{ section.settings.stat_number }}</p>
+            <p class="senfa-story__stat-label">{{ section.settings.stat_label }}</p>
+          </div>
+        {%- endif -%}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+/* ── Story Section ── */
+.senfa-story {
+  background: #FFFFFF;
+  padding: 120px 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.senfa-story__inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+/* ── LEFT ── */
+.senfa-story__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.senfa-story__tagline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.senfa-story__tagline span {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #C9922A;
+  font-weight: 500;
+}
+.senfa-story__tagline-line {
+  width: 48px;
+  height: 1px;
+  background: #C9922A;
+  flex-shrink: 0;
+}
+
+.senfa-story__heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 5vw, 68px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: #1A1228;
+  margin: 0 0 32px;
+  letter-spacing: -0.01em;
+}
+.senfa-story__heading em {
+  color: #C9922A;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.senfa-story__body {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #4A4A4A;
+  font-weight: 300;
+  margin: 0 0 32px;
+  max-width: 90%;
+}
+.senfa-story__body--2 {
+  margin-top: -10px;
+}
+
+.senfa-story__quote {
+  margin: 10px 0 40px;
+  padding-left: 56px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 2.5vw, 26px);
+  font-style: italic;
+  color: #2D1B4E;
+  line-height: 1.5;
+  font-weight: 400;
+  position: relative;
+  max-width: 90%;
+}
+.senfa-story__quote-mark {
+  position: absolute;
+  left: 0;
+  top: -20px;
+  color: rgba(201,146,42,0.25);
+  font-size: 80px;
+  line-height: 1;
+  font-family: serif;
+}
+
+.senfa-story__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #1A1228;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 16px;
+  position: relative;
+  padding-bottom: 6px;
+  width: fit-content;
+  transition: color 0.3s ease;
+}
+.senfa-story__cta-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+.senfa-story__cta::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #C9922A;
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.senfa-story__cta:hover::after { transform: scaleX(1); }
+.senfa-story__cta:hover { color: #C9922A; }
+.senfa-story__cta:hover .senfa-story__cta-arrow { transform: translateX(4px); }
+
+/* ── RIGHT ── */
+.senfa-story__right {
+  padding: 0;
+}
+
+.senfa-story__img-wrapper {
+  position: relative;
+  padding: 12px;
+}
+
+/* ── Gold border frame — wraps around the image ── */
+.senfa-story__img-frame {
+  position: relative;
+  z-index: 2;
+  border: 1px solid #C9922A;
+  padding: 8px;
+}
+
+.senfa-story__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4/5;
+}
+
+.senfa-story__img-placeholder {
+  width: 100%;
+  aspect-ratio: 4/5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FAF8F5;
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 2;
+}
+.senfa-story__placeholder-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C9922A;
+}
+
+/* ── Caption — bottom-right, inside image ── */
+.senfa-story__caption {
+  position: absolute;
+  bottom: 24px; 
+  right: 0;  
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  padding: 12px 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #1A1228;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  z-index: 4;
+}
+.senfa-story__caption-line {
+  width: 24px;
+  height: 1px;
+  background: #C9922A;
+  flex-shrink: 0;
+}
+
+/* ── Stat card — top-left, inside image ── */
+.senfa-story__stat {
+  position: absolute;
+  top: 0; 
+  left: 0;   
+  background: #FFFFFF;
+  padding: 28px 36px;
+  box-shadow: 0 15px 40px rgba(45,27,78,0.10);
+  z-index: 4;
+  border: 1px solid rgba(201,146,42,0.18);
+}
+.senfa-story__stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: #C9922A;
+  margin: 0 0 6px;
+  line-height: 1;
+}
+.senfa-story__stat-label {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #2D1B4E;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ════════════════
+   TABLET 1024px
+════════════════ */
+@media (max-width: 1024px) {
+  .senfa-story {
+    padding: 80px 0;
+  }
+  .senfa-story__inner {
+    padding: 0 48px;
+    gap: 60px;
+  }
+}
+
+/* ════════════════
+   MOBILE 768px
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-story {
+    padding: 60px 0;
+  }
+  .senfa-story__inner {
+    grid-template-columns: 1fr;
+    padding: 0 24px;
+    gap: 48px;
+  }
+  .senfa-story__body,
+  .senfa-story__quote {
+    max-width: 100%;
+  }
+  .senfa-story__heading {
+    font-size: 40px;
+  }
+  .senfa-story__stat {
+    padding: 20px 24px;
+  }
+  .senfa-story__stat-number {
+    font-size: 40px;
+  }
+  .senfa-story__caption {
+    bottom: 16px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* ════════════════
+   SMALL 480px
+════════════════ */
+@media (max-width: 480px) {
+  .senfa-story {
+    padding: 48px 0;
+  }
+  .senfa-story__inner {
+    padding: 0 16px;
+    gap: 36px;
+  }
+  .senfa-story__heading {
+    font-size: 32px;
+  }
+  .senfa-story__quote {
+    font-size: 20px;
+    padding-left: 40px;
+  }
+  .senfa-story__quote-mark {
+    font-size: 60px;
+    top: -14px;
+  }
+  .senfa-story__img-frame {
+    padding: 6px;
+  }
+  .senfa-story__stat {
+    padding: 16px 20px;
+  }
+  .senfa-story__stat-number {
+    font-size: 32px;
+  }
+  .senfa-story__caption {
+    padding: 8px 14px;
+    font-size: 12px;
+    gap: 8px;
+  }
+  .senfa-story__caption-line {
+    width: 16px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Story Section",
+  "tag": "section",
+  "class": "senfa-story-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Panel — Text"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "The Story Behind the Soap"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Heading — Line 1",
+      "default": "A son's promise."
+    },
+    {
+      "type": "text",
+      "id": "heading_line2_normal",
+      "label": "Heading — Line 2 (normal)",
+      "default": "A father's"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2_italic",
+      "label": "Heading — Line 2 (italic gold)",
+      "default": "dream of purity."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy. He dreamed of a soap that didn't just smell like a memory — but actually carried the living benefit of the saffron he loved so much."
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Pull Quote",
+      "default": "Every time a bar of Senfa leaves our hands, I feel like I'm finally finishing that conversation with my Dad."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text_2",
+      "label": "Body Text 2 (optional)",
+      "default": "In 2023, that dream became our inheritance. From rich Himalayan saffron fields to your morning ritual — this is the purity he always wanted you to have."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Button Label",
+      "default": "Read the Complete Story"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Right Panel — Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Story Image"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Image Caption",
+      "default": "Abhay Manik Birla · 1940–2013"
+    },
+    {
+      "type": "header",
+      "content": "Floating Stat Card"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat Number",
+      "default": "50+"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Stat Label",
+      "default": "Years of Heritage"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Section"
+    }
+  ]
+}
+{% endschema %}

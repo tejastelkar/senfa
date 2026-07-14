@@ -1,0 +1,343 @@
+{% comment %}
+  Senfa — Story Chapter Intro (Premium Editorial Flow)
+  File: sections/senfa-chapter-intro.liquid
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --senfa-purple-dark: #1A1228;
+    --senfa-purple-mid: #2D1B4E;
+    --senfa-gold: #C9922A;
+    --senfa-cream: #FEFCF8;
+    --senfa-text-body: #4A4A4A;
+    --senfa-border-faint: rgba(201,146,42,0.15);
+  }
+
+  #senfa-chapter-{{ section.id }} {
+    background: var(--senfa-cream);
+    border-top: 1px solid var(--senfa-border-faint);
+    font-family: 'Jost', sans-serif;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(80px, 8vw, 120px) 0;
+  }
+
+  /* ── AMBIENT SAFFRON WATERMARK ── */
+  .sci-ambient-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    right: -5%;
+    transform: translateY(-50%);
+    width: 45%;
+    height: 120%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+  }
+  .sci-ambient-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── LAYOUT WRAPPER ── */
+  .sci-wrap-{{ section.id }} {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center alignment for a monument feel */
+    text-align: center;
+  }
+
+  /* ── GHOST CHAPTER NUMBER ── */
+  .sci-num-{{ section.id }} {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(140px, 18vw, 240px);
+    font-weight: 300;
+    color: rgba(26, 18, 40, 0.03); /* Faint Senfa Purple */
+    line-height: 0.7;
+    margin-bottom: -40px; /* Pulls the headline up into the letter */
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* ── SECTION EYEBROW ── */
+  .sci-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--senfa-gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .sci-tag::before,
+  .sci-tag::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  /* ── THE HEADLINE ── */
+  .sci-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--senfa-purple-mid);
+    margin: 0 0 48px;
+    max-width: 850px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s 0.1s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .sci-headline em {
+    font-style: italic;
+    color: var(--senfa-gold);
+  }
+
+  /* ── ELEGANT SEPARATOR ── */
+  .sci-separator {
+    width: 64px;
+    height: 1px;
+    background: var(--senfa-gold);
+    margin: 0 auto 48px;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: opacity 0.8s 0.3s ease, transform 0.8s 0.3s ease;
+  }
+
+  /* ── BODY COPY ── */
+  .sci-body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .sci-para {
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--senfa-text-body);
+    margin: 0;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .sci-para-italic {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--senfa-purple-mid);
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* ── ANIMATION TRIGGERS (Fired via JS Observer) ── */
+  .sci-in-view .sci-tag,
+  .sci-in-view .sci-headline,
+  .sci-in-view .sci-separator,
+  .sci-in-view .sci-para,
+  .sci-in-view .sci-para-italic {
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+  }
+
+  .sci-in-view .sci-para:nth-child(1) { transition-delay: 0.4s; }
+  .sci-in-view .sci-para:nth-child(2) { transition-delay: 0.5s; }
+  .sci-in-view .sci-para:nth-child(3) { transition-delay: 0.6s; }
+  .sci-in-view .sci-para:nth-child(4) { transition-delay: 0.7s; }
+  .sci-in-view .sci-para-italic       { transition-delay: 0.8s; }
+
+  /* ════════════════
+     MOBILE RESPONSIVE
+  ════════════════ */
+  @media (max-width: 768px) {
+    .sci-wrap-{{ section.id }} {
+      padding: 0 24px;
+    }
+    .sci-num-{{ section.id }} {
+      font-size: 120px;
+      margin-bottom: -20px;
+    }
+    .sci-headline {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+    .sci-separator {
+      margin-bottom: 40px;
+    }
+    .sci-para {
+      font-size: 15px;
+      text-align: left; /* Better readability on mobile */
+    }
+    .sci-para-italic {
+      font-size: 20px;
+      text-align: left;
+    }
+    .sci-ambient-{{ section.id }} {
+      width: 100%;
+      top: 0;
+      right: 0;
+      transform: translateY(0);
+      opacity: 0.3;
+    }
+  }
+</style>
+
+<section id="senfa-chapter-{{ section.id }}">
+
+  <div class="sci-ambient-{{ section.id }}" aria-hidden="true">
+    <svg viewBox="0 0 460 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="sciag-{{ section.id }}" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="rgba(201,146,42,0.08)"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <rect width="460" height="700" fill="url(#sciag-{{ section.id }})"/>
+      <path d="M230,10 Q252,120 238,240 Q224,360 244,480 Q264,590 245,690" stroke="#C9922A" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.3"/>
+      <path d="M195,20 Q210,128 198,246 Q186,364 204,480" stroke="#E0B84E" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.2"/>
+      <path d="M270,15 Q282,124 271,240 Q260,356 276,472" stroke="#C9922A" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.15"/>
+    </svg>
+  </div>
+
+  <div class="sci-wrap-{{ section.id }}">
+
+    <div class="sci-num-{{ section.id }}" aria-hidden="true">{{ section.settings.chapter_number }}</div>
+
+    <div class="sci-tag">{{ section.settings.section_tag }}</div>
+
+    <h2 class="sci-headline">
+      {{ section.settings.headline_normal }}
+      {%- if section.settings.headline_italic != blank -%}
+        <br><em>{{ section.settings.headline_italic }}</em>
+      {%- endif -%}
+    </h2>
+
+    <div class="sci-separator"></div>
+
+    <div class="sci-body-content">
+      {% if section.settings.para_1 != blank %}
+        <p class="sci-para">{{ section.settings.para_1 }}</p>
+      {% endif %}
+
+      {% if section.settings.para_2 != blank %}
+        <p class="sci-para">{{ section.settings.para_2 }}</p>
+      {% endif %}
+
+      {% if section.settings.para_3 != blank %}
+        <p class="sci-para">{{ section.settings.para_3 }}</p>
+      {% endif %}
+
+      {% if section.settings.para_closing_italic != blank %}
+        <em class="sci-para-italic">{{ section.settings.para_closing_italic }}</em>
+      {% endif %}
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+  (function() {
+    var el = document.querySelector('#senfa-chapter-{{ section.id }} .sci-wrap-{{ section.id }}');
+    if (!el) return;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('sci-in-view');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    obs.observe(el);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Story Chapter Intro",
+  "tag": "section",
+  "class": "senfa-chapter-intro",
+  "settings": [
+    {
+      "type": "text",
+      "id": "chapter_number",
+      "label": "Ghost Background Letter/Number",
+      "default": "I",
+      "info": "Creates a massive, faint watermark behind the text."
+    },
+    {
+      "type": "text",
+      "id": "section_tag",
+      "label": "Section Tag (Eyebrow)",
+      "default": "Where It Began"
+    },
+    {
+      "type": "textarea",
+      "id": "headline_normal",
+      "label": "Headline — Normal text",
+      "default": "They say when you lose someone you love, you spend the rest of your life"
+    },
+    {
+      "type": "text",
+      "id": "headline_italic",
+      "label": "Headline — Italic gold continuation",
+      "default": "looking for ways to keep talking to them."
+    },
+    {
+      "type": "textarea",
+      "id": "para_1",
+      "label": "Paragraph 1",
+      "default": "For me, that conversation happens every time we harvest a flower on our farm."
+    },
+    {
+      "type": "textarea",
+      "id": "para_2",
+      "label": "Paragraph 2",
+      "default": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy of purity. He had a vision of taking the soul of that flower and infusing it into something that could touch people's lives every single morning."
+    },
+    {
+      "type": "textarea",
+      "id": "para_3",
+      "label": "Paragraph 3",
+      "default": "He dreamed of a soap that didn't just 'smell' like a memory — but actually carried the living benefit of the saffron he loved so much."
+    },
+    {
+      "type": "textarea",
+      "id": "para_closing_italic",
+      "label": "Closing Italic Line",
+      "default": "In 2023, when he passed away, that dream became my inheritance."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Chapter Intro"
+    }
+  ]
+}
+{% endschema %}

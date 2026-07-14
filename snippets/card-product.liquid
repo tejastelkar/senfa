@@ -1,0 +1,387 @@
+{% comment %}
+  SENFA — Unified Luxury Product Card (1:1 Match with Homepage, Collection Tag, No Reviews)
+{% endcomment %}
+
+{%- if card_product and card_product != empty -%}
+  <div class="senfa-card">
+    
+    <a href="{{ card_product.url }}" class="senfa-card-media-wrapper">
+      <div class="senfa-card-media">
+        {%- if card_product.featured_media -%}
+          <img
+            src="{{ card_product.featured_media | image_url: width: 600 }}"
+            alt="{{ card_product.featured_media.alt | escape }}"
+            class="senfa-card-img primary-img"
+            loading="lazy"
+          >
+          {%- if card_product.media[1] != nil and show_secondary_image != false -%}
+            <img
+              src="{{ card_product.media[1] | image_url: width: 600 }}"
+              alt="{{ card_product.media[1].alt | escape }}"
+              class="senfa-card-img hover-img"
+              loading="lazy"
+            >
+          {%- endif -%}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'senfa-card-placeholder' }}
+        {%- endif -%}
+      </div>
+    </a>
+
+    <div class="senfa-card-info">
+      
+      <div class="senfa-card-vendor">
+        {{ card_product.collections.first.title | default: 'SENFA' }}
+      </div>
+
+      <a href="{{ card_product.url }}" class="senfa-card-title">
+        {{ card_product.title | escape }}
+      </a>
+
+      <div class="senfa-card-price-row">
+        <span class="senfa-price-regular">{{ card_product.price | money_without_trailing_zeros | remove: ' INR' | remove: ' inr' }}</span>
+        
+        {%- if card_product.compare_at_price > card_product.price -%}
+          <span class="senfa-price-compare">{{ card_product.compare_at_price | money_without_trailing_zeros | remove: ' INR' | remove: ' inr' }}</span>
+          {%- assign saving = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round -%}
+          <span class="senfa-price-discount">{{ saving }}% OFF</span>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    <div class="senfa-card-action">
+      {%- if card_product.available -%}
+        {%- assign product_form_id = 'quick-add-' | append: section.id | append: card_product.id -%}
+        <form method="post" action="/cart/add" id="{{ product_form_id }}" class="senfa-quick-add-form" accept-charset="UTF-8" enctype="multipart/form-data">
+          <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="senfa-add-btn">ADD TO CART</button>
+        </form>
+      {%- else -%}
+        <button class="senfa-add-btn disabled" disabled>SOLD OUT</button>
+      {%- endif -%}
+    </div>
+
+  </div>
+{%- else -%}
+  <div class="senfa-card">
+    <div class="senfa-card-media-wrapper">
+      <div class="senfa-card-media">{{ 'product-apparel-2' | placeholder_svg_tag: 'senfa-card-placeholder' }}</div>
+    </div>
+    <div class="senfa-card-info">
+      <div class="senfa-card-vendor">HIMALAYAN SAFFRON</div>
+      <div class="senfa-card-title">SAFFRON SOAP DUO</div>
+      <div class="senfa-card-price-row">
+        <span class="senfa-price-regular">₹649</span>
+        <span class="senfa-price-compare">₹699</span>
+        <span class="senfa-price-discount">7% OFF</span>
+      </div>
+    </div>
+    <div class="senfa-card-action">
+      <button class="senfa-add-btn">ADD TO CART</button>
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+/* ══════════════════════════════════════════════
+   SENFA — UNIFIED LEFT-ALIGNED PRODUCT CARD
+══════════════════════════════════════════════ */
+.senfa-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  height: 100%;
+}
+
+/* Media Wrapper */
+.senfa-card-media-wrapper {
+  display: block;
+  text-decoration: none;
+  background: #F8F8F8; /* Light grey box matching homepage */
+  aspect-ratio: 1 / 1; /* Perfect square */
+  position: relative;
+  overflow: hidden;
+}
+
+.senfa-card-media {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+
+.senfa-card-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.primary-img {
+  z-index: 1;
+}
+
+.hover-img {
+  opacity: 0;
+  z-index: 2;
+}
+
+/* Hover Effects */
+.senfa-card-media-wrapper:hover .hover-img { opacity: 1; }
+.senfa-card-media-wrapper:hover .senfa-card-img { transform: scale(1.02); }
+
+.senfa-card-placeholder {
+  width: 100%;
+  height: 100%;
+  fill: #CCC;
+}
+
+/* Information Layout - Exact Homepage Match */
+.senfa-card-info {
+  padding: 24px 0 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.senfa-card-vendor {
+  font-family: 'Jost', sans-serif;
+  font-size: 8.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #C9922A; /* Senfa Gold */
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+
+.senfa-card-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1A1228;
+  text-decoration: none;
+  line-height: 1.4;
+  margin: 0 0 12px;
+  transition: color 0.2s ease;
+}
+
+.senfa-card-title:hover {
+  color: #C9922A; /* Senfa Gold */
+}
+
+/* Inline Price Row */
+.senfa-card-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.senfa-price-regular {
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #1A1228;
+  letter-spacing: 0.02em;
+}
+
+.senfa-price-compare {
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #A0A0A0;
+  text-decoration: line-through;
+}
+
+.senfa-price-discount {
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #C9922A; /* Senfa Gold */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Add to Cart Button */
+.senfa-card-action {
+  margin-top: auto;
+}
+
+.senfa-quick-add-form {
+  margin: 0;
+}
+
+.senfa-add-btn {
+  width: 100%;
+  background: #2D1B4E; /* Deep Senfa Purple */
+  color: #FFFFFF;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 16px 0;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  display: block;
+}
+
+.senfa-add-btn:hover:not(.disabled) {
+  background: #C9922A; /* Senfa Gold on hover */
+}
+
+.senfa-add-btn.disabled {
+  background-color: #EAEAEA;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Mobile Adjustments */
+@media screen and (max-width: 768px) {
+  .senfa-card-info { padding: 16px 0 0; }
+  .senfa-price-regular { font-size: 16px; }
+  .senfa-price-compare { font-size: 12px; }
+  .senfa-add-btn { padding: 14px 0; }
+}
+
+/* ══════════════════════════════════════════════
+   SENFA — LUXURY SIDEBAR FILTERS & SORTING
+══════════════════════════════════════════════ */
+
+/* 1. Sidebar Container Spacing */
+.facets-wrapper {
+  padding-right: 40px !important;
+}
+
+/* 2. Main "Filter:" Heading */
+.facets__heading {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  color: #1A1228 !important;
+  margin-bottom: 24px !important;
+}
+
+/* 3. Accordion Headers (Availability, Price, etc.) */
+.facets__summary {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #1A1228 !important;
+  padding: 16px 0 !important;
+  border-top: 1px solid rgba(0,0,0,0.05) !important;
+  border-bottom: none !important;
+  background: transparent !important;
+}
+.facets__summary .icon-caret {
+  right: 0 !important;
+  height: 10px !important;
+}
+
+/* 4. Checkbox List Items */
+.facet-checkbox {
+  padding: 8px 0 !important;
+  font-family: 'Jost', sans-serif !important;
+  font-size: 14px !important;
+  color: #666 !important;
+  transition: color 0.3s ease !important;
+}
+
+.facet-checkbox:hover {
+  color: #C9922A !important; /* Senfa Gold */
+}
+
+/* Hide ugly default Shopify checkbox squares */
+.facet-checkbox > input[type='checkbox'],
+.facet-checkbox > svg {
+  display: none !important;
+}
+
+/* Active/Checked State for Filters */
+.facet-checkbox > input[type='checkbox']:checked ~ .facet-checkbox__text {
+  color: #1A1228 !important;
+  font-weight: 600 !important;
+  position: relative;
+}
+
+.facet-checkbox > input[type='checkbox']:checked ~ .facet-checkbox__text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: #C9922A; /* Underlines active filter in gold */
+}
+
+/* 5. Sort By Dropdown (Top Right) */
+.facet-filters {
+  padding-left: 0 !important;
+  align-items: center !important;
+}
+
+.facet-filters__label {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 10px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: #999 !important;
+}
+
+.facet-filters__sort {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1A1228 !important;
+  border: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding-right: 24px !important;
+  cursor: pointer !important;
+}
+
+.facet-filters__sort:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* "X products" text */
+.product-count__text {
+  font-family: 'Jost', sans-serif !important;
+  font-size: 12px !important;
+  color: #999 !important;
+}
+
+/* 6. Active Filter Pills (Clear buttons) */
+.active-facets__button-inner {
+  background: #FAFAFA !important;
+  border: 1px solid #EAEAEA !important;
+  color: #1A1228 !important;
+  font-family: 'Jost', sans-serif !important;
+  font-size: 10px !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 2px !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+}
+
+.active-facets__button-inner:hover {
+  background: #1A1228 !important;
+  color: #FFFFFF !important;
+}
+</style>

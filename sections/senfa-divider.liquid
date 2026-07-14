@@ -1,0 +1,157 @@
+{% comment %}
+  Senfa — Sexy Minimal Divider (Visibility Fix)
+  File: sections/senfa-divider.liquid
+{% endcomment %}
+
+<section class="senfa-divider-wrapper" style="
+  padding-top: {{ section.settings.padding_top }}px; 
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  background-color: {{ section.settings.bg_color }};
+">
+  <div class="senfa-divider__inner" style="
+    width: {{ section.settings.width }}%;
+    --divider-color: {{ section.settings.divider_color }};
+    --divider-opacity: {{ section.settings.opacity | divided_by: 100.0 }};
+  ">
+    
+    <div class="senfa-divider__line senfa-divider__line--left"></div>
+    
+    {%- if section.settings.show_diamond -%}
+      <div class="senfa-divider__diamond"></div>
+    {%- endif -%}
+    
+    <div class="senfa-divider__line senfa-divider__line--right"></div>
+    
+  </div>
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — MINIMAL DIVIDER
+════════════════════════════════ */
+
+.senfa-divider-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10; /* Ensure it stays above background gradients */
+}
+
+.senfa-divider__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: var(--divider-opacity);
+  min-width: 50px; /* Prevent it from disappearing at low % */
+}
+
+.senfa-divider__line {
+  height: 1.5px; /* Slightly thicker for better visibility */
+  flex-grow: 1;
+}
+
+/* Luxury Gradient: Fades from transparent to SOLID color in the middle */
+.senfa-divider__line--left {
+  background: linear-gradient(to right, transparent 0%, var(--divider-color) 100%);
+}
+
+.senfa-divider__line--right {
+  background: linear-gradient(to left, transparent 0%, var(--divider-color) 100%);
+}
+
+/* The elegant center accent */
+.senfa-divider__diamond {
+  width: 8px;
+  height: 8px;
+  background-color: var(--divider-color);
+  transform: rotate(45deg);
+  margin: 0 20px;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* ════════════════
+   MOBILE ADJUSTMENTS
+════════════════ */
+@media (max-width: 768px) {
+  .senfa-divider__inner {
+    width: 90% !important; /* Force wider on mobile so it's seen */
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Senfa Minimal Divider",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#C9922A"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Divider Width (%)",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "label": "Opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 100
+    },
+    {
+      "type": "checkbox",
+      "id": "show_diamond",
+      "label": "Show Center Diamond Accent",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing (Breathing Room)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Senfa Minimal Divider"
+    }
+  ]
+}
+{% endschema %}

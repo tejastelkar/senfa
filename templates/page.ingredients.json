@@ -1,0 +1,254 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "senfa_story_banner_mpEg4V": {
+      "type": "senfa-story-banner",
+      "name": "Senfa Story Banner",
+      "settings": {
+        "image": "shopify://shop_images/ingredients.jpg"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "senfa_ingredients_grid_eNH6qj": {
+      "type": "senfa-ingredients-grid",
+      "blocks": {
+        "ingredient_QNjn4c": {
+          "type": "ingredient",
+          "settings": {
+            "origin": "Himalayan, India",
+            "ingredient_name": "Himalayani Saffron",
+            "latin_name": "Crocus Sativus",
+            "benefit_1": "Brightens skin tone with natural crocin compounds.",
+            "benefit_2": "Reduces hyperpigmentation over consistent use."
+          }
+        },
+        "ingredient_V8ELDK": {
+          "type": "ingredient",
+          "settings": {
+            "origin": "Kerala, India",
+            "ingredient_name": "Virgin Coconut Oil",
+            "latin_name": "Cocos Nucifera",
+            "benefit_1": "Deep moisturisation with lauric acid barrier protection.",
+            "benefit_2": "Leaves skin soft without clogging pores."
+          }
+        },
+        "ingredient_69BwaP": {
+          "type": "ingredient",
+          "settings": {
+            "origin": "Rajasthan, India",
+            "ingredient_name": "Raw Turmeric",
+            "latin_name": "Curcuma Longa",
+            "benefit_1": "Anti-inflammatory properties calm reactive skin.",
+            "benefit_2": "Natural antioxidant that protects against free radicals."
+          }
+        },
+        "ingredient_dewC3b": {
+          "type": "ingredient",
+          "settings": {
+            "origin": "Kannauj, India",
+            "ingredient_name": "Rose Extract",
+            "latin_name": "Rosa Damascena",
+            "benefit_1": "Balances skin's natural pH with gentle astringency.",
+            "benefit_2": "Soothes dry patches and seals in moisture."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_QNjn4c",
+        "ingredient_V8ELDK",
+        "ingredient_69BwaP",
+        "ingredient_dewC3b"
+      ],
+      "name": "Ingredient Spotlight Grid",
+      "settings": {
+        "eyebrow_text": "The Ingredient Story",
+        "title_line1": "Every element,",
+        "title_line2": "intentional.",
+        "bg_color": "#ffffff",
+        "card_bg": "#ffffff",
+        "heading_color": "#1a1228",
+        "text_body": "#4a4a4a",
+        "accent_gold": "#c9922a",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "senfa_sourcing_story_mzyd6w": {
+      "type": "senfa-sourcing-story",
+      "name": "Sourcing Story",
+      "settings": {
+        "farm_image": "shopify://shop_images/kashmir.jpg",
+        "image_alt": "Himalayani saffron fields",
+        "hero_stat_num": "50+",
+        "hero_stat_label": "Acres of Himalayan Saffron Farms",
+        "eyebrow_text": "Where It Begins",
+        "title_line1": "Grown in the",
+        "title_line2": "valley itself.",
+        "body_text": "Our saffron doesn't travel through middlemen or markets. It's sourced directly from the Pampore saffron belt in Himalayan — the only region in the world where Crocus Sativus produces threads of this quality and potency.\n\nAbhay Manik Birla believed in knowing exactly where each ingredient came from. That principle drives every sourcing decision we make.",
+        "quote_text": "If you cannot trace an ingredient back to its soil, you cannot call it pure.",
+        "quote_attr": "Abhay Manik Birla",
+        "mini_stat1_num": "50+",
+        "mini_stat1_label": "Years of Heritage",
+        "mini_stat2_num": "100%",
+        "mini_stat2_label": "Direct Source",
+        "mini_stat3_num": "0",
+        "mini_stat3_label": "Middlemen",
+        "cta_text": "Shop the collection",
+        "cta_link": ""
+      }
+    },
+    "senfa_ingredients_never_p83ke4": {
+      "type": "senfa-ingredients-never",
+      "blocks": {
+        "never_item_Ei7dUg": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Sulphates",
+            "reason": "Strip the skin's natural moisture barrier, causing dryness, irritation, and long-term damage — especially on the scalp."
+          }
+        },
+        "never_item_jLnnLC": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Parabens",
+            "reason": "Synthetic preservatives linked to hormone disruption. We use natural alternatives that keep formulas fresh without the risk."
+          }
+        },
+        "never_item_QkC3ne": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Silicones",
+            "reason": "Create an artificial smoothness that clogs pores over time. Our ingredients work with your skin, not over it."
+          }
+        },
+        "never_item_TwiMY7": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Artificial Fragrance",
+            "reason": "Hidden chemical cocktails masked by a single label. Every scent in Senfa comes from the ingredient itself."
+          }
+        },
+        "never_item_qimFAF": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Mineral Oil",
+            "reason": "A petroleum byproduct that suffocates skin and adds no active benefit. We use plant-derived oils instead."
+          }
+        },
+        "never_item_YRdAd3": {
+          "type": "never_item",
+          "settings": {
+            "ingredient_name": "Phthalates",
+            "reason": "Used as plasticisers in synthetic fragrances. Associated with endocrine disruption — banned from all Senfa products."
+          }
+        }
+      },
+      "block_order": [
+        "never_item_Ei7dUg",
+        "never_item_jLnnLC",
+        "never_item_QkC3ne",
+        "never_item_TwiMY7",
+        "never_item_qimFAF",
+        "never_item_YRdAd3"
+      ],
+      "name": "What We Never Use",
+      "settings": {
+        "eyebrow_text": "Our Promise",
+        "title_line1": "What we'll",
+        "title_line2": "never use.",
+        "description": "We believe what's left out is just as important as what goes in. These ingredients are banned from every Senfa formula — not because regulations demand it, but because our standard demands it.",
+        "promise_label": "Founder's Standard — Abhay Manik Birla",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "text_body": "#4a4a4a",
+        "accent_gold": "#c9922a",
+        "verdict_text": "A formula your skin [gold]deserves[/gold] — nothing it doesn't.",
+        "verdict_meta": "Senfa · Est. 2023",
+        "padding_top": 128,
+        "padding_bottom": 128
+      }
+    },
+    "senfa_certifications_aYqbtX": {
+      "type": "senfa-certifications",
+      "blocks": {
+        "cert_DrRtcx": {
+          "type": "cert",
+          "settings": {
+            "cert_title": "100% Vegan",
+            "cert_sub": "Plant Derived",
+            "cert_desc": "No animal-derived ingredients. No animal testing. Every Senfa formula is certified vegan from ingredient to packaging."
+          }
+        },
+        "cert_ApGMLw": {
+          "type": "cert",
+          "settings": {
+            "cert_title": "Gentle Care",
+            "cert_sub": "Safe for Sensitive Skin",
+            "cert_desc": "Each product is crafted to be gentle and safe for all skin types, including sensitive skin."
+          }
+        },
+        "cert_EaUtxK": {
+          "type": "cert",
+          "settings": {
+            "cert_title": "0% Sulphate",
+            "cert_sub": "Barrier Safe",
+            "cert_desc": "Formulated without any sulphate compounds. Your skin's natural moisture barrier stays intact — always."
+          }
+        },
+        "cert_8NpdpC": {
+          "type": "cert",
+          "settings": {
+            "cert_title": "Cruelty Free",
+            "cert_sub": "Ethically Made",
+            "cert_desc": "Never tested on animals at any stage of development. From Himalayan's farms to your skin — no harm done."
+          }
+        }
+      },
+      "block_order": [
+        "cert_DrRtcx",
+        "cert_ApGMLw",
+        "cert_EaUtxK",
+        "cert_8NpdpC"
+      ],
+      "name": "Certifications Bar",
+      "settings": {
+        "eyebrow_text": "Our Standards",
+        "title_line1": "Certified by",
+        "title_line2": "conscience.",
+        "bg_color": "#ffffff",
+        "heading_color": "#1a1228",
+        "text_body": "#4a4a4a",
+        "accent_gold": "#c9922a",
+        "bar_item1": "Batch tested before every release",
+        "bar_item2": "No compromise on sourcing",
+        "bar_item3": "Formulated in India",
+        "bar_item4": "Est. 2023 · Pune",
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    }
+  },
+  "order": [
+    "senfa_story_banner_mpEg4V",
+    "main",
+    "senfa_ingredients_grid_eNH6qj",
+    "senfa_sourcing_story_mzyd6w",
+    "senfa_ingredients_never_p83ke4",
+    "senfa_certifications_aYqbtX"
+  ]
+}

@@ -1,0 +1,379 @@
+{% comment %}
+  SENFA — Premium Account Modal (Native Shopify OTP Routing)
+{% endcomment %}
+
+<div id="senfa-account-modal" class="sam-overlay" aria-hidden="true">
+  <div class="sam-card">
+    
+    <div class="sam-header">
+      <h3 class="sam-title">Sign in or create account</h3>
+      <button id="sam-close" class="sam-close-btn" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M18 6L6 18M6 6L18 18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="sam-body">
+      
+      {%- if customer -%}
+        <a href="{{ routes.account_url }}" class="sam-btn sam-btn--google">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="sam-google-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          View Account
+        </a>
+      {%- else -%}
+        <a href="{{ routes.account_login_url }}" class="sam-btn sam-btn--google">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="sam-google-icon"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Sign In
+        </a>
+      {%- endif -%}
+
+      <div class="sam-divider">
+        <span>OR</span>
+      </div>
+
+      <div class="sam-email-form">
+        <input 
+          type="email" 
+          id="sam-email-input"
+          class="sam-email-input" 
+          placeholder="Email" 
+          autocomplete="email"
+          inputmode="email"
+        >
+        <button type="button" id="sam-email-submit" class="sam-email-submit" aria-label="Continue with Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <p id="sam-error" class="sam-error" style="display:none;">Please enter a valid email address.</p>
+
+    </div>
+
+    {%- if customer -%}
+      <div class="sam-footer">
+        <a href="{{ routes.account_url }}?view=orders" class="sam-footer-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/>
+            <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/>
+          </svg>
+          Orders
+        </a>
+        <a href="{{ routes.account_url }}" class="sam-footer-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Profile
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<style>
+.sam-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.sam-overlay.sam-active {
+  pointer-events: auto;
+}
+
+.sam-card {
+  position: absolute;
+  top: 80px; 
+  right: 40px;
+  width: 380px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  font-family: 'Jost', sans-serif;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.sam-overlay.sam-active .sam-card {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sam-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 16px;
+}
+
+.sam-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A1228;
+  margin: 0;
+}
+
+.sam-close-btn {
+  background: #F5F3EE;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1A1228;
+  transition: background 0.2s ease;
+}
+
+.sam-close-btn:hover { background: #EBE8E0; }
+.sam-close-btn svg { width: 16px; height: 16px; }
+
+.sam-body {
+  padding: 0 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sam-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #1A1228;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.sam-btn--google {
+  background: #F9F9F9;
+  border: 1px solid rgba(0,0,0,0.08);
+  gap: 12px;
+}
+
+.sam-btn--google:hover {
+  background: #F1F1F1;
+  border-color: rgba(0,0,0,0.15);
+}
+
+.sam-google-icon { width: 20px; height: 20px; }
+
+.sam-email-form {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+.sam-email-input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0 56px 0 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  color: #1A1228;
+  background: #FFFFFF;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+.sam-email-input::placeholder { color: #999; }
+.sam-email-input:focus { border-color: #1A1228; }
+
+.sam-email-submit {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 40px;
+  height: 40px;
+  background: #1A1228;
+  border: none;
+  border-radius: 6px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sam-email-submit:hover { background: #C9922A; }
+.sam-email-submit svg { width: 18px; height: 18px; }
+
+.sam-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #999;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.sam-divider::before,
+.sam-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.sam-divider span { padding: 0 16px; }
+
+.sam-error {
+  font-size: 12px;
+  color: #c0392b;
+  margin: -8px 0 0;
+  font-family: 'Jost', sans-serif;
+}
+
+.sam-footer {
+  display: flex;
+  padding: 0 24px 24px;
+  gap: 12px;
+}
+
+.sam-footer-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A1228;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sam-footer-btn svg {
+  width: 18px;
+  height: 18px;
+  color: #666;
+}
+
+.sam-footer-btn:hover {
+  background: #F9F9F9;
+  border-color: rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .sam-overlay {
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  .sam-overlay.sam-active { opacity: 1; }
+
+  .sam-card {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+    transform: translateY(100%);
+  }
+
+  .sam-overlay.sam-active .sam-card {
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('senfa-account-modal');
+  const closeBtn = document.getElementById('sam-close');
+  const emailInput = document.getElementById('sam-email-input');
+  const submitBtn = document.getElementById('sam-email-submit');
+  const errorMsg = document.getElementById('sam-error');
+
+  const accountLinks = document.querySelectorAll(
+    'a.header__icon--account, a[href="/account/login"], a[href="/account"]'
+  );
+
+  if (!modal) return;
+
+  // OPEN MODAL
+  accountLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('sam-active');
+      setTimeout(() => emailInput && emailInput.focus(), 300);
+    });
+  });
+
+  // CLOSE MODAL
+  closeBtn && closeBtn.addEventListener('click', () => modal.classList.remove('sam-active'));
+  modal.addEventListener('click', (e) => { 
+    if (e.target === modal) modal.classList.remove('sam-active'); 
+  });
+
+  // ESC CLOSE
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('sam-active');
+  });
+
+  // ✅ FIXED OTP REDIRECT FUNCTION
+  function handleSubmit() {
+    const email = emailInput.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!valid) {
+      errorMsg.style.display = 'block';
+      emailInput.style.borderColor = '#c0392b';
+      return;
+    }
+
+    errorMsg.style.display = 'none';
+    emailInput.style.borderColor = '';
+
+    // Loading icon (optional)
+    submitBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4l2 2"/>
+      </svg>
+    `;
+
+    // ✅ THIS LINE TRIGGERS SHOPIFY OTP FLOW
+    window.location.href = `/account/login?email=${encodeURIComponent(email)}`;
+  }
+
+  submitBtn && submitBtn.addEventListener('click', handleSubmit);
+
+  emailInput && emailInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleSubmit();
+  });
+});
+</script>

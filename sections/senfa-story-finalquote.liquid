@@ -1,0 +1,284 @@
+{% comment %}
+  SENFA — Final Quote Section (Premium Minimalist White)
+  sections/senfa-story-finalquote.liquid
+{% endcomment %}
+
+<section id="senfa-finalquote-{{ section.id }}" class="sfq-root" style="
+  --bg-color: {{ section.settings.bg_color }};
+  --quote-color: {{ section.settings.quote_color }};
+  --accent-gold: {{ section.settings.accent_gold }};
+  --attr-color: {{ section.settings.attr_color }};
+">
+
+  <div class="sfq-inner">
+
+    {%- comment -%} ── ELEGANT QUOTE ICON ── {%- endcomment -%}
+    <div class="sfq-icon">
+      <svg width="32" height="24" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 28V17.6C0 12.267 1.467 8.133 4.4 5.2C7.333 2.267 11.6 0.533 17.2 0V4.4C14 4.933 11.6 6.133 10 8C8.4 9.867 7.6 12.4 7.6 15.6H14V28H0ZM22 28V17.6C22 12.267 23.467 8.133 26.4 5.2C29.333 2.267 33.6 0.533 39.2 0V4.4C36 4.933 33.6 6.133 32 8C30.4 9.867 29.6 12.4 29.6 15.6H36V28H22Z" fill="var(--accent-gold)" fill-opacity="0.6"/>
+      </svg>
+    </div>
+
+    {%- comment -%} ── THE QUOTE ── {%- endcomment -%}
+    <blockquote class="sfq-quote">
+      {%- assign quote_lines = section.settings.quote_text | default: 'Most brands give you a name.|We give you our word, spelled out in five letters.|From our family’s hands to your home — this is Senfa.' | split: '|' -%}
+      {%- for line in quote_lines -%}
+        {{ line }}{%- unless forloop.last -%}<br>{%- endunless -%}
+      {%- endfor -%}
+    </blockquote>
+
+    {%- comment -%} ── MINIMAL DIVIDER ── {%- endcomment -%}
+    <div class="sfq-divider" aria-hidden="true">
+      <span class="sfq-div-line"></span>
+      <span class="sfq-div-diamond"></span>
+      <span class="sfq-div-line"></span>
+    </div>
+
+    {%- comment -%} ── ATTRIBUTION ── {%- endcomment -%}
+    <p class="sfq-attr">{{ section.settings.attribution | default: 'S · E · N · F · A' }}</p>
+
+  </div>
+
+</section>
+
+<style>
+/* ════════════════════════════════
+   SENFA — FINAL QUOTE (EDITORIAL)
+════════════════════════════════ */
+
+#senfa-finalquote-{{ section.id }} {
+  background-color: var(--bg-color);
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Dawn theme blockquote resets to prevent theme conflicts */
+#senfa-finalquote-{{ section.id }} blockquote {
+  border-left: none !important;
+  padding-left: 0 !important;
+  font-style: normal !important;
+  color: inherit !important;
+  margin: 0 !important;
+}
+
+/* ── INNER CONTAINER ── */
+#senfa-finalquote-{{ section.id }} .sfq-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ── QUOTE ICON ── */
+#senfa-finalquote-{{ section.id }} .sfq-icon {
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ── QUOTE TEXT ── */
+#senfa-finalquote-{{ section.id }} .sfq-quote {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: clamp(28px, 3.5vw, 44px) !important;
+  font-weight: 300 !important;
+  font-style: italic !important;
+  line-height: 1.5 !important;
+  color: var(--quote-color) !important;
+  margin-bottom: 48px !important;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.15s, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.15s;
+}
+
+/* ── DIVIDER ── */
+#senfa-finalquote-{{ section.id }} .sfq-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: scaleX(0.8);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
+}
+
+#senfa-finalquote-{{ section.id }} .sfq-div-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent-gold));
+}
+
+#senfa-finalquote-{{ section.id }} .sfq-div-line:last-child {
+  background: linear-gradient(to left, transparent, var(--accent-gold));
+}
+
+#senfa-finalquote-{{ section.id }} .sfq-div-diamond {
+  width: 5px;
+  height: 5px;
+  background: var(--accent-gold);
+  transform: rotate(45deg);
+  margin: 0 12px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+/* ── ATTRIBUTION ── */
+#senfa-finalquote-{{ section.id }} .sfq-attr {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--attr-color);
+  font-weight: 500;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.45s, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.45s;
+}
+
+/* ── ANIMATION STATES (Triggered by JS) ── */
+#senfa-finalquote-{{ section.id }} .sfq-icon.sfq-visible,
+#senfa-finalquote-{{ section.id }} .sfq-quote.sfq-visible,
+#senfa-finalquote-{{ section.id }} .sfq-attr.sfq-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#senfa-finalquote-{{ section.id }} .sfq-divider.sfq-visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* ════════════════
+   MOBILE RESPONSIVE
+════════════════ */
+@media (max-width: 768px) {
+  #senfa-finalquote-{{ section.id }} {
+    padding: calc({{ section.settings.padding_top }}px * 0.7) 0 calc({{ section.settings.padding_bottom }}px * 0.7);
+  }
+  
+  #senfa-finalquote-{{ section.id }} .sfq-inner {
+    padding: 0 24px;
+  }
+  
+  #senfa-finalquote-{{ section.id }} .sfq-icon {
+    margin-bottom: 32px;
+  }
+  
+  #senfa-finalquote-{{ section.id }} .sfq-quote {
+    margin-bottom: 40px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #senfa-finalquote-{{ section.id }} .sfq-quote {
+    font-size: 26px !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var section = document.getElementById('senfa-finalquote-{{ section.id }}');
+  if (!section) return;
+  
+  var targets = section.querySelectorAll('.sfq-icon, .sfq-quote, .sfq-divider, .sfq-attr');
+  
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('sfq-visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  
+  targets.forEach(function(el) { obs.observe(el); });
+});
+</script>
+
+{% schema %}
+{
+  "name": "SENFA Final Quote",
+  "tag": "section",
+  "class": "senfa-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Quote Content"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Lines",
+      "info": "Use the pipe symbol | to create perfect, intentional line breaks.",
+      "default": "Most brands give you a name.|We give you our word, spelled out in five letters.|From our family's hands to your home — this is Senfa."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "S · E · N · F · A"
+    },
+    {
+      "type": "header",
+      "content": "Colors (Fully Editable)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote Text Color",
+      "default": "#1A1228"
+    },
+    {
+      "type": "color",
+      "id": "accent_gold",
+      "label": "Senfa Gold Accent",
+      "default": "#C9922A"
+    },
+    {
+      "type": "color",
+      "id": "attr_color",
+      "label": "Attribution Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0, "max": 200, "step": 8, "default": 160, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0, "max": 200, "step": 8, "default": 160, "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SENFA Final Quote"
+    }
+  ]
+}
+{% endschema %}

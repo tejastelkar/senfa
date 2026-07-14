@@ -857,10 +857,13 @@ class SenfaCartDrawer {
   }
 
   init() {
+    this._isOpening = false;
+
     document.body.addEventListener('click', (e) => {
       const cartIcon = e.target.closest('a[href="/cart"], #cart-icon-bubble');
-      if (cartIcon && !e.target.closest('.scd-drawer')) {
+      if (cartIcon && !e.target.closest('#senfa-cart-drawer')) {
         e.preventDefault();
+        e.stopPropagation();
         this.refreshAndOpen();
       }
     });
@@ -877,41 +880,42 @@ class SenfaCartDrawer {
       this.addFormToCart(form);
     }, true);
 
-    this.bindEvents();
-  }
-
-  bindEvents() {
-    const closeBtn = this.overlay.querySelector('.scd-close');
-    const closeEmptyBtn = this.overlay.querySelector('.scd-close-empty');
-    
-    if (closeBtn) closeBtn.addEventListener('click', () => this.close());
-    if (closeEmptyBtn) closeEmptyBtn.addEventListener('click', () => this.close());
-    
+    // Static listeners — attached ONCE here, never in bindEvents
     this.overlay.addEventListener('click', (e) => {
-      if (e.target === this.overlay) {
-        if (Date.now() - (this.openedAt || 0) > 300) {
-          this.close();
-        }
+      if (e.target === this.overlay && !this._isOpening) {
+        this.close();
       }
     });
 
-    this.drawer.querySelectorAll('.scd-qty-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.updateCart(btn.dataset.line, btn.dataset.qty);
-      });
-    });
-
-    this.drawer.querySelectorAll('.scd-remove-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.updateCart(btn.dataset.line, 0);
-      });
+    // Use delegated click on the drawer for close/qty/remove — survives innerHTML swap
+    this.drawer.addEventListener('click', (e) => {
+      if (e.target.closest('.scd-close') || e.target.closest('.scd-close-empty')) {
+        this.close();
+        return;
+      }
+      const qtyBtn = e.target.closest('.scd-qty-btn');
+      if (qtyBtn) {
+        this.updateCart(qtyBtn.dataset.line, qtyBtn.dataset.qty);
+        return;
+      }
+      const removeBtn = e.target.closest('.scd-remove-btn');
+      if (removeBtn) {
+        this.updateCart(removeBtn.dataset.line, 0);
+      }
     });
   }
 
+  // bindEvents is now only called for any truly dynamic per-refresh needs (currently none)
+  bindEvents() {
+    // All listeners are delegated in init() — nothing to rebind after DOM refresh
+  }
+
   open() {
-    this.openedAt = Date.now();
+    this._isOpening = true;
     this.overlay.classList.add('scd-active');
     document.body.style.overflow = 'hidden';
+    // Release the guard after the CSS transition (400ms) so overlay clicks can close it
+    setTimeout(() => { this._isOpening = false; }, 450);
   }
 
   close() {

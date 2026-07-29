@@ -937,10 +937,29 @@
       if (priceEl) {
         priceEl.innerHTML = formattedPrice;
       }
-      
+
       // Update sticky bar price
       var stickyPrice = document.querySelector('.smp-sticky-price');
       if (stickyPrice) stickyPrice.innerHTML = formattedPrice;
+
+      // Update Compare Price & Discount
+      var compareEl = document.querySelector('.smp-compare');
+      var discountEl = document.querySelector('.smp-discount');
+      if (matchedVariant.compare_at_price > matchedVariant.price) {
+        var formattedCompare = 'Rs. ' + (matchedVariant.compare_at_price / 100).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        var percentOff = Math.round((matchedVariant.compare_at_price - matchedVariant.price) * 100 / matchedVariant.compare_at_price);
+        if (compareEl) {
+          compareEl.innerHTML = formattedCompare;
+          compareEl.style.display = '';
+        }
+        if (discountEl) {
+          discountEl.innerHTML = percentOff + '% Off';
+          discountEl.style.display = '';
+        }
+      } else {
+        if (compareEl) compareEl.style.display = 'none';
+        if (discountEl) discountEl.style.display = 'none';
+      }
       
       // Update Add to Cart Button State
       var btn = form.querySelector('.smp-add-btn');

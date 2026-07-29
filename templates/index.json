@@ -711,9 +711,9 @@
           "type": "highlight_card",
           "settings": {
             "image": "shopify://shop_images/141.png",
-            "eyebrow": "VOGUE BEAUTY FESTIVAL",
-            "title": "BEST FACIAL SOAP",
-            "subtitle": "HIMALAYAN SAFFRON ELIXIR",
+            "eyebrow": "SUMMER ESSENTIAL",
+            "title": "PROTECT & REFRESH",
+            "subtitle": "YOUR SUMMER SKIN RITUAL",
             "btn_label": "DISCOVER",
             "btn_url": "shopify://collections/soap-collection"
           }
@@ -722,9 +722,9 @@
           "type": "highlight_card",
           "settings": {
             "image": "shopify://shop_images/140.png",
-            "eyebrow": "GRAZIA AWARDS",
-            "title": "MOST LOVED BRAND",
-            "subtitle": "SAFFRON SOAP DUO",
+            "eyebrow": "LUXURY REDEFINED",
+            "title": "FROM SCREEN TO SKIN",
+            "subtitle": "LUXURY, WITHIN REACH",
             "btn_label": "DISCOVER",
             "btn_url": "shopify://collections/soap-collection"
           }
@@ -733,9 +733,9 @@
           "type": "highlight_card",
           "settings": {
             "image": "shopify://shop_images/139.png",
-            "eyebrow": "ELLE BEAUTY AWARDS",
-            "title": "BEST BODY SOAP",
-            "subtitle": "ROSE & GOLD COLLECTION",
+            "eyebrow": "SIGNATURE INGREDIENT",
+            "title": "A TOUCH OF SAFFRON",
+            "subtitle": "A WORLD OF GLOW",
             "btn_label": "DISCOVER",
             "btn_url": "shopify://collections/soap-collection"
           }
@@ -744,9 +744,9 @@
           "type": "highlight_card",
           "settings": {
             "image": "shopify://shop_images/136.png",
-            "eyebrow": "NYKAA HIGHLIGHTS",
-            "title": "BEST DAILY SOAP",
-            "subtitle": "SANDALWOOD SERIES",
+            "eyebrow": "PURE INDULGENCE",
+            "title": "THE ESSENCE OF SAFFRON",
+            "subtitle": "THE TOUCH OF LUXURY",
             "btn_label": "DISCOVER",
             "btn_url": "shopify://collections/soap-collection"
           }

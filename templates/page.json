@@ -21,7 +21,9 @@
       "type": "senfa-story-banner",
       "name": "Senfa Story Banner",
       "settings": {
-        "image": "shopify://shop_images/our_story.jpg"
+        "desktop_height": 70,
+        "mobile_height": 80,
+        "image": "shopify://shop_images/WhatsApp_Image_2026-07-29_at_17.27.39.jpg"
       }
     },
     "senfa_story_began_XGRMFa": {

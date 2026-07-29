@@ -3,248 +3,6 @@
   File: sections/senfa-cart-drawer.liquid
 {% endcomment %}
 
-<div id="senfa-cart-drawer" class="scd-overlay" aria-hidden="true">
-  <div class="scd-drawer">
-    
-    <div class="scd-loader"></div>
-
-    <div class="scd-header">
-      <h3 class="scd-title">{{ section.settings.drawer_title }}</h3>
-      <button class="scd-close" aria-label="Close cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <path d="M18 6L6 18M6 6L18 18"/>
-        </svg>
-      </button>
-    </div>
-
-    {% if cart == empty %}
-      <div class="scd-empty">
-        <p class="scd-empty-text">{{ section.settings.empty_text }}</p>
-        <button class="scd-continue-btn scd-close-empty">Continue Shopping</button>
-      </div>
-    {% else %}
-      <form action="{{ routes.cart_url }}" method="post" id="scd-cart-form" class="scd-form">
-
-        {% if section.settings.enable_offers_bar and section.blocks.size > 0 %}
-          {% comment %} ── Determine current tracking value ── {% endcomment %}
-          {% if section.settings.track_by == 'quantity' %}
-            {% assign current_value = cart.item_count %}
-          {% else %}
-            {% assign current_value = cart.items_subtotal_price %}
-          {% endif %}
-
-          {% comment %} ── Find max threshold to scale the bar ── {% endcomment %}
-          {% assign max_threshold = 0 %}
-          {% for block in section.blocks %}
-            {% if block.type == 'milestone' %}
-              {% if section.settings.track_by == 'quantity' %}
-                {% assign bval = block.settings.threshold_value %}
-              {% else %}
-                {% assign bval = block.settings.threshold_value | times: 100 %}
-              {% endif %}
-              {% if bval > max_threshold %}
-                {% assign max_threshold = bval %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-
-          {% comment %} ── Calculate fill percentage ── {% endcomment %}
-          {% if max_threshold > 0 %}
-            {% assign percent = current_value | times: 100.0 | divided_by: max_threshold %}
-          {% else %}
-            {% assign percent = 0 %}
-          {% endif %}
-          {% if percent > 100 %}{% assign percent = 100 %}{% endif %}
-
-          {% comment %} ── Find the next unreached milestone for the message ── {% endcomment %}
-          {% assign active_msg = section.settings.msg_all_unlocked %}
-          {% assign found_next = false %}
-          {% for block in section.blocks %}
-            {% if block.type == 'milestone' and found_next == false %}
-              {% if section.settings.track_by == 'quantity' %}
-                {% assign bval = block.settings.threshold_value %}
-              {% else %}
-                {% assign bval = block.settings.threshold_value | times: 100 %}
-              {% endif %}
-              {% if current_value < bval %}
-                {% assign found_next = true %}
-                {% assign away = bval | minus: current_value %}
-                {% if section.settings.track_by == 'quantity' %}
-                  {% capture away_fmt %}<strong>{{ away }} item{% if away != 1 %}s{% endif %}</strong>{% endcapture %}
-                {% else %}
-                  {% capture away_fmt %}<strong>{{ away | money }}</strong>{% endcapture %}
-                {% endif %}
-                {% assign active_msg = block.settings.msg_approaching | replace: '[amount]', away_fmt %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-
-          <div class="scd-progress-wrapper">
-            <p class="scd-progress-text">
-              {% if found_next %}
-                {{ active_msg }}
-              {% else %}
-                <svg class="scd-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                {{ active_msg }}
-              {% endif %}
-            </p>
-
-            <div class="scd-progress-track" style="--scd-fill: {{ percent }}%;">
-              <div class="scd-progress-fill" style="width: {{ percent }}%;"></div>
-
-              {% for block in section.blocks %}
-                {% if block.type == 'milestone' %}
-                  {% if section.settings.track_by == 'quantity' %}
-                    {% assign bval = block.settings.threshold_value %}
-                  {% else %}
-                    {% assign bval = block.settings.threshold_value | times: 100 %}
-                  {% endif %}
-                  {% assign mpos = bval | times: 100.0 | divided_by: max_threshold %}
-                  <div class="scd-progress-milestone{% if current_value >= bval %} scd-milestone-reached{% endif %}"
-                       style="left: {{ mpos }}%;"
-                       {% if block.settings.discount_code != blank %}data-discount="{{ block.settings.discount_code }}"{% endif %}
-                       {{ block.shopify_attributes }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                      <path d="M20 12V22H4V12"/>
-                      <path d="M22 7H2V12H22V7Z"/>
-                      <path d="M12 22V7"/>
-                      <path d="M12 7H7.5C6.119 7 5 5.881 5 4.5C5 3.119 6.119 2 7.5 2C8.881 2 10 3.119 10 4.5C10 5.419 11 7 12 7Z"/>
-                      <path d="M12 7H16.5C17.881 7 19 5.881 19 4.5C19 3.119 17.881 2 16.5 2C15.119 2 14 3.119 14 4.5C14 5.419 13 7 12 7Z"/>
-                    </svg>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-
-            <div class="scd-progress-labels">
-              {% for block in section.blocks %}
-                {% if block.type == 'milestone' %}
-                  {% if section.settings.track_by == 'quantity' %}
-                    {% assign bval = block.settings.threshold_value %}
-                  {% else %}
-                    {% assign bval = block.settings.threshold_value | times: 100 %}
-                  {% endif %}
-                  {% assign mpos = bval | times: 100.0 | divided_by: max_threshold %}
-                  <span class="scd-dynamic-label" style="left: {{ mpos }}%;">{{ block.settings.label }}</span>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        {% endif %}
-
-        <div class="scd-items">
-          {% for item in cart.items %}
-            <div class="scd-item" data-line="{{ forloop.index }}">
-              
-              <div class="scd-item-image">
-                {% if item.image %}
-                  <img src="{{ item.image | image_url: width: 400 }}" alt="{{ item.title | escape }}" loading="lazy">
-                {% endif %}
-              </div>
-
-              <div class="scd-item-details">
-                <div class="scd-item-header">
-                  {%- if item.product.vendor != blank -%}
-                    <span class="scd-item-vendor">{{ item.product.vendor }}</span>
-                  {%- endif -%}
-                  <a href="{{ item.url }}" class="scd-item-title">{{ item.product.title }}</a>
-                  {%- unless item.product.has_only_default_variant -%}
-                    <p class="scd-item-variant">{{ item.variant.title }}</p>
-                  {%- endunless -%}
-                </div>
-
-                <div class="scd-item-price-wrap">
-                  {% if item.original_line_price > item.final_line_price %}
-                    <span class="scd-item-compare">{{ item.original_line_price | money }}</span>
-                  {% endif %}
-                  <span class="scd-item-price">{{ item.final_line_price | money }}</span>
-                </div>
-
-                <div class="scd-item-actions">
-                  <div class="scd-qty-selector">
-                    <button type="button" class="scd-qty-btn scd-qty-minus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}">
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10"/></svg>
-                    </button>
-                    <input type="text" class="scd-qty-input" value="{{ item.quantity }}" readonly>
-                    <button type="button" class="scd-qty-btn scd-qty-plus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}">
-                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
-                    </button>
-                  </div>
-                  <button type="button" class="scd-remove-btn" data-line="{{ forloop.index }}">Remove</button>
-                </div>
-              </div>
-
-            </div>
-          {% endfor %}
-        </div>
-      </form>
-
-      <div class="scd-footer">
-          
-          <div class="scd-trust-badges">
-            <div class="scd-trust-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                <line x1="9" y1="9" x2="9.01" y2="9"/>
-                <line x1="15" y1="9" x2="15.01" y2="9"/>
-              </svg>
-              <span>1 MILLION +<br>HAPPY USERS</span>
-            </div>
-            <div class="scd-trust-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                <line x1="12" y1="22.08" x2="12" y2="12"/>
-              </svg>
-              <span>SAFE & SECURE<br>DELIVERY</span>
-            </div>
-            <div class="scd-trust-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-              </svg>
-              <span>WEBSITE<br>EXCLUSIVE OFFERS</span>
-            </div>
-          </div>
-
-          {% assign total_compare = 0 %}
-          {% for item in cart.items %}
-            {% if item.variant.compare_at_price > item.price %}
-              {% assign item_savings = item.variant.compare_at_price | minus: item.price | times: item.quantity %}
-              {% assign total_compare = total_compare | plus: item_savings %}
-            {% endif %}
-          {% endfor %}
-
-          <div class="scd-footer-actions">
-            {% if total_compare > 0 %}
-              <div class="scd-totals-row scd-savings-row">
-                <span>You Saved:</span>
-                <span>{{ total_compare | money }}</span>
-              </div>
-            {% endif %}
-
-            <div class="scd-totals-row scd-final-total">
-              <span>Total:</span>
-              <span>{{ cart.total_price | money }}</span>
-            </div>
-
-            <form action="{{ routes.cart_url }}" method="post">
-              <button type="submit" name="checkout" class="scd-checkout-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0110 0v4"/>
-                </svg>
-                {{ section.settings.checkout_text }} • {{ cart.total_price | money }}
-              </button>
-            </form>
-          </div>
-      </div>
-    {% endif %}
-
-  </div>
-</div>
-
 <style>
 /* ════════════════════════════════
    SENFA — LUXURY CART DRAWER
@@ -311,7 +69,7 @@
   position: absolute;
   top: 0; left: 0; bottom: 0;
   width: 40%;
-  background: #C9922A; 
+  background: #C9922A;
   animation: scdLoadingSweep 1s infinite ease-in-out;
 }
 
@@ -846,12 +604,254 @@
 }
 </style>
 
+<div id="senfa-cart-drawer" class="scd-overlay" aria-hidden="true">
+  <div class="scd-drawer">
+
+    <div class="scd-loader"></div>
+
+    <div class="scd-header">
+      <h3 class="scd-title">{{ section.settings.drawer_title }}</h3>
+      <button class="scd-close" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M18 6L6 18M6 6L18 18"/>
+        </svg>
+      </button>
+    </div>
+
+    {% if cart == empty %}
+      <div class="scd-empty">
+        <p class="scd-empty-text">{{ section.settings.empty_text }}</p>
+        <button class="scd-continue-btn scd-close-empty">Continue Shopping</button>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" id="scd-cart-form" class="scd-form">
+
+        {% if section.settings.enable_offers_bar and section.blocks.size > 0 %}
+          {% comment %} ── Determine current tracking value ── {% endcomment %}
+          {% if section.settings.track_by == 'quantity' %}
+            {% assign current_value = cart.item_count %}
+          {% else %}
+            {% assign current_value = cart.items_subtotal_price %}
+          {% endif %}
+
+          {% comment %} ── Find max threshold to scale the bar ── {% endcomment %}
+          {% assign max_threshold = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'milestone' %}
+              {% if section.settings.track_by == 'quantity' %}
+                {% assign bval = block.settings.threshold_value %}
+              {% else %}
+                {% assign bval = block.settings.threshold_value | times: 100 %}
+              {% endif %}
+              {% if bval > max_threshold %}
+                {% assign max_threshold = bval %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {% comment %} ── Calculate fill percentage ── {% endcomment %}
+          {% if max_threshold > 0 %}
+            {% assign percent = current_value | times: 100.0 | divided_by: max_threshold %}
+          {% else %}
+            {% assign percent = 0 %}
+          {% endif %}
+          {% if percent > 100 %}{% assign percent = 100 %}{% endif %}
+
+          {% comment %} ── Find the next unreached milestone for the message ── {% endcomment %}
+          {% assign active_msg = section.settings.msg_all_unlocked %}
+          {% assign found_next = false %}
+          {% for block in section.blocks %}
+            {% if block.type == 'milestone' and found_next == false %}
+              {% if section.settings.track_by == 'quantity' %}
+                {% assign bval = block.settings.threshold_value %}
+              {% else %}
+                {% assign bval = block.settings.threshold_value | times: 100 %}
+              {% endif %}
+              {% if current_value < bval %}
+                {% assign found_next = true %}
+                {% assign away = bval | minus: current_value %}
+                {% if section.settings.track_by == 'quantity' %}
+                  {% capture away_fmt %}<strong>{{ away }} item{% if away != 1 %}s{% endif %}</strong>{% endcapture %}
+                {% else %}
+                  {% capture away_fmt %}<strong>{{ away | money }}</strong>{% endcapture %}
+                {% endif %}
+                {% assign active_msg = block.settings.msg_approaching | replace: '[amount]', away_fmt %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          <div class="scd-progress-wrapper">
+            <p class="scd-progress-text">
+              {% if found_next %}
+                {{ active_msg }}
+              {% else %}
+                <svg class="scd-inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                {{ active_msg }}
+              {% endif %}
+            </p>
+
+            <div class="scd-progress-track" style="--scd-fill: {{ percent }}%;">
+              <div class="scd-progress-fill" style="width: {{ percent }}%;"></div>
+
+              {% for block in section.blocks %}
+                {% if block.type == 'milestone' %}
+                  {% if section.settings.track_by == 'quantity' %}
+                    {% assign bval = block.settings.threshold_value %}
+                  {% else %}
+                    {% assign bval = block.settings.threshold_value | times: 100 %}
+                  {% endif %}
+                  {% assign mpos = bval | times: 100.0 | divided_by: max_threshold %}
+                  <div class="scd-progress-milestone{% if current_value >= bval %} scd-milestone-reached{% endif %}"
+                       style="left: {{ mpos }}%;"
+                       {% if block.settings.discount_code != blank %}data-discount="{{ block.settings.discount_code }}"{% endif %}
+                       {{ block.shopify_attributes }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M20 12V22H4V12"/>
+                      <path d="M22 7H2V12H22V7Z"/>
+                      <path d="M12 22V7"/>
+                      <path d="M12 7H7.5C6.119 7 5 5.881 5 4.5C5 3.119 6.119 2 7.5 2C8.881 2 10 3.119 10 4.5C10 5.419 11 7 12 7Z"/>
+                      <path d="M12 7H16.5C17.881 7 19 5.881 19 4.5C19 3.119 17.881 2 16.5 2C15.119 2 14 3.119 14 4.5C14 5.419 13 7 12 7Z"/>
+                    </svg>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            <div class="scd-progress-labels">
+              {% for block in section.blocks %}
+                {% if block.type == 'milestone' %}
+                  {% if section.settings.track_by == 'quantity' %}
+                    {% assign bval = block.settings.threshold_value %}
+                  {% else %}
+                    {% assign bval = block.settings.threshold_value | times: 100 %}
+                  {% endif %}
+                  {% assign mpos = bval | times: 100.0 | divided_by: max_threshold %}
+                  <span class="scd-dynamic-label" style="left: {{ mpos }}%;">{{ block.settings.label }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="scd-items">
+          {% for item in cart.items %}
+            <div class="scd-item" data-line="{{ forloop.index }}">
+
+              <div class="scd-item-image">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 400 }}" alt="{{ item.title | escape }}" loading="lazy">
+                {% endif %}
+              </div>
+
+              <div class="scd-item-details">
+                <div class="scd-item-header">
+                  {%- if item.product.vendor != blank -%}
+                    <span class="scd-item-vendor">{{ item.product.vendor }}</span>
+                  {%- endif -%}
+                  <a href="{{ item.url }}" class="scd-item-title">{{ item.product.title }}</a>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <p class="scd-item-variant">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                </div>
+
+                <div class="scd-item-price-wrap">
+                  {% if item.original_line_price > item.final_line_price %}
+                    <span class="scd-item-compare">{{ item.original_line_price | money }}</span>
+                  {% endif %}
+                  <span class="scd-item-price">{{ item.final_line_price | money }}</span>
+                </div>
+
+                <div class="scd-item-actions">
+                  <div class="scd-qty-selector">
+                    <button type="button" class="scd-qty-btn scd-qty-minus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | minus: 1 }}">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10"/></svg>
+                    </button>
+                    <input type="text" class="scd-qty-input" value="{{ item.quantity }}" readonly>
+                    <button type="button" class="scd-qty-btn scd-qty-plus" data-line="{{ forloop.index }}" data-qty="{{ item.quantity | plus: 1 }}">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
+                    </button>
+                  </div>
+                  <button type="button" class="scd-remove-btn" data-line="{{ forloop.index }}">Remove</button>
+                </div>
+              </div>
+
+            </div>
+          {% endfor %}
+        </div>
+      </form>
+
+      <div class="scd-footer">
+
+          <div class="scd-trust-badges">
+            <div class="scd-trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                <line x1="15" y1="9" x2="15.01" y2="9"/>
+              </svg>
+              <span>1 MILLION +<br>HAPPY USERS</span>
+            </div>
+            <div class="scd-trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+              <span>SAFE & SECURE<br>DELIVERY</span>
+            </div>
+            <div class="scd-trust-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+              </svg>
+              <span>WEBSITE<br>EXCLUSIVE OFFERS</span>
+            </div>
+          </div>
+
+          {% assign total_compare = 0 %}
+          {% for item in cart.items %}
+            {% if item.variant.compare_at_price > item.price %}
+              {% assign item_savings = item.variant.compare_at_price | minus: item.price | times: item.quantity %}
+              {% assign total_compare = total_compare | plus: item_savings %}
+            {% endif %}
+          {% endfor %}
+
+          <div class="scd-footer-actions">
+            {% if total_compare > 0 %}
+              <div class="scd-totals-row scd-savings-row">
+                <span>You Saved:</span>
+                <span>{{ total_compare | money }}</span>
+              </div>
+            {% endif %}
+
+            <div class="scd-totals-row scd-final-total">
+              <span>Total:</span>
+              <span>{{ cart.total_price | money }}</span>
+            </div>
+
+            <form action="{{ routes.cart_url }}" method="post">
+              <button type="submit" name="checkout" class="scd-checkout-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+                {{ section.settings.checkout_text }} • {{ cart.total_price | money }}
+              </button>
+            </form>
+          </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
 <script>
 class SenfaCartDrawer {
   constructor() {
     this.overlay = document.getElementById('senfa-cart-drawer');
     if (!this.overlay) return;
-    
+
     this.drawer = this.overlay.querySelector('.scd-drawer');
     this.init();
   }
@@ -927,7 +927,7 @@ class SenfaCartDrawer {
     const formData = new FormData(form);
     const submitBtn = form.querySelector('[type="submit"], button[name="add"]');
     let originalText = '';
-    
+
     if (submitBtn) {
       originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = 'Adding...';
@@ -1181,4 +1181,3 @@ document.addEventListener('DOMContentLoaded', () => {
   ]
 }
 {% endschema %}
-

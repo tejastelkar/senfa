@@ -32,6 +32,7 @@
     gap: 24px;
     position: sticky;
     top: 40px;
+    min-width: 0;
   }
 
   .smp-thumbnails {
@@ -90,6 +91,7 @@
     display: flex;
     flex-direction: column;
     padding-top: 10px;
+    min-width: 0;
   }
 
   /* Typography */
@@ -230,6 +232,44 @@
     margin: 0;
   }
 
+  /* Variant Picker */
+  .smp-variant-picker {
+    margin-bottom: 24px;
+  }
+  .smp-option-name {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    display: block;
+    color: #000;
+  }
+  .smp-option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .smp-option-value input[type="radio"] {
+    display: none;
+  }
+  .smp-option-value span {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 2px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s;
+    background: #fff;
+    color: #000;
+  }
+  .smp-option-value input[type="radio"]:checked + span {
+    border-color: #000;
+    background: #000;
+    color: #fff;
+  }
+
   .smp-add-btn {
     flex-grow: 1;
     height: 54px;
@@ -273,6 +313,59 @@
     border: 1px solid rgba(0,0,0,0.1);
     margin-bottom: 24px;
     border-radius: 2px;
+  }
+
+  /* Social Proof */
+  .smp-social-proof {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    background: #FAF8F4;
+    border: 1px solid rgba(201, 146, 42, 0.2);
+    border-radius: 2px;
+  }
+  .smp-social-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.4;
+    color: #1A1228;
+  }
+  .smp-social-row strong {
+    font-weight: 600;
+    color: #000000;
+  }
+  .smp-social-icon-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .smp-social-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #C9922A;
+  }
+  .smp-social-dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #C9922A;
+    animation: smpSocialPulse 1.8s ease-out infinite;
+  }
+  @keyframes smpSocialPulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(2.8); opacity: 0; }
   }
 
   /* ════════════════════════
@@ -469,7 +562,7 @@
   ════════════════════════ */
   @media (max-width: 1024px) {
     .smp-container {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       padding: 0 40px;
       gap: 40px;
     }
@@ -481,6 +574,7 @@
     .smp-thumbnails {
       flex-direction: row;
       width: 100%;
+      min-width: 0;
       overflow-x: auto;
       padding-bottom: 10px;
     }
@@ -528,6 +622,10 @@
       
       {%- form 'product', product, id: 'smp-product-form', class: 'smp-form' -%}
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <script type="application/json" id="smp-variants-{{ section.id }}">
+          {{ product.variants | json }}
+        </script>
 
         {% for block in section.blocks %}
           {% case block.type %}
@@ -584,23 +682,50 @@
                 {% endif %}
               </div>
 
-              <!-- Judge.me Preview Badge -->
-              <div style="margin-bottom: 24px;">
-                <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'></div>
-              </div>
+              {% if section.settings.enable_social_proof %}
+                <div class="smp-social-proof">
+                  <div class="smp-social-row">
+                    <span class="smp-social-icon-slot"><span class="smp-social-dot"></span></span>
+                    <span><strong id="smp-watching-count-{{ section.id }}">18</strong> people are viewing this right now</span>
+                  </div>
+                  <div class="smp-social-row">
+                    <span class="smp-social-icon-slot">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <path d="M3 6h18"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                      </svg>
+                    </span>
+                    <span>{{ section.settings.bought_count_text }}</span>
+                  </div>
+                </div>
+              {% endif %}
 
             {% when 'variant_label' %}
               {% assign net_vol = block.settings.custom_net_vol %}
               {% if product.metafields.custom.net_volume != blank %}
                 {% assign net_vol = product.metafields.custom.net_volume %}
               {% endif %}
-              {% if product.variants.size > 1 or net_vol != blank %}
+              
+              {% if product.variants.size > 1 %}
+                <div class="smp-variant-picker" {{ block.shopify_attributes }}>
+                  {% for option in product.options_with_values %}
+                    <div class="smp-option-group">
+                      <label class="smp-option-name">{{ option.name }}</label>
+                      <div class="smp-option-values">
+                        {% for value in option.values %}
+                          <label class="smp-option-value">
+                            <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %} onchange="smpUpdateVariant_{{ section.id | replace: '-', '_' }}()">
+                            <span>{{ value }}</span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% elsif net_vol != blank %}
                 <div class="smp-variant-label" {{ block.shopify_attributes }}>
-                  {% if product.variants.size > 1 %}
-                    Variant: <span>{{ product.selected_or_first_available_variant.title }}</span>
-                  {% else %}
-                    Net Vol: <span>{{ net_vol }}</span>
-                  {% endif %}
+                  Net Vol: <span>{{ net_vol }}</span>
                 </div>
               {% endif %}
 
@@ -772,6 +897,65 @@
     element.classList.add('is-active');
   }
 
+  // Variant Change Logic
+  function smpUpdateVariant_{{ section.id | replace: '-', '_' }}() {
+    var sectionId = '{{ section.id }}';
+    var form = document.getElementById('smp-product-form');
+    var variantsJson = document.getElementById('smp-variants-' + sectionId).textContent;
+    var variants = JSON.parse(variantsJson);
+    
+    // Get selected options
+    var selectedOptions = [];
+    var optionGroups = form.querySelectorAll('.smp-option-group');
+    optionGroups.forEach(function(group) {
+      var checked = group.querySelector('input[type="radio"]:checked');
+      if (checked) {
+        selectedOptions.push(checked.value);
+      }
+    });
+
+    // Find matching variant
+    var matchedVariant = variants.find(function(v) {
+      return v.options.every(function(opt, index) {
+        return opt === selectedOptions[index];
+      });
+    });
+
+    if (matchedVariant) {
+      // Update hidden ID
+      var idInput = form.querySelector('input[name="id"]');
+      if (idInput) idInput.value = matchedVariant.id;
+
+      // Update URL
+      window.history.replaceState({}, '', '?variant=' + matchedVariant.id);
+
+      // Format Money
+      var formattedPrice = 'Rs. ' + (matchedVariant.price / 100).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      // Update Main Price
+      var priceEl = document.querySelector('.smp-price');
+      if (priceEl) {
+        priceEl.innerHTML = formattedPrice;
+      }
+      
+      // Update sticky bar price
+      var stickyPrice = document.querySelector('.smp-sticky-price');
+      if (stickyPrice) stickyPrice.innerHTML = formattedPrice;
+      
+      // Update Add to Cart Button State
+      var btn = form.querySelector('.smp-add-btn');
+      if (btn) {
+        if (matchedVariant.available) {
+          btn.innerHTML = 'Add to Cart';
+          btn.disabled = false;
+        } else {
+          btn.innerHTML = 'Sold Out';
+          btn.disabled = true;
+        }
+      }
+    }
+  }
+
   // Quantity Logic — scoped to this section
   function smpUpdateQty_{{ section.id | replace: '-', '_' }}(change) {
     var input = document.getElementById('smp-qty-input-{{ section.id }}');
@@ -840,6 +1024,17 @@
       });
     });
 
+    // Social Proof — simulated live viewer count
+    var smpWatchEl = document.getElementById('smp-watching-count-{{ section.id }}');
+    if (smpWatchEl && !smpWatchEl.dataset.initialized) {
+      smpWatchEl.dataset.initialized = "true";
+      var smpSetWatchCount = function() {
+        smpWatchEl.textContent = Math.floor(Math.random() * (34 - 12 + 1)) + 12;
+      };
+      smpSetWatchCount();
+      setInterval(smpSetWatchCount, 15000);
+    }
+
     // Sticky Cart Logic
     var stickyBar = document.getElementById('smp-sticky-bar-{{ section.id }}');
     var triggerEl = document.getElementById('smp-add-to-cart-wrapper');
@@ -901,6 +1096,22 @@
       "min": 0, "max": 120, "step": 4, "unit": "px",
       "label": "Padding bottom",
       "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Social Proof"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_social_proof",
+      "label": "Show live viewers & recent purchases",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bought_count_text",
+      "label": "Recent purchases text",
+      "default": "150+ people bought this in the last 10 days"
     }
   ],
   "blocks": [

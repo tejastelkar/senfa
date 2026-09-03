@@ -516,17 +516,37 @@
     {% if settings.logo %}
       "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
     {% endif %}
-    "sameAs": [
-      {{ settings.social_twitter_link | json }},
-      {{ settings.social_facebook_link | json }},
-      {{ settings.social_pinterest_link | json }},
-      {{ settings.social_instagram_link | json }},
-      {{ settings.social_tiktok_link | json }},
-      {{ settings.social_tumblr_link | json }},
-      {{ settings.social_snapchat_link | json }},
-      {{ settings.social_youtube_link | json }},
-      {{ settings.social_vimeo_link | json }}
-    ],
+    {%- comment -%}
+      Unset social settings previously emitted "sameAs": ["","","",…] — nine
+      empty strings, which is invalid as a list of profile URLs. Collect only
+      the ones that are filled in, and omit the property entirely when none are.
+
+      The loop is needed rather than a bare `split`: split only drops *trailing*
+      empty fields, so a single social link set in the middle would still leave
+      empty strings ahead of it.
+    {%- endcomment -%}
+    {%- liquid
+      assign social_raw = settings.social_twitter_link | append: '|' | append: settings.social_facebook_link | append: '|' | append: settings.social_pinterest_link | append: '|' | append: settings.social_instagram_link | append: '|' | append: settings.social_tiktok_link | append: '|' | append: settings.social_tumblr_link | append: '|' | append: settings.social_snapchat_link | append: '|' | append: settings.social_youtube_link | append: '|' | append: settings.social_vimeo_link
+      assign social_all = social_raw | split: '|'
+      assign social_kept = ''
+      for link in social_all
+        unless link == blank
+          if social_kept == ''
+            assign social_kept = link
+          else
+            assign social_kept = social_kept | append: '|' | append: link
+          endif
+        endunless
+      endfor
+    -%}
+    {%- if social_kept != '' -%}
+      {%- assign social_urls = social_kept | split: '|' -%}
+      "sameAs": [
+        {%- for link in social_urls -%}
+          {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ],
+    {%- endif -%}
     "url": {{ request.origin | append: page.url | json }}
   }
 </script>

@@ -53,7 +53,7 @@
     <div class="senfa-card-action">
       {%- if card_product.available -%}
         {%- assign product_form_id = 'quick-add-' | append: section.id | append: card_product.id -%}
-        <form method="post" action="/cart/add" id="{{ product_form_id }}" class="senfa-quick-add-form" accept-charset="UTF-8" enctype="multipart/form-data">
+        <form method="post" action="{{ routes.cart_add_url }}" id="{{ product_form_id }}" class="senfa-quick-add-form" accept-charset="UTF-8" enctype="multipart/form-data">
           <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
           <input type="hidden" name="quantity" value="1">
           <button type="submit" class="senfa-add-btn">ADD TO CART</button>

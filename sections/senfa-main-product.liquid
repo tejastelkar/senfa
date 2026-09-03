@@ -463,7 +463,8 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(0,0,0,0.4);
+    /* was rgba(0,0,0,0.4) = 2.84:1 on white; 11px text needs 4.5:1 */
+    color: rgba(0,0,0,0.6);
     cursor: pointer;
     position: relative;
     transition: color 0.3s ease;
@@ -733,6 +734,9 @@
               <div class="smp-action-row" id="smp-add-to-cart-wrapper" {{ block.shopify_attributes }}>
                 <div class="smp-qty">
                   <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id | replace: '-', '_' }}(-1)">−</button>
+                  <label class="visually-hidden" for="smp-qty-input-{{ section.id }}">
+                    {{ 'products.product.quantity.label' | t }}
+                  </label>
                   <input type="number" name="quantity" id="smp-qty-input-{{ section.id }}" class="smp-qty-input" value="1" min="1">
                   <button type="button" class="smp-qty-btn" onclick="smpUpdateQty_{{ section.id | replace: '-', '_' }}(1)">+</button>
                 </div>
@@ -1070,6 +1074,16 @@
       });
     }
   })();
+</script>
+
+{%- comment -%}
+  Product structured data. The stock `main-product` section is disabled on this
+  template, and its JSON-LD went with it, so the page shipped no Product schema
+  (no price/availability/review rich results). `structured_data` is Shopify's
+  built-in filter and emits the full Product object including offers.
+{%- endcomment -%}
+<script type="application/ld+json">
+  {{ product | structured_data }}
 </script>
 
 {% schema %}

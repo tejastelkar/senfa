@@ -68,7 +68,7 @@
               >
               <label class="field__label visually-hidden" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
               <input type="hidden" name="options[prefix]" value="last">
-              <button type="reset" class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}" aria-label="{{ 'general.search.clear_search_term' | t }}" style="right: 15px; top: 50%; transform: translateY(-50%);">
+              <button type="reset" class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}" aria-label="{{ 'general.search.reset' | t }}" style="right: 15px; top: 50%; transform: translateY(-50%);">
                 <span class="svg-wrapper" style="width: 1.5rem; height: 1.5rem;">
                   {{- 'icon-close.svg' | inline_asset_content -}}
                 </span>

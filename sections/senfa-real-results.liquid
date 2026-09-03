@@ -3,9 +3,6 @@
   File: sections/senfa-real-results.liquid
 {% endcomment %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
   .srr-section {
     background-color: {{ section.settings.bg_color }};
@@ -96,7 +93,8 @@
     font-size: 11px;
     font-weight: 300;
     letter-spacing: 0.05em;
-    color: rgba(0,0,0,0.5);
+    /* was rgba(0,0,0,0.5) = 3.94:1 on white; 11px text needs 4.5:1 */
+    color: rgba(0,0,0,0.6);
   }
 
   .srr-image-box {
@@ -162,7 +160,7 @@
       </div>
       <div class="srr-box srr-image-box">
         {% if section.settings.center_image != blank %}
-          <img src="{{ section.settings.center_image | img_url: '800x' }}" alt="Before and After Results" class="srr-image" loading="lazy">
+          <img src="{{ section.settings.center_image | image_url: width: 800 }}" alt="Before and After Results" class="srr-image" loading="lazy">
         {% else %}
           <div class="srr-image-placeholder">Image Container</div>
         {% endif %}

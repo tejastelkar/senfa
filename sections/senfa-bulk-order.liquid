@@ -21,17 +21,33 @@
     </div>
 
     <!-- Form -->
-    <form
-      action="https://formsubmit.co/{{ section.settings.email }}"
-      method="POST"
-      class="sbo-form"
-      id="sbo-bulk-form"
-    >
-      <!-- FormSubmit Config (hidden) -->
-      <input type="hidden" name="_subject" value="{{ section.settings.email_subject }}">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="text" name="_honey" style="display:none">
+    {%- comment -%}
+      Native Shopify contact form. This previously POSTed to formsubmit.co with
+      the recipient address embedded in the markup, which exposed a personal
+      inbox in the page source and sent customer PII to a third party with
+      captcha disabled. Submissions now go through Shopify and are delivered to
+      the address in Settings > Notifications > Customer contact.
+    {%- endcomment -%}
+    {%- form 'contact', id: 'sbo-bulk-form', class: 'sbo-form' -%}
+      {%- if form.posted_successfully? -%}
+        <!-- Thank You State -->
+        <div class="sbo-thankyou" id="sbo-thankyou">
+          <div class="sbo-thankyou-icon">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="32" cy="32" r="28" class="sbo-check-circle"/>
+              <polyline points="20 33 28 41 44 25" class="sbo-check-mark"/>
+            </svg>
+          </div>
+          <h3 class="sbo-thankyou-heading">{{ section.settings.thankyou_heading }}</h3>
+          <p class="sbo-thankyou-text">{{ section.settings.thankyou_message }}</p>
+          <a class="sbo-thankyou-btn" href="{{ request.path }}">Submit Another Enquiry</a>
+        </div>
+      {%- else -%}
+        {%- if form.errors -%}
+          <div class="sbo-form-errors" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
 
       <!-- Contact Info -->
       <div class="sbo-fieldset">
@@ -42,26 +58,26 @@
         <div class="sbo-grid sbo-grid-2">
           <div class="sbo-field">
             <label for="sbo-name">Full Name <span class="sbo-req">*</span></label>
-            <input type="text" id="sbo-name" name="Full Name" required placeholder="Your full name">
+            <input type="text" id="sbo-name" name="contact[Full Name]" required placeholder="Your full name">
           </div>
           <div class="sbo-field">
             <label for="sbo-company">Firm Name</label>
-            <input type="text" id="sbo-company" name="Firm Name" placeholder="Your firm/company name">
+            <input type="text" id="sbo-company" name="contact[Firm Name]" placeholder="Your firm/company name">
           </div>
         </div>
         <div class="sbo-grid sbo-grid-2">
           <div class="sbo-field">
             <label for="sbo-email">Email <span class="sbo-req">*</span></label>
-            <input type="email" id="sbo-email" name="Email" required placeholder="you@example.com">
+            <input type="email" id="sbo-email" name="contact[email]" required placeholder="you@example.com">
           </div>
           <div class="sbo-field">
             <label for="sbo-phone">Phone No. <span class="sbo-req">*</span></label>
-            <input type="tel" id="sbo-phone" name="Phone" required placeholder="+91 XXXXX XXXXX">
+            <input type="tel" id="sbo-phone" name="contact[Phone]" required placeholder="+91 XXXXX XXXXX">
           </div>
         </div>
         <div class="sbo-field">
           <label for="sbo-gst">GST Details</label>
-          <input type="text" id="sbo-gst" name="GST Details" placeholder="Enter GST Number (if applicable)">
+          <input type="text" id="sbo-gst" name="contact[GST Details]" placeholder="Enter GST Number (if applicable)">
         </div>
       </div>
 
@@ -79,15 +95,15 @@
               <div class="sbo-grid sbo-grid-3">
                 <div class="sbo-field">
                   <label>Product Name <span class="sbo-req">*</span></label>
-                  <input type="text" name="Product 1 - Name" required placeholder="e.g. Vitamin C Serum">
+                  <input type="text" name="contact[Product 1 - Name]" required placeholder="e.g. Vitamin C Serum">
                 </div>
                 <div class="sbo-field">
                   <label>Variant / Size</label>
-                  <input type="text" name="Product 1 - Variant" placeholder="e.g. 30ml">
+                  <input type="text" name="contact[Product 1 - Variant]" placeholder="e.g. 30ml">
                 </div>
                 <div class="sbo-field">
                   <label>Quantity <span class="sbo-req">*</span></label>
-                  <select name="Product 1 - Quantity" required>
+                  <select name="contact[Product 1 - Quantity]" required>
                     <option value="" disabled selected>Select quantity</option>
                     <option value="200 pcs">200 pcs</option>
                     <option value="500 pcs">500 pcs</option>
@@ -119,7 +135,7 @@
         <div class="sbo-grid sbo-grid-2">
           <div class="sbo-field">
             <label for="sbo-purpose">Purpose of Purchasing <span class="sbo-req">*</span></label>
-            <select id="sbo-purpose" name="Purpose of Purchasing" required>
+            <select id="sbo-purpose" name="contact[Purpose of Purchasing]" required>
               <option value="" disabled selected>Select purpose</option>
               <option value="Distributor">Distributor</option>
               <option value="Wholesaler">Wholesaler</option>
@@ -131,27 +147,27 @@
           </div>
           <div class="sbo-field">
             <label for="sbo-date">Expected Delivery Date <span class="sbo-req">*</span></label>
-            <input type="date" id="sbo-date" name="Expected Delivery Date" required>
+            <input type="date" id="sbo-date" name="contact[Expected Delivery Date]" required>
           </div>
         </div>
 
         <div class="sbo-field">
           <label for="sbo-address">Delivery Address <span class="sbo-req">*</span></label>
-          <textarea id="sbo-address" name="Delivery Address" required rows="3" placeholder="Full shipping address"></textarea>
+          <textarea id="sbo-address" name="contact[Delivery Address]" required rows="3" placeholder="Full shipping address"></textarea>
         </div>
         <div class="sbo-grid sbo-grid-2">
           <div class="sbo-field">
             <label for="sbo-city">City <span class="sbo-req">*</span></label>
-            <input type="text" id="sbo-city" name="City" required placeholder="City">
+            <input type="text" id="sbo-city" name="contact[City]" required placeholder="City">
           </div>
           <div class="sbo-field">
             <label for="sbo-pincode">PIN Code <span class="sbo-req">*</span></label>
-            <input type="text" id="sbo-pincode" name="PIN Code" required placeholder="Pincode">
+            <input type="text" id="sbo-pincode" name="contact[PIN Code]" required placeholder="Pincode">
           </div>
         </div>
         <div class="sbo-field">
           <label for="sbo-notes">Remark or Description</label>
-          <textarea id="sbo-notes" name="Remark or Description" rows="3" placeholder="Any specific requirements, comments, etc."></textarea>
+          <textarea id="sbo-notes" name="contact[Remark or Description]" rows="3" placeholder="Any specific requirements, comments, etc."></textarea>
         </div>
       </div>
 
@@ -162,20 +178,8 @@
       </button>
 
       <p class="sbo-disclaimer">{{ section.settings.disclaimer_text }}</p>
-    </form>
-
-    <!-- Thank You State -->
-    <div class="sbo-thankyou" id="sbo-thankyou" style="display:none;">
-      <div class="sbo-thankyou-icon">
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="32" cy="32" r="28" class="sbo-check-circle"/>
-          <polyline points="20 33 28 41 44 25" class="sbo-check-mark"/>
-        </svg>
-      </div>
-      <h3 class="sbo-thankyou-heading">{{ section.settings.thankyou_heading }}</h3>
-      <p class="sbo-thankyou-text">{{ section.settings.thankyou_message }}</p>
-      <button type="button" class="sbo-thankyou-btn" id="sbo-new-order">Submit Another Enquiry</button>
-    </div>
+      {%- endif -%}
+    {%- endform -%}
 
     <!-- Info Section -->
     <div class="sbo-info">
@@ -234,8 +238,6 @@
 /* ════════════════════════════════
    SENFA — BULK ORDER FORM
 ════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap');
-
 .sbo-banner {
   width: 100%;
   display: block;
@@ -566,6 +568,22 @@
 }
 
 /* ── Thank You State ── */
+.sbo-form-errors {
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid #B3261E;
+  border-radius: 4px;
+  background: #FDECEA;
+  color: #8C1D18;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+}
+
+.sbo-form-errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
 .sbo-thankyou {
   background: #FFFFFF;
   border: 1px solid rgba(0,0,0,0.08);
@@ -646,6 +664,7 @@
   text-transform: uppercase;
   color: #1A1228;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.3s;
 }
 
@@ -859,15 +878,15 @@
         '<div class="sbo-grid sbo-grid-3">' +
           '<div class="sbo-field">' +
             '<label>Product Name <span class="sbo-req">*</span></label>' +
-            '<input type="text" name="Product ' + count + ' - Name" required placeholder="e.g. Vitamin C Serum">' +
+            '<input type="text" name="contact[Product ' + count + ' - Name]" required placeholder="e.g. Vitamin C Serum">' +
           '</div>' +
           '<div class="sbo-field">' +
             '<label>Variant / Size</label>' +
-            '<input type="text" name="Product ' + count + ' - Variant" placeholder="e.g. 30ml">' +
+            '<input type="text" name="contact[Product ' + count + ' - Variant]" placeholder="e.g. 30ml">' +
           '</div>' +
           '<div class="sbo-field">' +
             '<label>Quantity <span class="sbo-req">*</span></label>' +
-            '<select name="Product ' + count + ' - Quantity" required>' +
+            '<select name="contact[Product ' + count + ' - Quantity]" required>' +
               '<option value="" disabled selected>Select quantity</option>' +
               '<option value="200 pcs">200 pcs</option>' +
               '<option value="500 pcs">500 pcs</option>' +
@@ -899,48 +918,19 @@
     }, 250);
   });
 
-  /* ── AJAX Form Submission ── */
+  /* ── Submit state ──
+     The form posts natively to Shopify now, so there is no fetch() here. The
+     success state is rendered server-side via form.posted_successfully?. This
+     only shows the button spinner while the browser navigates. */
   var form = document.getElementById('sbo-bulk-form');
-  var thankyou = document.getElementById('sbo-thankyou');
-  var newOrderBtn = document.getElementById('sbo-new-order');
   var submitBtn = document.getElementById('sbo-submit');
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    submitBtn.classList.add('is-loading');
-
-    var formData = new FormData(form);
-
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(function(res) {
-      if (res.ok) {
-        form.style.display = 'none';
-        thankyou.style.display = 'block';
-        window.scrollTo({ top: thankyou.closest('.sbo-section').offsetTop - 40, behavior: 'smooth' });
-      } else {
-        alert('Something went wrong. Please try again or contact us directly.');
-      }
-      submitBtn.classList.remove('is-loading');
-    })
-    .catch(function() {
-      alert('Network error. Please check your connection and try again.');
-      submitBtn.classList.remove('is-loading');
+  if (form && submitBtn) {
+    form.addEventListener('submit', function() {
+      submitBtn.classList.add('is-loading');
     });
-  });
+  }
 
-  newOrderBtn.addEventListener('click', function() {
-    form.reset();
-    var rows = list.querySelectorAll('.sbo-item-row');
-    for (var i = rows.length - 1; i > 0; i--) rows[i].remove();
-    updateNumbers();
-    thankyou.style.display = 'none';
-    form.style.display = 'block';
-    window.scrollTo({ top: form.closest('.sbo-section').offsetTop - 40, behavior: 'smooth' });
-  });
 })();
 </script>
 
@@ -964,17 +954,8 @@
       "content": "📧 Email Configuration"
     },
     {
-      "type": "text",
-      "id": "email",
-      "label": "Your Email Address",
-      "info": "All bulk order submissions will be sent to this email.",
-      "default": "orders@yourstore.com"
-    },
-    {
-      "type": "text",
-      "id": "email_subject",
-      "label": "Email Subject Line",
-      "default": "New Bulk Order Request"
+      "type": "paragraph",
+      "content": "Submissions are delivered through Shopify to the address in Settings > Notifications > Customer contact. There is no recipient address to set here — that kept a personal inbox visible in the page source."
     },
     {
       "type": "header",

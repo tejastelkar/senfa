@@ -238,7 +238,7 @@
 .senfa-testi__dots {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 0;
   margin-top: 48px;
   z-index: 10;
 }
@@ -249,7 +249,9 @@
   border-radius: 50%;
   background-color: var(--dot-color);
   border: none;
-  padding: 0;
+  box-sizing: content-box;
+  padding: 9px;
+  background-clip: content-box;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }

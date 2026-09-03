@@ -17,12 +17,14 @@
   z-index: 99999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s;
 }
 
 .scd-overlay.scd-active {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
 }
 
 .scd-drawer {
@@ -913,6 +915,7 @@ class SenfaCartDrawer {
   open() {
     this._isOpening = true;
     this.overlay.classList.add('scd-active');
+    this.overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     // Release the guard after the CSS transition (400ms) so overlay clicks can close it
     setTimeout(() => { this._isOpening = false; }, 450);
@@ -920,6 +923,7 @@ class SenfaCartDrawer {
 
   close() {
     this.overlay.classList.remove('scd-active');
+    this.overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 

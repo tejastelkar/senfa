@@ -133,7 +133,7 @@
                             {%- endif -%}
                           </div>
 
-                          <form action="/cart/add" method="post">
+                          <form action="{{ routes.cart_add_url }}" method="post">
                             <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                             <button type="submit" class="sbc__card-btn" {% unless product.available %}disabled{% endunless %}>
                               {%- if product.available -%}

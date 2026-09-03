@@ -13,10 +13,25 @@
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
     {%- endunless -%}
+
+    {%- comment -%}
+      Single Google Fonts request for the whole theme. Twelve sections each used
+      to inject their own <link rel="stylesheet"> into <body>, in seven
+      different weight-subset variants of these same two families. This URL is
+      the union of every weight those variants asked for, so removing them loses
+      nothing.
+
+      Loaded unconditionally rather than inside the `system?` check above,
+      because the custom sections hardcode 'Jost' and 'Cormorant Garamond' in
+      their CSS regardless of the theme's font settings.
+    {%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap"
+    >
 
     <title>
       {{ page_title }}

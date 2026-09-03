@@ -18,11 +18,11 @@
             -%}
             
             <div class="senfa-img-desktop small-hide" style="width: 100%; height: 100%;">
-              {{ block.settings.video | video_tag: class: 'senfa-hero-video', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '2400x' }}
+              {{ block.settings.video | video_tag: class: 'senfa-hero-video', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '2400x' | replace: '<img', '<img alt="" role="presentation"' }}
             </div>
             
             <div class="senfa-img-mobile medium-hide large-up-hide" style="width: 100%; height: 100%;">
-              {{ mobile_vid | video_tag: class: 'senfa-hero-video', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '900x' }}
+              {{ mobile_vid | video_tag: class: 'senfa-hero-video', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '900x' | replace: '<img', '<img alt="" role="presentation"' }}
             </div>
             
             <button class="senfa-hero-unmute" aria-label="Toggle Sound" onclick="toggleHeroSound(this)">

@@ -75,7 +75,7 @@
                   <div class="ws-product-row">
                     <a href="{{ product.url }}" class="ws-product-name">
                       {% if product.featured_image %}
-                        <img src="{{ product.featured_image | image_url: width: 100, height: 100, crop: 'center' }}" class="ws-product-img-hidden" style="display:none;" />
+                        <img alt="" src="{{ product.featured_image | image_url: width: 100, height: 100, crop: 'center' }}" class="ws-product-img-hidden" style="display:none;" />
                       {% endif %}
                       {{ product.title | truncate: 45 }}
                     </a>
@@ -95,7 +95,7 @@
                   <div class="ws-product-row">
                     <span class="ws-product-name">
                       {% if block.settings.thumbnail_image %}
-                        <img src="{{ block.settings.thumbnail_image | image_url: width: 100, height: 100, crop: 'center' }}" class="ws-product-img-hidden" style="display:none;" />
+                        <img alt="" src="{{ block.settings.thumbnail_image | image_url: width: 100, height: 100, crop: 'center' }}" class="ws-product-img-hidden" style="display:none;" />
                       {% endif %}
                       {{ block.settings.manual_product_name }}
                     </span>

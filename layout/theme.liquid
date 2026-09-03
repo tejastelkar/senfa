@@ -33,15 +33,48 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap"
     >
 
+    {%- comment -%}
+      Homepage SEO title/description.
+
+      Online Store > Preferences is the normal home for these, but that field
+      is not writable through any API: there is no `shopUpdate` mutation,
+      `Shop.description` is read-only, and REST PUT /shop.json returns 406. So
+      the homepage shipped with the title "Senfa" and no description at all.
+
+      Shop-level metafields ARE writable (metafieldsSet with a SHOP ownerId),
+      so the homepage falls back to global.title_tag / global.description_tag.
+      Set them with:
+        scripts/shopify_admin.sh 'mutation{ metafieldsSet(metafields:[
+          {ownerId:"gid://shopify/Shop/<id>", namespace:"global",
+           key:"description_tag", type:"multi_line_text_field",
+           value:"..."}]){ userErrors{ message } } }'
+
+      Preferences still wins if it is ever filled in: page_description is only
+      blank while unset, and on the homepage page_title falls back to shop.name
+      when no SEO title is set.
+    {%- endcomment -%}
+    {%- liquid
+      assign seo_title = page_title
+      assign seo_description = page_description
+      if request.page_type == 'index'
+        if page_title == shop.name and shop.metafields.global.title_tag != blank
+          assign seo_title = shop.metafields.global.title_tag
+        endif
+        if page_description == blank and shop.metafields.global.description_tag != blank
+          assign seo_description = shop.metafields.global.description_tag
+        endif
+      endif
+    -%}
+
     <title>
-      {{ page_title }}
+      {{ seo_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless seo_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {% if seo_description != blank %}
+      <meta name="description" content="{{ seo_description | escape }}">
     {% endif %}
 
     {% render 'meta-tags' %}

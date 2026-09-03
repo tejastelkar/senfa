@@ -1,8 +1,14 @@
 {%- liquid
   assign og_title = page_title | default: shop.name
+  if request.page_type == 'index' and page_title == shop.name and shop.metafields.global.title_tag != blank
+    assign og_title = shop.metafields.global.title_tag
+  endif
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
+  if request.page_type == 'index' and page_description == blank and shop.metafields.global.description_tag != blank
+    assign og_description = shop.metafields.global.description_tag
+  endif
 
   if request.page_type == 'product'
     assign og_type = 'product'

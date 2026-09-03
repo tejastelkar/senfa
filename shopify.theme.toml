@@ -1,0 +1,43 @@
+# Shopify CLI environments for the Senfa theme.
+#
+# Store: senfa.shop (myshopify: 0pjcz9-vg.myshopify.com)
+# Store owner account: senfasocial@gmail.com
+#
+# With this file present you no longer pass --store/--theme by hand:
+#
+#   shopify theme list              # themes on the Senfa store
+#   shopify theme dev               # local preview
+#   shopify theme pull -e live      # pull live theme settings/templates down
+#   shopify theme push -e dev       # deploy to your development theme
+#   shopify theme push -e live      # deploy to the live theme
+#   shopify theme push -e staging   # deploy to the staging (unpublished) theme
+#
+# `live` resolves the theme by role rather than by ID, so it keeps working if
+# the live theme is swapped in the admin. Theme IDs are in SHOPIFY_DEPLOYMENT.md.
+
+# Applied automatically when no -e flag is given, which stops bare commands from
+# falling back to the CLI's global store (another project's store). Store only —
+# the theme still has to be chosen explicitly, so nothing hits live by accident.
+[environments.default]
+store = "0pjcz9-vg.myshopify.com"
+
+# Production. `allow-live` is required for non-interactive pushes to live.
+[environments.live]
+store = "0pjcz9-vg.myshopify.com"
+live = true
+allow-live = true
+
+# Your per-developer development theme — the safe target for experiments.
+[environments.dev]
+store = "0pjcz9-vg.myshopify.com"
+development = true
+
+# Unpublished theme for review before going live. No staging theme exists yet —
+# the store's only other theme is Horizon (#137864839377), which is a different
+# theme, NOT a copy of this one, so don't point `staging` at it.
+#
+# Create a real staging theme once, then fill in its ID here:
+#   shopify theme push --unpublished --theme "Senfa staging"
+[environments.staging]
+store = "0pjcz9-vg.myshopify.com"
+# theme = "<STAGING_THEME_ID>"

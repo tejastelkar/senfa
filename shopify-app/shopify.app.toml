@@ -1,0 +1,64 @@
+# Configuration for the "Senfa Automation" custom app — the credentials that
+# scripts/shopify_admin.sh uses for the Admin GraphQL API.
+#
+# This app has no extensions and no UI; it exists only to hold API access.
+# It lives in a subdirectory so `shopify app *` commands here don't collide with
+# the theme project in the repo root.
+#
+# To change scopes: edit `scopes` below, then run
+#   scripts/shopify_app_scopes.sh
+# which deploys the config and verifies what the store actually granted.
+#
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "9aedb99c80be6bd2db0373bfdbbb16a2"
+application_url = "https://example.com"
+embedded = true
+name = "Senfa Automation"
+
+[webhooks]
+api_version = "2026-07"
+
+[access_scopes]
+# Full read/write over everything this store's automation could need.
+# Deliberately excluded because they need separate Shopify approval and would
+# make the whole deploy fail: read_all_orders, read_reports,
+# read_shopify_payments_payouts, read_shopify_payments_disputes,
+# write_gdpr_data_request, write_customer_data_erasure.
+scopes = """
+read_products,write_products,
+read_product_listings,write_product_listings,
+read_product_feeds,write_product_feeds,
+read_publications,write_publications,
+read_inventory,write_inventory,
+read_files,write_files,
+read_themes,write_themes,
+read_content,write_content,
+read_online_store_navigation,write_online_store_navigation,
+read_orders,write_orders,
+read_draft_orders,write_draft_orders,
+read_customers,write_customers,
+read_fulfillments,write_fulfillments,
+read_assigned_fulfillment_orders,write_assigned_fulfillment_orders,
+read_merchant_managed_fulfillment_orders,write_merchant_managed_fulfillment_orders,
+read_third_party_fulfillment_orders,write_third_party_fulfillment_orders,
+read_returns,write_returns,
+read_discounts,write_discounts,
+read_price_rules,write_price_rules,
+read_gift_cards,write_gift_cards,
+read_markets,write_markets,
+read_locales,write_locales,
+read_translations,write_translations,
+read_locations,
+read_shipping,write_shipping,
+read_script_tags,write_script_tags,
+read_legal_policies,write_legal_policies,
+read_marketing_events,write_marketing_events,
+read_payment_terms,write_payment_terms,
+read_checkouts,write_checkouts
+"""
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [ ]

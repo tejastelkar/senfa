@@ -245,7 +245,7 @@
         "day2_image": "shopify://shop_images/2nd.png",
         "day3_label": "Day 30",
         "day3_result": "Total Transformation",
-        "day3_detail": "94% of users report visibly brighter, smoother, and more even skin — the Senfa glow, earned naturally.",
+        "day3_detail": "94% of users report visibly brighter, smoother, and more even skin - the Senfa glow, earned naturally.",
         "day3_image": "shopify://shop_images/3rd.png",
         "cta_label": "Shop the Soap",
         "cta_url": "",
@@ -538,7 +538,7 @@
           "type": "ingredient",
           "settings": {
             "title": "Skin-Loving Emollients",
-            "description": "Cocamidopropyl Betaine and Glycol — deep moisture, no greasy residue."
+            "description": "Cocamidopropyl Betaine and Glycol - deep moisture, no greasy residue."
           }
         }
       },
@@ -557,7 +557,7 @@
         "text_muted": "#a09ba6",
         "heading": "What Goes",
         "heading_italic": "Inside Matters",
-        "body": "Every ingredient in Senfa's bath soap is chosen with intention. No fillers, no shortcuts — only what your skin truly needs.",
+        "body": "Every ingredient in Senfa's bath soap is chosen with intention. No fillers, no shortcuts - only what your skin truly needs.",
         "bg_word": "PURE",
         "stat1_value": "0%",
         "stat1_target": "0",
@@ -652,9 +652,9 @@
         "heading_line1": "A son's promise.",
         "heading_line2_normal": "A father's",
         "heading_line2_italic": "dream of purity.",
-        "body_text": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy. He dreamed of a soap that didn't just smell like a memory — but actually carried the living benefit of the saffron he loved so much.",
+        "body_text": "My father, Abhay Manik Birla, didn't just see saffron as a business. He saw it as a legacy. He dreamed of a soap that didn't just smell like a memory - but actually carried the living benefit of the saffron he loved so much.",
         "quote": "Every time a bar of Senfa leaves our hands, I feel like I'm finally finishing that conversation with my Dad.",
-        "body_text_2": "In 2023, that dream became our inheritance. From rich Himalayan saffron fields to your morning ritual — this is the purity he always wanted you to have.",
+        "body_text_2": "In 2023, that dream became our inheritance. From rich Himalayan saffron fields to your morning ritual - this is the purity he always wanted you to have.",
         "cta_label": "Read the Complete Story",
         "cta_url": "shopify://pages/our-story",
         "image": "shopify://shop_images/kashmir.jpg",
@@ -671,7 +671,7 @@
           "settings": {
             "icon": "🌿",
             "title": "Farm to Skin",
-            "description": "Directly sourced from our own Himalayan farms — no middlemen, no compromise."
+            "description": "Directly sourced from our own Himalayan farms - no middlemen, no compromise."
           }
         },
         "feature_B7mdNd": {
@@ -695,7 +695,7 @@
           "settings": {
             "icon": "🏔",
             "title": "Himalayan Purity",
-            "description": "Crafted at altitude for altitude — where the air and water are pristine."
+            "description": "Crafted at altitude for altitude - where the air and water are pristine."
           }
         }
       },
@@ -715,8 +715,8 @@
         "tagline": "Our Heritage",
         "heading": "Born in the",
         "heading_italic": "Fields of Himalayan",
-        "body_1": "Nestled in the high-altitude valleys of Himalayan, our family has cultivated saffron for generations. Each crimson thread is hand-picked at dawn — the only moment these precious flowers reveal their fragrance.",
-        "body_2": "From farm to formula, Senfa's Himalayan Saffron Bath Soap carries the essence of Himalayan's finest harvest — gently purifying, deeply nourishing, and leaving your skin with a radiant, natural glow.",
+        "body_1": "Nestled in the high-altitude valleys of Himalayan, our family has cultivated saffron for generations. Each crimson thread is hand-picked at dawn - the only moment these precious flowers reveal their fragrance.",
+        "body_2": "From farm to formula, Senfa's Himalayan Saffron Bath Soap carries the essence of Himalayan's finest harvest - gently purifying, deeply nourishing, and leaving your skin with a radiant, natural glow.",
         "margin_top": 40,
         "margin_bottom": 40
       }

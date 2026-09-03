@@ -887,7 +887,7 @@
 </div>
 
 <script>
-  // Gallery Logic — namespaced per section to avoid conflicts
+  // Gallery Logic - namespaced per section to avoid conflicts
   function smpChangeMedia_{{ section.id | replace: '-', '_' }}(element, imageUrl) {
     var mainImage = document.getElementById('smp-main-img-{{ section.id }}');
     mainImage.style.opacity = 0;
@@ -979,7 +979,7 @@
     }
   }
 
-  // Quantity Logic — scoped to this section
+  // Quantity Logic - scoped to this section
   function smpUpdateQty_{{ section.id | replace: '-', '_' }}(change) {
     var input = document.getElementById('smp-qty-input-{{ section.id }}');
     var newVal = parseInt(input.value) + change;
@@ -1047,7 +1047,7 @@
       });
     });
 
-    // Social Proof — simulated live viewer count
+    // Social Proof - simulated live viewer count
     var smpWatchEl = document.getElementById('smp-watching-count-{{ section.id }}');
     if (smpWatchEl && !smpWatchEl.dataset.initialized) {
       smpWatchEl.dataset.initialized = "true";

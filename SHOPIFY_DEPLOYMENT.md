@@ -1,6 +1,6 @@
 # Shopify Setup & Deployment Guide
 
-How to talk to the Senfa store from this repo — both the theme (Shopify CLI) and
+How to talk to the Senfa store from this repo - both the theme (Shopify CLI) and
 the data/admin side (Admin GraphQL API).
 
 ## Store facts
@@ -17,15 +17,15 @@ Themes on the store (`shopify theme list`, verified 2026-09-03):
 
 | Theme | Role | ID |
 |---|---|---|
-| `Dawn` | **live** — what this repo tracks | `137869197521` |
-| `Horizon` | unpublished — a separate theme, not a copy of this one | `137864839377` |
+| `Dawn` | **live** - what this repo tracks | `137869197521` |
+| `Horizon` | unpublished - a separate theme, not a copy of this one | `137864839377` |
 
 There is no staging theme yet. To create one:
 `shopify theme push --unpublished --theme "Senfa staging"`, then put its ID in
 the `staging` environment in `shopify.theme.toml`.
 
 `senfa-2.myshopify.com` is an old handle for the same store and still redirects
-to `senfa.shop`. Always use `0pjcz9-vg.myshopify.com` — that's what the Admin API
+to `senfa.shop`. Always use `0pjcz9-vg.myshopify.com` - that's what the Admin API
 reports as `myshopifyDomain`.
 
 ---
@@ -41,10 +41,10 @@ pass `--store` or `--theme` by hand**:
 
 | Environment | Target |
 |---|---|
-| `default` | Senfa store, no theme preselected — applied automatically when no `-e` is given |
+| `default` | Senfa store, no theme preselected - applied automatically when no `-e` is given |
 | `-e live` | The live theme (resolved by role, plus `allow-live`) |
 | `-e dev` | Your per-developer development theme |
-| `-e staging` | A staging theme — none exists yet; create one and set its ID in the toml first |
+| `-e staging` | A staging theme - none exists yet; create one and set its ID in the toml first |
 
 The `default` environment matters: the CLI's *global* store setting points at a
 different project's store, and without `default` a bare `shopify theme …` here
@@ -53,7 +53,7 @@ would silently target that store.
 ### Authentication
 
 There is no `--store` flag on `shopify auth login`. Auth happens implicitly on
-the first `theme`/`app` command — it prints a device code link, you approve it in
+the first `theme`/`app` command - it prints a device code link, you approve it in
 the browser, and the command continues:
 
 ```bash
@@ -62,7 +62,7 @@ shopify theme list
 
 The CLI holds **one** logged-in account at a time. If you're logged in as a
 different account you'll get *"Looks like you don't have access to this dev
-store"* — that's an account problem, not a store problem. Fix it with:
+store"* - that's an account problem, not a store problem. Fix it with:
 
 ```bash
 shopify auth logout
@@ -89,7 +89,7 @@ only mean to add or update.
 
 ### Recommended flow
 
-1. `shopify theme pull -e live` first if the theme was edited in the admin —
+1. `shopify theme pull -e live` first if the theme was edited in the admin -
    otherwise a push will overwrite those edits.
 2. Work locally, preview with `shopify theme dev`.
 3. `shopify theme check`.
@@ -107,7 +107,7 @@ Connect from GitHub**, in which case pushing to `main` deploys automatically.
 ## 2. Admin GraphQL API
 
 Access comes from the `Senfa Automation` custom app using the OAuth
-`client_credentials` grant — no token is stored by hand and none expire in your
+`client_credentials` grant - no token is stored by hand and none expire in your
 face. Credentials live in `.env` (gitignored; see `.env.example`):
 
 ```
@@ -137,7 +137,7 @@ scripts/shopify_admin.sh -a 2026-04 'query { shop { name } }'
 The script pretty-prints the response, caches the access token in
 `.cache/shopify-admin-token.json` (gitignored, `chmod 600`) until just before it
 expires, and **exits non-zero** if the response contains `errors` or any
-`userErrors` — so it's safe in scripts and CI. Use `-r` for the raw response.
+`userErrors` - so it's safe in scripts and CI. Use `-r` for the raw response.
 
 ### API version
 
@@ -208,7 +208,7 @@ wants, so you never have to guess.
 
 These credentials now carry full read/write over orders and customer PII. A
 leaked `.env` exposes customer data, not just a product catalog. `.env` is
-gitignored — keep it that way, and prefer trimming the scope list back to what
+gitignored - keep it that way, and prefer trimming the scope list back to what
 is actually automated over leaving everything enabled.
 
 Theme files are read and written through the CLI, not this API, so `read_themes`

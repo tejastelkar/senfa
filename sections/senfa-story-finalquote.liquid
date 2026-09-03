@@ -1,5 +1,5 @@
 {% comment %}
-  SENFA — Final Quote Section (Premium Minimalist White)
+  SENFA - Final Quote Section (Premium Minimalist White)
   sections/senfa-story-finalquote.liquid
 {% endcomment %}
 
@@ -21,7 +21,7 @@
 
     {%- comment -%} ── THE QUOTE ── {%- endcomment -%}
     <blockquote class="sfq-quote">
-      {%- assign quote_lines = section.settings.quote_text | default: 'Most brands give you a name.|We give you our word, spelled out in five letters.|From our family’s hands to your home — this is Senfa.' | split: '|' -%}
+      {%- assign quote_lines = section.settings.quote_text | default: 'Most brands give you a name.|We give you our word, spelled out in five letters.|From our family’s hands to your home - this is Senfa.' | split: '|' -%}
       {%- for line in quote_lines -%}
         {{ line }}{%- unless forloop.last -%}<br>{%- endunless -%}
       {%- endfor -%}
@@ -43,7 +43,7 @@
 
 <style>
 /* ════════════════════════════════
-   SENFA — FINAL QUOTE (EDITORIAL)
+   SENFA - FINAL QUOTE (EDITORIAL)
 ════════════════════════════════ */
 
 #senfa-finalquote-{{ section.id }} {
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
       "id": "quote_text",
       "label": "Quote Lines",
       "info": "Use the pipe symbol | to create perfect, intentional line breaks.",
-      "default": "Most brands give you a name.|We give you our word, spelled out in five letters.|From our family's hands to your home — this is Senfa."
+      "default": "Most brands give you a name.|We give you our word, spelled out in five letters.|From our family's hands to your home - this is Senfa."
     },
     {
       "type": "text",

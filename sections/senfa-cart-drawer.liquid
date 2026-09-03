@@ -1,11 +1,11 @@
 {% comment %}
-  SENFA — Premium Slide-Out Cart Drawer (AJAX Enabled)
+  SENFA - Premium Slide-Out Cart Drawer (AJAX Enabled)
   File: sections/senfa-cart-drawer.liquid
 {% endcomment %}
 
 <style>
 /* ════════════════════════════════
-   SENFA — LUXURY CART DRAWER
+   SENFA - LUXURY CART DRAWER
 ════════════════════════════════ */
 
 .scd-overlay {
@@ -227,7 +227,7 @@
   display: block !important;
 }
 
-/* ── Milestone icons — dynamically positioned via inline left % ── */
+/* ── Milestone icons - dynamically positioned via inline left % ── */
 .scd-progress-milestone {
   position: absolute;
   top: 50%;
@@ -518,7 +518,7 @@
 .scd-checkout-btn:hover { background: #C9922A; }
 
 /* ═══════════════════════════════════
-   MOBILE RESPONSIVE — FULL FIX
+   MOBILE RESPONSIVE - FULL FIX
 ═══════════════════════════════════ */
 @media (max-width: 768px) {
   /* Force overlay to cover entire viewport on mobile */
@@ -882,14 +882,14 @@ class SenfaCartDrawer {
       this.addFormToCart(form);
     }, true);
 
-    // Static listeners — attached ONCE here, never in bindEvents
+    // Static listeners - attached ONCE here, never in bindEvents
     this.overlay.addEventListener('click', (e) => {
       if (e.target === this.overlay && !this._isOpening) {
         this.close();
       }
     });
 
-    // Use delegated click on the drawer for close/qty/remove — survives innerHTML swap
+    // Use delegated click on the drawer for close/qty/remove - survives innerHTML swap
     this.drawer.addEventListener('click', (e) => {
       if (e.target.closest('.scd-close') || e.target.closest('.scd-close-empty')) {
         this.close();
@@ -909,7 +909,7 @@ class SenfaCartDrawer {
 
   // bindEvents is now only called for any truly dynamic per-refresh needs (currently none)
   bindEvents() {
-    // All listeners are delegated in init() — nothing to rebind after DOM refresh
+    // All listeners are delegated in init() - nothing to rebind after DOM refresh
   }
 
   open() {

@@ -3634,10 +3634,10 @@ details-disclosure>details {
 }
 
 /* ============================================================
-   SENFA SEARCH — KIMIRICA-STYLE FULL-PAGE OVERLAY
+   SENFA SEARCH - KIMIRICA-STYLE FULL-PAGE OVERLAY
    ============================================================ */
 
-/* ── 1. SEARCH OVERLAY — BELOW HEADER (Kimirica-style) ── */
+/* ── 1. SEARCH OVERLAY - BELOW HEADER (Kimirica-style) ── */
 /* Semi-transparent dark backdrop so the page shows through */
 details-modal.header__search details[open]>.senfa-search-overlay {
     position: fixed !important;
@@ -3675,7 +3675,7 @@ details-modal.header__search details[open]>.senfa-search-overlay {
     display: none !important;
 }
 
-/* Dark backdrop below the search panel — fills remaining space */
+/* Dark backdrop below the search panel - fills remaining space */
 .senfa-search-backdrop {
     flex: 1;
     cursor: pointer;
@@ -3683,7 +3683,7 @@ details-modal.header__search details[open]>.senfa-search-overlay {
 }
 
 /* ── 2. SEARCH PANEL CONTAINER ── */
-/* White panel — only as tall as its content, not full height */
+/* White panel - only as tall as its content, not full height */
 .senfa-search-panel {
     width: 100%;
     max-width: 100%;
@@ -4320,7 +4320,7 @@ predictive-search[loading] .predictive-search--header {
     }
 }
 
-/* Mobile — Kimirica list layout */
+/* Mobile - Kimirica list layout */
 @media screen and (max-width: 749px) {
 
     /* Adjust tabs padding on mobile */
@@ -4371,7 +4371,7 @@ predictive-search[loading] .predictive-search--header {
         border-bottom: none;
     }
 
-    /* Info — left-aligned text on mobile for better fit? Kimirica keeps it center. Let's keep it center. */
+    /* Info - left-aligned text on mobile for better fit? Kimirica keeps it center. Let's keep it center. */
     .senfa-product-card__info {
         text-align: center !important;
         padding: 0 !important;
@@ -4450,7 +4450,7 @@ details-modal.header__search>details {
 }
 
 /* ══════════════════════════════════════════════
-   SENFA — LUXURY POLICY PAGES
+   SENFA - LUXURY POLICY PAGES
 ══════════════════════════════════════════════ */
 .senfa-policy-wrapper {
   max-width: 800px;

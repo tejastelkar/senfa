@@ -1,8 +1,8 @@
 {% comment %}
-  SENFA — Skin Transformation Timeline
+  SENFA - Skin Transformation Timeline
   File: sections/senfa-transformation.liquid
   Day 1 → Day 15 → Day 30 crossfade with gold timeline
-  Images are in SECTION SETTINGS (not blocks) — visible immediately in theme editor
+  Images are in SECTION SETTINGS (not blocks) - visible immediately in theme editor
 {% endcomment %}
 
 {%- liquid
@@ -126,7 +126,7 @@
           {%- if section.settings.day1_image != blank -%}
             <img
               src="{{ section.settings.day1_image | image_url: width: 1000 }}"
-              alt="{{ section.settings.day1_label }} — {{ section.settings.day1_result }}"
+              alt="{{ section.settings.day1_label }} - {{ section.settings.day1_result }}"
               class="sft__img"
               loading="eager"
               width="1000" height="1000">
@@ -141,7 +141,7 @@
           {%- if section.settings.day2_image != blank -%}
             <img
               src="{{ section.settings.day2_image | image_url: width: 1000 }}"
-              alt="{{ section.settings.day2_label }} — {{ section.settings.day2_result }}"
+              alt="{{ section.settings.day2_label }} - {{ section.settings.day2_result }}"
               class="sft__img"
               loading="lazy"
               width="1000" height="1000">
@@ -156,7 +156,7 @@
           {%- if section.settings.day3_image != blank -%}
             <img
               src="{{ section.settings.day3_image | image_url: width: 1000 }}"
-              alt="{{ section.settings.day3_label }} — {{ section.settings.day3_result }}"
+              alt="{{ section.settings.day3_label }} - {{ section.settings.day3_result }}"
               class="sft__img"
               loading="lazy"
               width="1000" height="1000">
@@ -193,7 +193,7 @@
 
 <style>
 /* ════════════════════════════════════════════
-   SENFA — TRANSFORMATION TIMELINE
+   SENFA - TRANSFORMATION TIMELINE
    Cormorant Garamond + Jost · #1A1228 · #C9922A
    max-width 1600px · 80px gutters
 ════════════════════════════════════════════ */
@@ -312,7 +312,7 @@
   transition: opacity 0.4s ease, border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.25,1,0.5,1), box-shadow 0.4s ease;
 }
 
-/* Active dot — gold filled, pulsing ring */
+/* Active dot - gold filled, pulsing ring */
 .sft__step.is-active .sft__step-dot {
   opacity: 1;
   background: var(--sft-gold, #C9922A);
@@ -320,7 +320,7 @@
   box-shadow: 0 0 0 5px rgba(201,146,42,0.18);
 }
 
-/* Past dot — gold filled, no glow, slightly smaller */
+/* Past dot - gold filled, no glow, slightly smaller */
 .sft__step.is-past .sft__step-dot {
   opacity: 1;
   background: var(--sft-gold, #C9922A);
@@ -382,7 +382,7 @@
   max-width: 340px;
 }
 
-/* Mobile dots — hidden on desktop */
+/* Mobile dots - hidden on desktop */
 .sft__mobile-dots { display: none; }
 
 /* ══════════════════
@@ -394,7 +394,7 @@
   border-radius: 2px;
 }
 
-/* CSS Grid stacking — zero height jump between crossfades */
+/* CSS Grid stacking - zero height jump between crossfades */
 .sft__images {
   display: grid;
   width: 100%;
@@ -774,7 +774,7 @@
     {
       "type": "image_picker",
       "id": "day1_image",
-      "label": "Day 1 — Upload Image"
+      "label": "Day 1 - Upload Image"
     },
     {
       "type": "header",
@@ -801,7 +801,7 @@
     {
       "type": "image_picker",
       "id": "day2_image",
-      "label": "Day 15 — Upload Image"
+      "label": "Day 15 - Upload Image"
     },
     {
       "type": "header",
@@ -823,12 +823,12 @@
       "type": "textarea",
       "id": "day3_detail",
       "label": "Day 30 Detail Text",
-      "default": "94% of users report visibly brighter, smoother, and more even skin — the Senfa glow, earned naturally."
+      "default": "94% of users report visibly brighter, smoother, and more even skin - the Senfa glow, earned naturally."
     },
     {
       "type": "image_picker",
       "id": "day3_image",
-      "label": "Day 30 — Upload Image"
+      "label": "Day 30 - Upload Image"
     },
     {
       "type": "header",

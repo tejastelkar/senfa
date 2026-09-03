@@ -517,7 +517,7 @@
       "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
     {% endif %}
     {%- comment -%}
-      Unset social settings previously emitted "sameAs": ["","","",…] — nine
+      Unset social settings previously emitted "sameAs": ["","","",…] - nine
       empty strings, which is invalid as a list of profile URLs. Collect only
       the ones that are filled in, and omit the property entirely when none are.
 

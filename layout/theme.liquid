@@ -140,8 +140,23 @@
         --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
         --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
 
-        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
-        --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+        {%- comment -%}
+          Shared container tokens. The theme previously ran two competing
+          container systems: Dawn sections at the `page_width` setting (1400px)
+          while 23 custom sections hardcoded max-width 1600px with a fixed 80px
+          gutter. On a 1920px screen that left ~240px of dead space per side,
+          which is why the layout only looked right at 125% zoom. Both systems
+          now share one 1800px cap and a fluid gutter.
+
+          `page_width` in the theme editor maxes out at 1600px, so the container
+          is set here rather than from the setting.
+        {%- endcomment -%}
+        --senfa-container: 180rem;
+        --senfa-gutter: clamp(2.4rem, 3vw, 4.8rem);
+        --senfa-gutter-sm: clamp(1.6rem, 2vw, 3.2rem);
+
+        --page-width: var(--senfa-container);
+        --page-width-margin: 0rem;
 
         --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
         --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;

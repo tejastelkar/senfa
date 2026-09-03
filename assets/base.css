@@ -13,7 +13,7 @@ div.judgeme_product_reviews,
 div.jdgm-widget.jdgm-review-widget,
 .jdgm-widget-revamp,
 .jm-review-widget__header-and-body {
-    max-width: 1600px !important;
+    max-width: var(--senfa-container) !important;
     width: 100% !important;
 }
 
@@ -2824,7 +2824,8 @@ details[open]>.header__submenu {
     padding: 1.2rem;
     text-decoration: none;
     color: rgba(var(--color-foreground), 0.75);
-    font-size: 15px;
+    font-size: 1.7rem;
+    font-weight: 500;
 }
 
 .header__menu-item:hover {

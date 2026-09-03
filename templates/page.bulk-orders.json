@@ -38,7 +38,7 @@
       "type": "senfa-bulk-order",
       "name": "Bulk Order Form",
       "settings": {
-        "email": "tejastelkar9@gmail.com",
+        "email": "info@senfa.in",
         "email_subject": "New Bulk Order Request",
         "eyebrow_text": "Wholesale & Bulk",
         "heading": "Bulk Order Enquiry",
@@ -46,7 +46,7 @@
         "disclaimer_text": "By submitting this form, you agree to be contacted regarding your bulk order enquiry. We typically respond within 24 business hours.",
         "thankyou_heading": "Thank You for Your Enquiry!",
         "thankyou_message": "We have received your bulk order request and our team will review it carefully. Expect a response with the best pricing within 24 business hours.",
-        "contact_email": "orders@senfa.in",
+        "contact_email": "info@senfa.in",
         "contact_phone": "",
         "about_heading": "About the Bulk Order",
         "about_description": "<p>Claim your savings by buying in bulk with SENFA. Create personalised collections for every occasion — festival hampers, corporate gifts, wedding tokens, and more. With our bulk buying option, elevate your gifting game with premium skincare that leaves a lasting impression.</p><p>Whether you're a business looking to stock up or planning a special event, SENFA offers unbeatable wholesale pricing with the same commitment to quality and luxury that defines our brand.</p>",

@@ -46,9 +46,9 @@
   }
 
   .senfa-footer__inner {
-    max-width: 1600px;
+    max-width: var(--senfa-container);
     margin: 0 auto;
-    padding: 72px 80px 0;
+    padding: 72px var(--senfa-gutter) 0;
     position: relative;
     z-index: 1;
   }
@@ -233,9 +233,9 @@
   }
 
   .senfa-footer__bottom-inner {
-    max-width: 1600px;
+    max-width: var(--senfa-container);
     margin: 0 auto;
-    padding: 24px 80px;
+    padding: 24px var(--senfa-gutter);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -720,7 +720,7 @@
           "type": "text",
           "id": "email",
           "label": "Email",
-          "default": "info@senfa.shop"
+          "default": "info@senfa.in"
         },
         {
           "type": "text",
@@ -771,7 +771,7 @@
           "type": "contact_col",
           "settings": {
             "col_heading": "Contact",
-            "email": "info@senfa.shop",
+            "email": "info@senfa.in",
             "phone": "+91 84840 82199",
             "website": "www.senfa.shop",
             "address": "Deccan Gymkhana, Pune"
